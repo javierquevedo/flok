@@ -70,7 +70,7 @@ from Symfony Standard Edition to the _web_ folder and access it from a browser, 
 
 #### Preparing for Production
 * On the production server, you only need the _app_, _src_, _vendor_ and _web_ folders.
-* Remove the _web/app_dev.php_ file (dev mode should not be accessible on production servers).
+* Remove the _web/app\_dev.php_ file (dev mode should not be accessible on production servers).
 * Browse to the project root.
 * Prepare the production assets: `php app/console assetic:dump -e prod`.
 * Warm up the production cache: `php app/console cache:warmup -e prod`.
