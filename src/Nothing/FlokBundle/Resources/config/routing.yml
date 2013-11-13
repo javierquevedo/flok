@@ -1,0 +1,9 @@
+nothing_flok_index:
+    pattern:  /
+    defaults: { _controller: NothingFlokBundle:App:index }
+
+nothing_flok_locale:
+    pattern:  /locale/{locale}.json
+    defaults: { _controller: NothingFlokBundle:Locale:locale }
+    requirements:
+        locale:  en

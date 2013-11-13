@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html ng-app="flokModule" ng-controller="AppCtrl">
+<head>
+    <meta charset="UTF-8"/>
+    <title>flok</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="/vendor/css/bootstrap-3.0.0-rc1.min.css" type="text/css" rel="stylesheet" media="all"/>
+    <link href="/vendor/css/font-awesome-3.2.1.min.css" type="text/css" rel="stylesheet" media="all"/>
+    {% stylesheets '../angular/css/*.css' output='css/flok.css' %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="all"/>
+    {% endstylesheets %}
+    {% block stylesheets %}{% endblock %}
+
+    <script type="text/javascript" src="/vendor/js/angular-1.0.7.min.js"></script>
+    <script type="text/javascript" src="/vendor/js/ui-bootstrap-tpls-0.4.0.js"></script>
+    <script type="text/javascript" src="/vendor/js/ui-utils-0.0.4.js"></script>
+    <script type="text/javascript" src="/vendor/js/localize.js"></script>
+    {% javascripts '../angular/app/*/*.js' output='js/nothingFlok.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {# Define constants that are needed by the frontend #}
+    <script type="text/javascript">
+        flokModule.constant('localePathConst', '{{ path('nothing_flok_locale', {'locale': app.request.locale}) }}');
+    </script>
+
+    {% block javascripts %}{% endblock %}
+
+    <link rel="icon" type="image/x-icon"
+     href="{% if app.request.host == 'nothing_flok.production_domain'|param %}{{ asset('favicon.ico') }}{% else %}{{ asset('favicon-dev.ico') }}{% endif %}"/>
+</head>
+
+<body>
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-message">
+            <em>{{ 'flash.notice'|trans }}</em>: {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {% block navigation %}
+        <div class="navbar navbar-fixed-top{% if app.request.host != 'nothing_flok.production_domain'|param %} dev{% endif %}">
+            <div class="container">
+                <button type="button" class="navbar-toggle" ng-click="menuShown = !menuShown">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href=""><i class="icon-home"></i></a>
+
+                <div class="nav-collapse" ng-class="{collapse: !menuShown}">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="#/time"><i class="icon-tasks"></i> Time</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    <div class="text-center overlay" ng-hide="contentLoaded">
+        <i class="icon-spinner icon-spin icon-4x overlay-spinner"></i>
+    </div>
+    <div class="container" ng-view></div>
+{% endblock %}
+{% block footer %}
+    <footer>
+        <div class="container text-muted">
+            <span class="pull-right">
+                <button popover="{{ 'flok.title'|trans }} - {{ 'flok.version'|trans }} {{ 'nothing_flok_version'|param }}"
+                 popover-trigger="mouseenter"
+                 popover-placement="left"
+                 class="btn btn-link">
+                    <i class="icon-info"></i>
+                </button>
+            </span>
+        </div>
+    </footer>
+{% endblock %}
+
+{% if 'nothing_flok.piwik.enable'|param %}
+    {# Piwik #}
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        (function() {
+            var u = (('https:' == document.location.protocol) ? 'https' : 'http');
+            u += '://{{ 'nothing_flok.piwik.url'|param }}/';
+            _paq.push(['setSiteId', '{{ 'nothing_flok.piwik.siteId'|param }}']);
+            _paq.push(['setTrackerUrl', u + 'piwik.php']);
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.type = 'text/javascript';
+            g.defer = true;
+            g.async = true;
+            g.src = u + 'piwik.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    {# End Piwik Code #}
+{% endif %}
+</body>
+</html>

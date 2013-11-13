@@ -1,4 +1,4 @@
-# flok - Radical Open Business Operation Toolkit
+# flok - Radically Open Business Operation Toolkit
 ## brought to you by Nothing Interactive
 
 ## Why 'flok'?

@@ -1,0 +1,5 @@
+# Stores the version number of flok
+# WARNING: do not change the name of this parameter, CI server is editing it
+parameters:
+    nothing_flok_version: 0.2.0
+
