@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app="flokModule" ng-controller="AppCtrl">
+<head>
+    <meta charset="UTF-8"/>
+    <title>flok</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="vendor/bower/bootstrap/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet" media="all"/>
+    <link href="vendor/bower/fontawesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" media="all"/>
+    <link href="css/flok.css" type="text/css" rel="stylesheet" media="all"/>
+
+    <script type="text/javascript" src="vendor/bower/angular/angular<% if (environment !== 'development') { %>.min<% } %>.js"></script>
+    <script type="text/javascript" src="vendor/bower/angular-route/angular-route<% if (environment !== 'development') { %>.min<% } %>.js"></script>
+    <script type="text/javascript" src="vendor/js/ui-bootstrap-tpls-0.6.0.js"></script>
+    <script type="text/javascript" src="vendor/js/ui-utils-0.0.4.js"></script>
+    <script type="text/javascript" src="vendor/js/localize.js"></script>
+
+    <script type="text/javascript">
+        var ENABLED_FLOK_COMPONENTS = [<% if (componentList.length > 0) { %>'<%- componentList.join("','") %>'<% } %>];
+    </script>
+
+    <script type="text/javascript" src="app/flok/angularExtensions.js"></script>
+    <script type="text/javascript" src="app/flok/angularPiwik.js"></script>
+    <script type="text/javascript" src="app/flok/flokDirectives.js"></script>
+    <script type="text/javascript" src="app/flok/flokFilters.js"></script>
+    <script type="text/javascript" src="app/flok/onRootScope.js"></script>
+    <script type="text/javascript" src="app/flok/flokModule.js"></script>
+    <script type="text/javascript" src="app/menu/flokMenuModule.js"></script>
+    <script type="text/javascript" src="app/menu/menuService.js"></script>
+
+    <% if (components.time) { %>
+    <script type="text/javascript" src="app/time/flokTimeModule.js"></script>
+    <script type="text/javascript" src="app/time/Task.js"></script>
+    <script type="text/javascript" src="app/time/taskProvider.js"></script>
+    <script type="text/javascript" src="app/time/TimeCtrl.js"></script>
+    <script type="text/javascript" src="app/time/backendStorageService.js"></script>
+    <script type="text/javascript" src="app/time/durationUtil.js"></script>
+    <% } %>
+
+    <script type="text/javascript">
+        flokModule.constant('localePathConst', '<%= localePath %>');
+
+        flokModule.constant('piwikConfig', {
+            enable: <% if (piwik.enable) { %>true<% } else { %>false<% } %>,
+            url: '<%= piwik.url %>',
+            siteId: '<%= piwik.siteId %>'
+        });
+
+        flokModule.constant('backendUrl', '<%= backendUrl %>');
+    </script>
+
+    <link rel="icon" type="image/x-icon" href="favicon<% if (environment === 'development') { %>-dev<% } %>.ico"/>
+</head>
+
+<body>
+    <div class="navbar navbar-fixed-top<% if (environment === 'development') {%> dev<% } %>">
+        <div class="container">
+            <button type="button" class="navbar-toggle" ng-click="menuShown = !menuShown">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/"><i class="icon-home"></i></a>
+
+            <div class="navbar-collapse" ng-class="{collapse: !menuShown}">
+
+                <ul class="nav navbar-nav">
+                    <li ng-repeat="nav in menuItems">
+                        <a href="{{ '#' + nav.url }}"><i class="{{ 'icon-' + nav.icon }}"></i> <span ng-bind="nav.name"></span></a>
+                    </li>
+                </ul>
+                <span class="pull-right backendStatus">
+                    <i class="icon-spinner icon-spin icon-2x" ng-show="backendStatus === 'requesting'"></i>
+                    <i class="icon-warning-sign icon-2x error" ng-show="backendStatus === 'error'"></i>
+                    <i class="icon-ok icon-2x success" ng-show="backendStatus === 'success'"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center overlay" ng-hide="contentLoaded">
+        <i class="icon-spinner icon-spin icon-4x overlay-spinner"></i>
+    </div>
+    <div class="container" ng-view></div>
+
+    <footer>
+        <div class="container text-muted">
+            <span class="pull-right">
+                <button popover="{{ 'flok.title'|trans }} - {{ 'flok.version'|trans }} <%= version %>"
+                 popover-trigger="mouseenter"
+                 popover-placement="left"
+                 class="btn btn-link">
+                    <i class="icon-info"></i>
+                </button>
+            </span>
+        </div>
+    </footer>
+</body>
+</html>

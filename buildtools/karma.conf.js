@@ -12,23 +12,31 @@ module.exports = function (config) {
         // List of files / patterns to load in the browser
         files: [
             // Application vendors
-            'web/vendor/js/*.js',
+            'public/vendor/bower/angular/angular.js',
+            'public/vendor/bower/angular-route/angular-route.js',
+            'public/vendor/js/*.js',
 
             // Testing resources
             'node_modules/chai/chai.js',
             'buildtools/karma/*.js',
 
+            // Fixtures
+            'tests/flok/enabledComponentsFixture.js',
+
             // The actual application files
-            'angular/app/**/*.js',
+            'public/app/flok/flokModule.js',
+            'public/app/time/flokTimeModule.js',
+            'public/app/**/*.js',
 
             // And finally the tests
-            'angular/tests/**/*.js'
+            'tests/**/*.js'
         ],
 
         // List of files to exclude
         exclude: [
             // Don't include the minified vendors
-            'web/vendor/js/*.min.js'
+            'public/vendor/js/*.min.js',
+            'public/vendor/js/*.map.js'
         ],
 
         // Test results reporter to use

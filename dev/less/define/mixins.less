@@ -1,0 +1,146 @@
+//
+// All mixins and functions to use in less
+//
+// @copyright Nothing Interactive 2014
+//
+
+// General stuff
+
+// Position Relative & Float Left
+.prfl() {
+    position: relative;
+    float: left;
+}
+
+// keep yo' typefaces clean, son!
+.typeface_sans_serif() {
+    font-family: @typeface_sans_serif;
+    font-weight: normal !important;
+}
+
+// super quick way to show / hide things
+.hiding() {
+    display: none !important;
+}
+
+.showing() {
+    display: block !important;
+}
+
+// Sets the font size relative on the index
+// @largest for example @headline_largest_mobile
+// @increment for example @headline_increment_mobile
+// @index for example 1 for h2, 2 for h3 ...
+.calcFontSize(@largest: 30, @increment: 3, @index: 0) {
+    font-size: unit(@largest - (@increment * @index), px);
+    line-height: unit(@largest - (@increment * @index), px);
+}
+
+// Lithium's patented spritesheet mixin; with a browser fallbacks baked right in!
+// @width = the width of the space you need to fill
+// @posX = the X position of the desired icon on the icon grid
+// @posY = the Y position of the desired icon on the icon grid
+.iconSet(@width, @posX, @posY) {
+    background-size: @width*@spritesheet_width auto;
+    background-position: -@posX*@width -@posY*@width;
+    background-image: url(../img/spritesheet.svg);
+    .SVGFallback_full & {
+        background-image: url(../img/spritesheet_full.png);
+    }
+    .SVGFallback_half & {
+        background-image: url(../img/spritesheet_half.png);
+    }
+}
+
+// Obnoxious browser fallbacks
+
+.border-radius(@radius: 5px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    border-radius: @radius;
+    .lt-ie9 & {
+        behavior: url(vendor/PIE.htc);
+    }
+}
+
+.background-size_cover() {
+    background-size: cover;
+    .lt-ie9 & {
+        behavior: url(vendor/backgroundsize.min.htc);
+    }
+}
+
+.rgba(@r, @g, @b, @a) {
+    background-color: rgb(@r, @g, @b);
+    -pie-background: rgba(@r, @g, @b, @a);
+    background-color: rgba(@r, @g, @b, @a);
+}
+
+// CSS3 prefixer magic
+
+// string @what the transition, without commas!
+.transition(@what) {
+    -webkit-transition: @what;
+    -moz-transition: @what;
+    -o-transition: @what;
+    transition: @what;
+}
+
+.transform(@what) {
+    -webkit-transform: @what;
+    -moz-transform: @what;
+    -o-transform: @what;
+    transform: @what;
+}
+
+// This is only useful for when you want to animate the transform property.
+// But, we should be doing that anyways:
+// http://www.paulirish.com/2012/why-moving-elements-with-translate-is-better-than-posabs-topleft/
+.transitionPrefixed(@what) {
+    -webkit-transition: -webkit-transform @what;
+    -moz-transition: -moz-transform @what;
+    -o-transition: -o-transform @what;
+    transition: @what;
+}
+
+// instead of hiding text with a negative margin of a million pixels, let's try this.
+// http://www.sitepoint.com/new-css-image-replacement-technique/
+.hideText() {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+// Z INDEXES
+// let's make it as easy to use as possible!
+.z-back() {
+    z-index: -2;
+}
+
+.z-middle-back() {
+    z-index: -1;
+}
+
+.z-back-middle() {
+    z-index: -1;
+}
+
+.z-zero() {
+    z-index: 0;
+}
+
+.z-middle() {
+    z-index: 1;
+}
+
+.z-front-middle() {
+    z-index: 2;
+}
+
+.z-middle-front() {
+    z-index: 2;
+}
+
+.z-front() {
+    z-index: 3;
+}

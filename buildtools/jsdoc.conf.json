@@ -4,8 +4,7 @@
     },
     "source": {
         "include": [
-            "angular/app/flok/",
-            "angular/app/time/",
+            "public/app/",
             "README.md"
         ],
         "includePattern": ".+\\.js(doc)?$",
@@ -21,6 +20,7 @@
         "encoding": "utf8",
         "destination": "./doc/js/",
         "private": true,
-        "lenient": true
+        "lenient": true,
+        "recurse": true
     }
 }

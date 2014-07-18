@@ -1,6 +1,0 @@
-services:
-    nothing.twig.global_parameters_extension:
-        class: Nothing\FlokBundle\Twig\GlobalParametersExtension
-        arguments: [@kernel]
-        tags:
-            - { name: twig.extension }

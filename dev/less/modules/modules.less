@@ -1,0 +1,48 @@
+//
+// This file contains the various modules too small for their own files.
+//
+// @copyright Nothing Interactive 2014
+//
+
+/* Loading page overlay */
+@media @mobile {
+    .overlay {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        background-color: @color_overlay;
+        top: 0px;
+        left: 0px;
+        z-index: 10000;
+    }
+
+    .overlay-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin: -25px 0px 0px -25px;
+    }
+
+    .backendStatus {
+        padding: 6px;
+
+        margin-top: 5px;
+        background-color: white;
+
+        width: 40px;
+        height: 40px;
+
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+
+        .success {
+            color: #5cb85c;
+        }
+
+        .error {
+            color: #d9534f;
+        }
+    }
+}
+

@@ -1,0 +1,46 @@
+//
+// The navbar module is styled here
+//
+// @copyright Nothing Interactive 2014
+//
+@media @mobile {
+    /* Nothing branding: more orange! */
+    .navbar {
+        background-color: @color_nothing;
+    }
+
+    .navbar-brand {
+        color: @color_background;
+    }
+
+    .navbar-brand:hover, .navbar-brand:focus {
+        color: @color_text;
+    }
+
+    .navbar-nav > li > a {
+        color: @color_background;
+    }
+
+    .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+        background-color: @color_background;
+        color: @color_text;
+    }
+
+    .navbar-toggle {
+        border-color: @color_background;
+    }
+
+    .navbar-toggle:hover, .navbar-toggle:focus {
+        background-color: @color_text;
+    }
+
+    .navbar-toggle .icon-bar {
+        background-color: @color_background;
+    }
+
+    /* Dev color changes */
+    .navbar.dev {
+        background-color: @color_nothing_dev;
+    }
+}
+

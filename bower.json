@@ -1,0 +1,10 @@
+{
+    "name": "nothing-flok",
+    "private": true,
+    "dependencies": {
+        "angular": "1.2.0",
+        "angular-route": "1.2.0",
+        "bootstrap": "3.0.2",
+        "fontawesome": "3.2.1"
+    }
+}

@@ -1,0 +1,148 @@
+<div ng-show="contentLoaded">
+    <h1>{{ 'flok.time.title'|trans }}: {{ user }}</h1>
+
+    <div ng-show="locked">
+        <alert class="alert alert-danger">
+            {{ 'flok.time.notification.multiple_windows'|trans }}
+        </alert>
+        <button class="btn btn-danger" ng-click="resetLock(true)">{{ 'flok.time.action.reset_lock'|trans }}
+        </button>
+    </div>
+
+    <div ng-show="!locked">
+        <div class="well">
+            <div class="row" ng-hide="showTrash">
+                <div class="col-lg-8 col-sm-8">
+                    <input class="form-control" type="text" ng-model="newTaskName"
+                     ui-keydown="{'enter':'createNewTask() | track:\'new task\':$event'}"
+                     placeholder="{{ 'flok.time.label.new_task'|trans }}"/>
+                </div>
+                <div class="col-lg-4 col-sm-4">
+                    <button class="btn btn-success" ng-click="createNewTask() | track:'new task':$event">
+                        <icon type="play"></icon>
+                        {{ 'flok.action.start'|trans }}
+                    </button>
+                    <p class="pull-right"><a href="#/time/trash/{{ user }}">{{ 'flok.time.filter.trash'|trans }}</a></p>
+                </div>
+            </div>
+            <div class="row" ng-show="showTrash">
+                <div class="col-lg-8 col-sm-8">
+                </div>
+                <div class="col-lg-4 col-sm-4">
+                    <button class="btn btn-warning" ng-show="showTrash"
+                     ng-click="clearArchive() | track:'clear trash':$event">
+                        <icon type="trash"></icon>
+                        {{ 'flok.action.empty_trash'|trans }} ({{completedCount}})
+                    </button>
+                    <p class="pull-right"><a href="#/time/{{ user }}">{{ 'flok.time.filter.active'|trans }}</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="" ng-repeat="task in tasks | orderBy:'completed' | filter:statusFilter"
+         ng-class="{active: task.isActive(), well: task.isActive(), archived: task.isComplete()}">
+            <div class="row">
+                <div class="col-lg-8 col-sm-8">
+                    <p><input class="form-control" type="text" ng-model="task.name"></p>
+                </div>
+                <div class="col-lg-4 col-sm-4">
+                    <p>
+                        <button class="btn btn-success"
+                         ng-click="continueTask(task) | track:'continue task':$event"
+                         ng-show="!task.isActive() && !task.isComplete()">
+                            <icon type="play"></icon>
+                            {{ 'flok.action.continue'|trans }}
+                        </button>
+                        <button class="btn btn-danger" ng-click="task.stop() | track:'stop task':$event"
+                         ng-show="task.isActive()">
+                            <icon type="stop"></icon>
+                            {{ 'flok.action.stop'|trans }}
+                        </button>
+                        <button class="btn btn-default"
+                         ng-click="archiveTask(task) | track:'delete task':$event"
+                         ng-show="!task.isActive() && !task.isComplete()">
+                            <icon type="trash"></icon>
+                            {{ 'flok.action.delete'|trans }}
+                        </button>
+                        <button class="btn btn-default"
+                         ng-click="unArchiveTask(task) | track:'unTrash task':$event"
+                         ng-show="!task.isActive() && task.isComplete()">
+                            <icon type="undo"></icon>
+                            {{ 'flok.action.untrash'|trans }}
+                        </button>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-lg-4">
+                    <div>
+                        <span ng-show="task.endTime">{{ 'flok.time.label.last_duration'|trans }}:</span>
+                        <span ng-hide="task.endTime">{{ 'flok.time.label.last_start'|trans }}:</span>
+                        {{task.startTime | date:'HH:mm'}}<span ng-show="task.endTime"> - {{task.endTime | date:'HH:mm'}}</span>:
+                        {{task.currentDuration | duration}} ({{task.currentDuration | decimalDuration}})
+                    </div>
+                    <div ng-show="task.pastDuration > 0">
+                        {{ 'flok.time.label.previous_duration'|trans }}:
+                        {{task.pastDuration | duration}} ({{task.pastDuration | decimalDuration}})
+                    </div>
+                    <div ng-show="task.totalManualChange != 0">
+                        {{ 'flok.time.label.manual_change'|trans }}:
+                        {{task.totalManualChange | duration}} ({{task.totalManualChange | decimalDuration}})
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-4">
+                    <div ng-hide="task.editing">
+                        <strong>{{ 'flok.time.label.total_duration'|trans }}: {{task.totalDuration | duration}}
+                            ({{task.totalDuration | decimalDuration}})</strong>
+                    </div>
+                    <div class="input-group" ng-show="task.editing">
+                        <input type="text" ng-focus="task.editing" class="form-control"
+                         placeholder="{{ 'flok.time.label.modify_duration'|trans }}"
+                         ng-model="task.manualChangeInputString"
+                         ui-keydown="{'enter':'task.manualChange() | track:\'save edit\':$event', 'esc':'task.toggleEdit() | track:\'abort edit\':$event'}"/>
+                        <span class="input-group-addon">{{task.totalDuration + task.getManualChangeInputInMs() | duration}}</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-4">
+                    <div>
+                        <button class="btn btn-default" ng-click="task.toggleEdit() | track:'edit task':$event"
+                         ng-hide="task.editing || task.isComplete()">
+                            <icon type="edit"></icon>
+                            {{ 'flok.action.edit'|trans }}
+                        </button>
+                        <button class="btn btn-default" ng-click="task.toggleEdit() | track:'abort edit':$event"
+                         ng-show="task.editing">
+                            <icon type="remove"></icon>
+                            {{ 'flok.action.cancel'|trans }}
+                        </button>
+                        <button class="btn btn-default" ng-click="task.reset() | track:'reset task':$event"
+                         ng-hide="!task.editing || task.isActive() || task.isComplete()">
+                            <icon type="eraser"></icon>
+                            {{ 'flok.action.reset'|trans }}
+                        </button>
+                        <button class="btn btn-default"
+                         ng-click="task.manualChange() | track:'save edit':$event"
+                         ng-show="task.editing">
+                            <icon type="ok"></icon>
+                            {{ 'flok.action.save'|trans }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr ng-show="!task.isActive()" class="small"/>
+        </div>
+
+        <!-- Total time display -->
+        <div class="well">
+            <div class="row">
+                <div class="col-sm-4 col-lg-4">
+                    <strong>{{'flok.time.label.total_time' | trans}}:
+                        <span ng-hide="showTrash">{{totalTimeActive | duration}} ({{totalTimeActive | decimalDuration}})</span>
+                        <span ng-show="showTrash">{{totalTimeDeleted | duration}} ({{totalTimeDeleted | decimalDuration}})</span>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
