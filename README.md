@@ -1,5 +1,6 @@
-# flok - Radically Open Business Operation Toolkit
-## brought to you by Nothing Interactive
+# flok
+## Radically Open Business Operation Toolkit
+### Brought to you by Nothing Interactive
 
 ## Why 'flok'?
 The project's name 'flok' has its roots in the terms 'flock' or 'flocking', the collective motion of a large number of self-propelled entities. The project wants to respect our collective, emergent behaviour arising from simple rules that are followed by individuals and doesn't involve any central coordination. This is the reason why we chose flok.to as domain to underline the conceptional idea even in the URL, e.g. 'flok.to/time'.
@@ -100,11 +101,11 @@ To build the less files (from the project root):
     ./node_modules/.bin/lessc dev/less/flok.less > public/css/flok.css
 
 ## Version History
-### 0.3.0
+### 0.3.0 - 2014-07-18
 * Switched whole application to ExpressJS instead of Symfony.
 * Added basic storage of the data from the Time component in a MongoDB database.
 
-### 0.2.0
+### 0.2.0 - 2013-11-13
 * Initial release: Launched with Time component.
 
 ## Copyright and license
