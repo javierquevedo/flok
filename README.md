@@ -108,7 +108,7 @@ To build the less files (from the project root):
 * Initial release: Launched with Time component.
 
 ## Copyright and license
-* Copyright (c) 2013 Nothing Interactive, Switzerland
+* Brought to you by Nothing Interactive, Switzerland
 * Website: [https://www.nothing.ch/](https://www.nothing.ch/)
 * Version: 0.2.0
 * License: [The MIT License (MIT)](http://opensource.org/licenses/MIT)
