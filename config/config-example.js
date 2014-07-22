@@ -9,9 +9,6 @@ var config = {
             url: 'piwik.example.com',
             siteId: 1
         },
-        trac: {
-            auth: 'username:password'
-        },
         components: {
             time: true
         }
