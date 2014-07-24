@@ -16,7 +16,6 @@
     "flok.time.title": "Time",
     "flok.time.filter.active": "Show Active",
     "flok.time.filter.trash": "Show Trash",
-    "flok.time.notification.multiple_windows": "You already seem to have flok open in another browser window.",
     "flok.time.label.last_duration": "Last duration",
     "flok.time.label.last_start": "Last start",
     "flok.time.label.new_task": "I'm working on...",
@@ -24,6 +23,5 @@
     "flok.time.label.manual_change": "Manual change",
     "flok.time.label.total_duration": "Total duration",
     "flok.time.label.modify_duration": "Add or subtract time",
-    "flok.time.label.total_time": "Total Time",
-    "flok.time.action.reset_lock": "No, I don't"
+    "flok.time.label.total_time": "Total Time"
 }

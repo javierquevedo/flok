@@ -63,37 +63,6 @@
             $scope.contentLoaded = true;
         });
 
-        // Id under which the app lock is stored in the local storage
-        var APP_LOCK_ID = 'nothingFlokLock';
-
-        // TODO: can probably get rid of this lock
-        /**
-         * Resets the app lock (to allow the application to be open only once in
-         * one browser)
-         * @alias module:AppCtrl
-         * @param {boolean} [reload=false] Whether to reload the whole app after
-         */
-        $scope.resetLock = function(reload) {
-            localStorage.setItem(APP_LOCK_ID, '0');
-            if (reload === true) {
-                window.location.reload();
-            }
-        };
-
-        // Check if the application is already loaded in another browser window
-        if (localStorage.getItem(APP_LOCK_ID) === '1') {
-            // Stop right now, application is already open.
-            $scope.locked = true;
-            return;
-        }
-
-        // Lock the application now
-        localStorage.setItem(APP_LOCK_ID, '1');
-        window.onbeforeunload = function() {
-            // Unlock when closing the app
-            $scope.resetLock();
-        };
-
         // Bind to the status of the backend
         $scope.backendStatus = '';
         $scope.$onRootScope('flok.backend.status', function(event, newStatus) {
