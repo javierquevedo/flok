@@ -5,6 +5,7 @@
 /dev/dock/
 /dev/flok.to/
 /doc/
+/.gradle/
 /node_modules/
 /public/css/*.css
 /public/vendor/bower/
