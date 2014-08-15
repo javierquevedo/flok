@@ -13,6 +13,9 @@ var http = require('http');
 var packageJson = require('./package.json');
 var config = require('./config/config.js');
 
+// Load the base locale
+var locale = require('./locale/en.js');
+
 // Create the express app
 var app = express();
 
@@ -49,6 +52,11 @@ app.get('/api', function(req, res) {
     res.send({ status: 'OK' });
 });
 
+// Expose that locale
+app.get('/locale/en.json', function(req, res) {
+    res.send(locale);
+});
+
 // TODO: all of this component loading should go in a separate file
 // Read the config of the enabled components
 var enabledComponents = activeConfig.components;
@@ -67,6 +75,13 @@ _.forOwn(enabledComponents, function(enabled, name) {
         // Mount the router
         if (config.registerRouter) {
             app.use('/api/' + name, require('./components/' + name + '/backend/router.js'));
+        }
+
+        // TODO: should be able to handle multiple languages
+        // Load the locale
+        if (config.registerLocale) {
+            var componentLocale = require('./components/' + name + '/locale/en.js');
+            locale = _.merge(locale, componentLocale);
         }
     }
 });
