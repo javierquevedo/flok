@@ -5,6 +5,8 @@
 var path = require('path');
 var _  = require('lodash');
 var express = require('express');
+var morgan = require('morgan');
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors');
 var http = require('http');
@@ -34,10 +36,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.set('port', process.env.PORT || 3000);
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
+app.use(morgan('combined'));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // TODO: all of this component loading should go in a separate file
@@ -56,8 +56,6 @@ _.forOwn(enabledComponents, function(enabled, name) {
 
 // Also expose the components as a list
 activeConfig.componentList = _.keys(activeConfig.components);
-
-app.use(app.router);
 
 // Route for delivering the angular page
 app.get('/', function(req, res) {
