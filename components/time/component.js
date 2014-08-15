@@ -1,4 +1,6 @@
 var config = {
+    registerRouter: true,
+    registerPublicFiles: true,
     jsFiles: [
         'app/time/flokTimeModule.js',
         'app/time/Task.js',
