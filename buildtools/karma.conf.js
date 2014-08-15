@@ -25,11 +25,13 @@ module.exports = function (config) {
 
             // The actual application files
             'public/app/flok/flokModule.js',
-            'public/app/time/flokTimeModule.js',
             'public/app/**/*.js',
+            'components/time/public/app/time/flokTimeModule.js',
+            'components/time/public/app/**/*.js',
 
             // And finally the tests
-            'tests/**/*.js'
+            'tests/**/*.js',
+            'components/time/tests/**/*.js'
         ],
 
         // List of files to exclude
