@@ -30,14 +30,17 @@
     <script type="text/javascript" src="app/menu/flokMenuModule.js"></script>
     <script type="text/javascript" src="app/menu/menuService.js"></script>
 
-    <% if (components.time) { %>
-    <script type="text/javascript" src="app/time/flokTimeModule.js"></script>
-    <script type="text/javascript" src="app/time/Task.js"></script>
-    <script type="text/javascript" src="app/time/taskProvider.js"></script>
-    <script type="text/javascript" src="app/time/TimeCtrl.js"></script>
-    <script type="text/javascript" src="app/time/backendStorageService.js"></script>
-    <script type="text/javascript" src="app/time/durationUtil.js"></script>
-    <% } %>
+    <%
+    for (var i = 0; i < componentList.length; i++) {
+        var comp = componentList[i];
+        for (var j = 0; components[comp].jsFiles && j < components[comp].jsFiles.length; j++) { %>
+            <script type="text/javascript" src="<%= components[comp].jsFiles[j] %>"></script> <%
+        }
+        for (j = 0; components[comp].cssFiles && j < components[comp].cssFiles.length; j++) { %>
+            <link href="<%= components[comp].cssFiles[j] %>" type="text/css" rel="stylesheet" media="all"/> <%
+        }
+    }
+    %>
 
     <script type="text/javascript">
         flokModule.constant('localePathConst', '<%= localePath %>');

@@ -26,14 +26,6 @@ var activeConfig = defaultsDeep(config[app.settings.env], config.default);
 activeConfig.environment = app.settings.env;
 activeConfig.version = packageJson.version;
 
-// Map to a list of active components
-activeConfig.componentList = [];
-_.forOwn(activeConfig.components, function(enabled, name) {
-    if (enabled) {
-        activeConfig.componentList.push(name);
-    }
-});
-
 // Controllers
 var Time = require('./backend/controllers/Time');
 
@@ -47,6 +39,23 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// TODO: all of this component loading should go in a separate file
+// Read the config of the enabled components
+var enabledComponents = activeConfig.components;
+activeConfig.components = {};
+_.forOwn(enabledComponents, function(enabled, name) {
+    if (enabled) {
+        // Load the component config
+        activeConfig.components[name] = require('./components/' + name + '/component.js');
+
+        // Serve the components public files
+        app.use(express.static(path.join(__dirname, 'components', name, 'public')));
+    }
+});
+
+// Also expose the components as a list
+activeConfig.componentList = _.keys(activeConfig.components);
 
 app.use(app.router);
 
