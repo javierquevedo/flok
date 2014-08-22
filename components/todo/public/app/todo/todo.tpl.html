@@ -1,0 +1,51 @@
+<div ng-show="contentLoaded" ng-controller="TodoCtrl">
+    <h1>{{ 'flok.todo.title'|trans }}</h1>
+
+    <!-- TODO: move all the test to the locale file -->
+    <div class="alert alert-warning" ng-hide="hideAlert" ng-click="hideAlert = true">
+        The Todo component is currently a prototype for trying out interactions. No data is stored outside the browser and everything is subject to change.
+    </div>
+
+    <table class="table table-hover">
+        <thead ng-repeat-start="listType in ['priority', 'all']">
+        <tr>
+            <th colspan="4">
+                <h2>
+                    <span ng-if="listType === 'priority'">Priority list</span>
+                    <span ng-if="listType === 'all'">All tasks</span>
+                </h2>
+            </th>
+            <th colspan="3" class="hidden-xs"></th>
+        </tr>
+        <tr>
+            <th class="hidden-xs">#</th>
+            <th>Task</th>
+            <th class="hidden-xs">Project</th>
+            <th class="hidden-xs">Milestone</th>
+            <th>Owner</th>
+            <th>Remaining hours</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody ng-repeat-end>
+        <tr ng-repeat="task in tasks | filter:filterForListType(listType)">
+            <td class="hidden-xs">{{ task.id }}</td>
+            <td>{{ task.name }}</td>
+            <td class="hidden-xs">{{ task.project }}</td>
+            <td class="hidden-xs">{{ task.milestone }}</td>
+            <td>{{ task.owner }}</td>
+            <td title="Estimated: {{ task.time.estimated }}, Used: {{ task.time.used }}">{{ task.time.estimated - task.time.used }}</td>
+            <td ng-click="task.inPriorityList = !task.inPriorityList">
+                <i class="icon-minus" ng-show="task.inPriorityList"></i>
+                <i class="icon-plus"  ng-hide="task.inPriorityList"></i>
+            </td>
+        </tr>
+        <tr ng-if="listType === 'priority'">
+            <td colspan="2"></td>
+            <td colspan="3" class="hidden-xs"></td>
+            <td>{{ getTotalRemainingInPriorityList() }} Total</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

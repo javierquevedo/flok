@@ -73,10 +73,10 @@ _.forOwn(activeConfig.components, function(enabled, name) {
 
             // Merge the js anc css files
             if (config.jsFiles) {
-                _.merge(activeConfig.jsFiles, config.jsFiles);
+                Array.prototype.push.apply(activeConfig.jsFiles, config.jsFiles);
             }
             if (config.cssFiles) {
-                _.merge(activeConfig.cssFiles, config.cssFiles);
+                Array.prototype.push.apply(activeConfig.cssFiles, config.cssFiles);
             }
         }
 

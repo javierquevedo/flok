@@ -10,7 +10,8 @@ var config = {
             siteId: 1
         },
         components: {
-            time: true
+            time: true,
+            todo: false
         }
     },
 
@@ -20,6 +21,10 @@ var config = {
             enable: false,
             url: 'devPiwik.example.com',
             siteId: 2
+        },
+        components: {
+            time: true,
+            todo: true
         }
     },
 
