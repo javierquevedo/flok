@@ -1,6 +1,7 @@
 var config = {
     registerRouter: true,
     registerLocale: true,
+    registerAngularModule: true,
     registerPublicFiles: true,
     jsFiles: [
         'app/time/flokTimeModule.js',

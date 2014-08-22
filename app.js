@@ -59,17 +59,25 @@ app.get('/locale/en.json', function(req, res) {
 
 // TODO: all of this component loading should go in a separate file
 // Read the config of the enabled components
-var enabledComponents = activeConfig.components;
-activeConfig.components = {};
-_.forOwn(enabledComponents, function(enabled, name) {
+activeConfig.angularModules = [];
+activeConfig.jsFiles = [];
+activeConfig.cssFiles = [];
+_.forOwn(activeConfig.components, function(enabled, name) {
     if (enabled) {
         // Load the component config
         var config = require('./components/' + name + '/component.js');
-        activeConfig.components[name] = config;
 
         // Serve the public files
         if (config.registerPublicFiles) {
             app.use(express.static(path.join(__dirname, 'components', name, 'public')));
+
+            // Merge the js anc css files
+            if (config.jsFiles) {
+                _.merge(activeConfig.jsFiles, config.jsFiles);
+            }
+            if (config.cssFiles) {
+                _.merge(activeConfig.cssFiles, config.cssFiles);
+            }
         }
 
         // Mount the router
@@ -83,13 +91,16 @@ _.forOwn(enabledComponents, function(enabled, name) {
             var componentLocale = require('./components/' + name + '/locale/en.js');
             locale = _.merge(locale, componentLocale);
         }
+
+        // Add to angular modules if there is one
+        if (config.registerAngularModule) {
+            activeConfig.angularModules.push(name);
+        }
     }
 });
 
-// Also expose the components as a list
-activeConfig.componentList = _.keys(activeConfig.components);
 
-// server
+// Server
 var server = http.createServer(app);
 if (require.main === module) {
     mongoose.connect(activeConfig.db, function(err) {

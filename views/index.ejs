@@ -18,7 +18,7 @@
     <script type="text/javascript" src="vendor/js/localize.js"></script>
 
     <script type="text/javascript">
-        var ENABLED_FLOK_COMPONENTS = [<% if (componentList.length > 0) { %>'<%- componentList.join("','") %>'<% } %>];
+        var ENABLED_FLOK_COMPONENTS = [<% if (angularModules.length > 0) { %>'<%- angularModules.join("','") %>'<% } %>];
     </script>
 
     <script type="text/javascript" src="app/flok/angularExtensions.js"></script>
@@ -31,14 +31,12 @@
     <script type="text/javascript" src="app/menu/menuService.js"></script>
 
     <%
-    for (var i = 0; i < componentList.length; i++) {
-        var comp = componentList[i];
-        for (var j = 0; components[comp].jsFiles && j < components[comp].jsFiles.length; j++) { %>
-            <script type="text/javascript" src="<%= components[comp].jsFiles[j] %>"></script> <%
-        }
-        for (j = 0; components[comp].cssFiles && j < components[comp].cssFiles.length; j++) { %>
-            <link href="<%= components[comp].cssFiles[j] %>" type="text/css" rel="stylesheet" media="all"/> <%
-        }
+    var i = 0;
+    for (i = 0; i < cssFiles.length; i++) { %>
+        <link href="<%= cssFiles[i] %>" type="text/css" rel="stylesheet" media="all"/> <%
+    }
+    for (i = 0; i < jsFiles.length; i++) { %>
+        <script type="text/javascript" src="<%= jsFiles[i] %>"></script> <%
     }
     %>
 
