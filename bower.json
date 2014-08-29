@@ -5,6 +5,7 @@
         "angular": "1.2.0",
         "angular-route": "1.2.0",
         "bootstrap": "3.0.2",
-        "fontawesome": "3.2.1"
+        "fontawesome": "3.2.1",
+        "angular-ui-sortable": "0.12.10"
     }
 }

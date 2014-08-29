@@ -7,12 +7,12 @@
     </div>
 
     <table class="table table-hover">
-        <thead ng-repeat-start="listType in ['priority', 'all']">
+        <thead ng-repeat-start="(listType, taskList) in tasks">
         <tr>
-            <th colspan="4">
+            <th colspan="3">
                 <h2>
-                    <span ng-if="listType === 'priority'">Priority list</span>
-                    <span ng-if="listType === 'all'">All tasks</span>
+                    <span ng-if="listType === 'planned'">This week</span>
+                    <span ng-if="listType === 'unplanned'">Unplanned tasks</span>
                 </h2>
             </th>
             <th colspan="3" class="hidden-xs"></th>
@@ -24,27 +24,21 @@
             <th class="hidden-xs">Milestone</th>
             <th>Owner</th>
             <th>Remaining hours</th>
-            <th></th>
         </tr>
         </thead>
-        <tbody ng-repeat-end>
-        <tr ng-repeat="task in tasks | filter:filterForListType(listType)">
+        <tbody ng-repeat-end ui-sortable="sortableOptions" class="task-container" ng-model="taskList">
+        <tr class="task-row" ng-repeat="task in taskList">
             <td class="hidden-xs">{{ task.id }}</td>
             <td>{{ task.name }}</td>
             <td class="hidden-xs">{{ task.project }}</td>
             <td class="hidden-xs">{{ task.milestone }}</td>
             <td>{{ task.owner }}</td>
             <td title="Estimated: {{ task.time.estimated }}, Used: {{ task.time.used }}">{{ task.time.estimated - task.time.used }}</td>
-            <td ng-click="task.inPriorityList = !task.inPriorityList">
-                <i class="icon-minus" ng-show="task.inPriorityList"></i>
-                <i class="icon-plus"  ng-hide="task.inPriorityList"></i>
-            </td>
         </tr>
-        <tr ng-if="listType === 'priority'">
+        <tr ng-if="listType === 'planned'">
             <td colspan="2"></td>
             <td colspan="3" class="hidden-xs"></td>
-            <td>{{ getTotalRemainingInPriorityList() }} Total</td>
-            <td></td>
+            <td>{{ getTotalPlannedRemaining() }} Total</td>
         </tr>
         </tbody>
     </table>

@@ -5,18 +5,19 @@
      * The flokTodoModule is a flok component to organise your task list.
      * @type {module}
      */
-    var flokTodoModule = angular.module('flokTodoModule',
-        ['ngRoute', 'ui.bootstrap', 'ui.utils', 'flokFilters', 'flokDirectives', 'flokMenuModule', 'localization', 'onRootScope'],
-        function($routeProvider) {
-            $routeProvider
-                .when('/todo', {
-                    templateUrl: 'app/todo/todo.tpl.html'
-                })
-            ;
-        }
-    );
+    var flokTodoModule = angular.module('flokTodoModule', [
+        'ngRoute', 'ui.bootstrap', 'ui.utils', 'ui.sortable',
+        'localization', 'onRootScope',
+        'flokFilters', 'flokDirectives', 'flokMenuModule'
+    ]);
 
-    flokTodoModule.config(['menuServiceProvider', function(menuServiceProvider) {
+    flokTodoModule.config(['$routeProvider', 'menuServiceProvider', function($routeProvider, menuServiceProvider) {
+        $routeProvider
+            .when('/todo', {
+                templateUrl: 'app/todo/todo.tpl.html'
+            })
+        ;
+
         menuServiceProvider.addMenuItem(
             {
                 url: '/todo',
