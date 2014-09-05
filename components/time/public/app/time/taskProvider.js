@@ -42,15 +42,8 @@ angular.module('flokTimeModule').provider('taskProvider', function() {
     };
 
     var persistToBackend = function(data) {
-        console.log('Persisting to backend');
-        backendStorageService.putTime(_currentUser, data)
-            .success(function() {
-                console.log('Successfully persisted to backend');
-            })
-            .error(function() {
-                console.log('Failed to persisted to backend');
-            })
-        ;
+        // TODO: handle success and error
+        backendStorageService.putTime(_currentUser, data);
     };
 
     var retrieveTasksFor = function(user) {
@@ -58,12 +51,9 @@ angular.module('flokTimeModule').provider('taskProvider', function() {
         _currentUser = user;
         tasks = [];
 
-        console.log('Retrieving data for ' + user);
-
         // Retrieve the stored tasks
         backendStorageService.getTime(_currentUser)
             .success(function(data) {
-                console.log('Successfully retrieved data from backend');
                 for (var i = 0; i < data.length; i++) {
                     tasks.push(Task.createFromJSON(data[i]));
                 }
@@ -71,7 +61,6 @@ angular.module('flokTimeModule').provider('taskProvider', function() {
                 _initialising = false;
             })
             .error(function() {
-                console.log('Failed to load data from server, using localStorage instead');
                 var storedTasks = JSON.parse(localStorage.getItem(getStorageId()) || '[]');
                 for (var i = 0; i < storedTasks.length; i++) {
                     tasks.push(Task.createFromJSON(storedTasks[i]));
@@ -152,39 +141,9 @@ angular.module('flokTimeModule').provider('taskProvider', function() {
             },
 
             /**
-             * Marks a task a complete
-             * @param {Task} task
+             * Deletes all the completed tasks
              */
-            archiveTask: function(task) {
-                // Search the Task
-                for (var i = 0; i < tasks.length; i++) {
-                    if (tasks[i] === task) {
-                        tasks[i].completed = true;
-                        break;
-                    }
-                }
-            },
-
-            /**
-             * Resurect a task, bring it back from the dead,
-             * this could be called zombify! only use full as an
-             * undo?
-             * @param {Task} task
-             */
-            unArchiveTask: function(task) {
-                // Search the Task
-                for (var i = 0; i < tasks.length; i++) {
-                    if (tasks[i] === task) {
-                        tasks[i].completed = false;
-                        break;
-                    }
-                }
-            },
-
-            /**
-             * Clears up the archive
-             */
-            clearArchive: function() {
+            deleteCompleted: function() {
                 for (var i = 0; i < tasks.length; i++) {
                     if (tasks[i].completed) {
                         // Remove it and keep going
@@ -199,7 +158,7 @@ angular.module('flokTimeModule').provider('taskProvider', function() {
              * Returns the number of currently complete tasks
              * @returns {number}
              */
-            trashCount: function() {
+            completedCount: function() {
                 var count = 0;
                 for (var i = 0; i < tasks.length; i++) {
                     if (tasks[i].completed) {

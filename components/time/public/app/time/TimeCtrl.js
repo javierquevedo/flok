@@ -6,16 +6,11 @@
 angular.module('flokTimeModule').controller('TimeCtrl', function($scope, $timeout, $routeParams, taskProvider) {
     'use strict';
 
-    // Watch for location changes
-    $scope.$watch('location.path()', function(path) {
-        // Set if we have to show the trash
-        $scope.showTrash = path.indexOf('/time/trash') !== -1;
-
-        // Update the statusFilter on location changes
-        $scope.statusFilter = {
-            completed: $scope.showTrash
-        };
-    });
+    /**
+     * Whether to show all tasks or only uncompleted ones
+     * @type {boolean}
+     */
+    $scope.showAll = false;
 
     $scope.user = $routeParams.user;
 
@@ -31,16 +26,16 @@ angular.module('flokTimeModule').controller('TimeCtrl', function($scope, $timeou
     $scope.tasks = taskProvider.getTasks();
 
     /**
-     * Stores the total time of all active tasks.
+     * Stores the total time of all uncompleted tasks.
      * @type {number}
      */
-    $scope.totalTimeActive = 0;
+    $scope.totalTimeUncompleted = 0;
 
     /**
-     * Stores the total time of all deleted tasks.
+     * Stores the total time of all completed tasks.
      * @type {number}
      */
-    $scope.totalTimeDeleted = 0;
+    $scope.totalTimeCompleted = 0;
 
     /**
      * Current time and date
@@ -55,6 +50,19 @@ angular.module('flokTimeModule').controller('TimeCtrl', function($scope, $timeou
      * @type {string}
      */
     $scope.newTaskName = '';
+
+    /**
+     * Returns the filter to be used for the tasks
+     * @returns {*}
+     */
+    $scope.getStatusFilter = function() {
+        if ($scope.showAll) {
+            return {};
+        }
+        return {
+            completed: false
+        };
+    };
 
     /**
      * Adds a task to the list with the name taken from $scope.newTaskName
@@ -74,38 +82,11 @@ angular.module('flokTimeModule').controller('TimeCtrl', function($scope, $timeou
     };
 
     /**
-     * Removes the given task from the list
-     * @alias module:TimeCtrl
-     * @param {Task} task
-     */
-    $scope.deleteTask = function(task) {
-        taskProvider.deleteTask(task);
-    };
-
-    /**
-     * Mark a task as completed
-     * @alias module:TimeCtrl
-     * @param {Task} task
-     */
-    $scope.archiveTask = function(task) {
-        taskProvider.archiveTask(task);
-    };
-
-    /**
-     * Mark a task as incomplete
-     * @alias module:TimeCtrl
-     * @param {Task} task
-     */
-    $scope.unArchiveTask = function(task) {
-        taskProvider.unArchiveTask(task);
-    };
-
-    /**
-     * This deletes ALL of the archived tasks.
+     * This deletes ALL of the completed tasks.
      * @alias module:TimeCtrl
      */
-    $scope.clearArchive = function() {
-        taskProvider.clearArchive();
+    $scope.deleteCompleted = function() {
+        taskProvider.deleteCompleted();
     };
 
     /**
@@ -128,29 +109,29 @@ angular.module('flokTimeModule').controller('TimeCtrl', function($scope, $timeou
         // TODO: improve watch expression, this persists way too often
         // https://github.com/tastejs/todomvc/blob/gh-pages/architecture-examples/angularjs/js/controllers/todoCtrl.js line 19 might help
         taskProvider.persist();
-        $scope.completedCount = taskProvider.trashCount();
+        $scope.completedCount = taskProvider.completedCount();
 
-        // Update total time of all active tasks and all deleted tasks:
-        $scope.totalTimeActive = getTotalTimeActive();
-        $scope.totalTimeDeleted = getTotalTimeDeleted();
+        // Update total time of all completed and uncompleted tasks:
+        $scope.totalTimeUncompleted = getTotalTimeUncompleted();
+        $scope.totalTimeCompleted = getTotalTimeCompleted();
     }, true);
 
 
-    // Calculates total time of active tasks.
-    function getTotalTimeActive() {
+    // Calculates total time of uncompleted tasks.
+    function getTotalTimeUncompleted() {
         var time = 0;
         angular.forEach($scope.tasks, function(task) {
-            time += !task.isComplete() ? task.totalDuration : 0;
+            time += !task.completed ? task.totalDuration : 0;
         });
         return time;
     }
 
 
-    // Calculates total time of active tasks.
-    function getTotalTimeDeleted() {
+    // Calculates total time of completed tasks
+    function getTotalTimeCompleted() {
         var time = 0;
         angular.forEach($scope.tasks, function(task) {
-            time += task.isComplete() ? task.totalDuration : 0;
+            time += task.completed ? task.totalDuration : 0;
         });
         return time;
     }

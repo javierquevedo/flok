@@ -18,11 +18,6 @@
                 controller: 'TimeCtrl',
                 controllerAs: 'time'
             })
-            .when('/time/trash/:user', {
-                templateUrl: 'app/time/time.tpl.html',
-                controller: 'TimeCtrl',
-                controllerAs: 'time'
-            })
         ;
 
         menuServiceProvider.addMenuItem(

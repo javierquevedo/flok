@@ -2,7 +2,7 @@
     <h1>{{ 'flok.time.title'|trans }}: {{ user }}</h1>
 
     <div class="well">
-        <div class="row" ng-hide="showTrash">
+        <div class="row">
             <div class="col-lg-8 col-sm-8">
                 <input class="form-control" type="text" ng-model="newTaskName"
                  ui-keydown="{'enter':'createNewTask() | track:\'new task\':$event'}"
@@ -11,27 +11,19 @@
             <div class="col-lg-4 col-sm-4">
                 <button class="btn btn-success" ng-click="createNewTask() | track:'new task':$event">
                     <icon type="play"></icon>
-                    {{ 'flok.action.start'|trans }}
+                    {{ 'flok.time.action.start'|trans }}
                 </button>
-                <p class="pull-right"><a href="#/time/trash/{{ user }}">{{ 'flok.time.filter.trash'|trans }}</a></p>
-            </div>
-        </div>
-        <div class="row" ng-show="showTrash">
-            <div class="col-lg-8 col-sm-8">
-            </div>
-            <div class="col-lg-4 col-sm-4">
-                <button class="btn btn-warning" ng-show="showTrash"
-                 ng-click="clearArchive() | track:'clear trash':$event">
-                    <icon type="trash"></icon>
-                    {{ 'flok.action.empty_trash'|trans }} ({{completedCount}})
-                </button>
-                <p class="pull-right"><a href="#/time/{{ user }}">{{ 'flok.time.filter.active'|trans }}</a></p>
+                <div class="checkbox pull-right">
+                    <label>
+                        <input type="checkbox" ng-model="showAll">{{ 'flok.time.filter.completed'|trans }}
+                    </label>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="" ng-repeat="task in tasks | orderBy:'completed' | filter:statusFilter"
-     ng-class="{active: task.isActive(), well: task.isActive(), archived: task.isComplete()}">
+    <div class="" ng-repeat="task in tasks | orderBy:'startTime':'desc' | filter:getStatusFilter()"
+     ng-class="{active: task.isActive(), well: task.isActive(), completed: task.completed}">
         <div class="row">
             <div class="col-lg-8 col-sm-8">
                 <p><input class="form-control" type="text" ng-model="task.name"></p>
@@ -40,26 +32,26 @@
                 <p>
                     <button class="btn btn-success"
                      ng-click="continueTask(task) | track:'continue task':$event"
-                     ng-show="!task.isActive() && !task.isComplete()">
+                     ng-show="!task.isActive() && !task.completed">
                         <icon type="play"></icon>
-                        {{ 'flok.action.continue'|trans }}
+                        {{ 'flok.time.action.continue'|trans }}
                     </button>
                     <button class="btn btn-danger" ng-click="task.stop() | track:'stop task':$event"
                      ng-show="task.isActive()">
                         <icon type="stop"></icon>
-                        {{ 'flok.action.stop'|trans }}
+                        {{ 'flok.time.action.stop'|trans }}
                     </button>
                     <button class="btn btn-default"
-                     ng-click="archiveTask(task) | track:'delete task':$event"
-                     ng-show="!task.isActive() && !task.isComplete()">
-                        <icon type="trash"></icon>
-                        {{ 'flok.action.delete'|trans }}
+                     ng-click="task.completed = true | track:'task completed':$event"
+                     ng-show="!task.isActive() && !task.completed">
+                        <icon type="check"></icon>
+                        {{ 'flok.time.action.set_completed'|trans }}
                     </button>
                     <button class="btn btn-default"
-                     ng-click="unArchiveTask(task) | track:'unTrash task':$event"
-                     ng-show="!task.isActive() && task.isComplete()">
+                     ng-click="task.completed = false | track:'task uncompleted':$event"
+                     ng-show="!task.isActive() && task.completed">
                         <icon type="undo"></icon>
-                        {{ 'flok.action.untrash'|trans }}
+                        {{ 'flok.time.action.set_uncompleted'|trans }}
                     </button>
                 </p>
             </div>
@@ -97,25 +89,20 @@
             <div class="col-lg-4 col-sm-4">
                 <div>
                     <button class="btn btn-default" ng-click="task.toggleEdit() | track:'edit task':$event"
-                     ng-hide="task.editing || task.isComplete()">
+                     ng-hide="task.editing || task.completed">
                         <icon type="edit"></icon>
-                        {{ 'flok.action.edit'|trans }}
+                        {{ 'flok.time.action.edit'|trans }}
                     </button>
                     <button class="btn btn-default" ng-click="task.toggleEdit() | track:'abort edit':$event"
                      ng-show="task.editing">
                         <icon type="remove"></icon>
-                        {{ 'flok.action.cancel'|trans }}
-                    </button>
-                    <button class="btn btn-default" ng-click="task.reset() | track:'reset task':$event"
-                     ng-hide="!task.editing || task.isActive() || task.isComplete()">
-                        <icon type="eraser"></icon>
-                        {{ 'flok.action.reset'|trans }}
+                        {{ 'flok.time.action.cancel'|trans }}
                     </button>
                     <button class="btn btn-default"
                      ng-click="task.manualChange() | track:'save edit':$event"
                      ng-show="task.editing">
                         <icon type="ok"></icon>
-                        {{ 'flok.action.save'|trans }}
+                        {{ 'flok.time.action.save'|trans }}
                     </button>
                 </div>
             </div>
@@ -126,11 +113,20 @@
     <!-- Total time display -->
     <div class="well">
         <div class="row">
+            <div class="col-sm-8 col-lg-8">
+                {{'flok.time.label.total_time_uncompleted' | trans}}:
+                <strong>{{totalTimeUncompleted | duration}} ({{totalTimeUncompleted | decimalDuration}})</strong><br/>
+                {{'flok.time.label.total_time_completed' | trans}}:
+                {{totalTimeCompleted | duration}} ({{totalTimeCompleted | decimalDuration}})<br />
+                {{'flok.time.label.total_time' | trans}}:
+                {{totalTimeUncompleted + totalTimeCompleted | duration}} ({{totalTimeUncompleted + totalTimeCompleted | decimalDuration}})
+            </div>
             <div class="col-sm-4 col-lg-4">
-                <strong>{{'flok.time.label.total_time' | trans}}:
-                    <span ng-hide="showTrash">{{totalTimeActive | duration}} ({{totalTimeActive | decimalDuration}})</span>
-                    <span ng-show="showTrash">{{totalTimeDeleted | duration}} ({{totalTimeDeleted | decimalDuration}})</span>
-                </strong>
+                <button class="btn btn-warning" ng-show="showAll"
+                 ng-click="deleteCompleted() | track:'clear completed':$event">
+                    <icon type="trash"></icon>
+                    {{ 'flok.time.action.delete_completed'|trans }} ({{completedCount}})
+                </button>
             </div>
         </div>
     </div>

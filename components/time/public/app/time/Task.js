@@ -60,10 +60,10 @@
         this.editing = false;
 
         /**
-         * Tracks if the task is complete (archived/committed) or not
+         * Tracks if the task is complete or not
          * @type {boolean}
          */
-        this.completed = completed || false;
+        this.completed = !!completed;
 
         /**
          * The manual time input as a string when task is being edited.
@@ -133,15 +133,6 @@
     };
 
     /**
-     * Whether this Task is currently active
-     * @returns {boolean}
-     */
-    Task.prototype.isComplete = function() {
-        // Task is active if there is no endTime set
-        return this.completed;
-    };
-
-    /**
      * Continues tracking time for this task
      */
     Task.prototype.continue = function() {
@@ -164,7 +155,6 @@
             this.updateDuration();
         }
     };
-
     /**
      * Applies this.manualChangeInputString to the total manual change.
      * The manualChangeInputString is parsed with getManualChangeInputInMs
@@ -187,22 +177,6 @@
             return true;
         }
         return false;
-    };
-
-    /**
-     * Reset this task to 0 time.
-     */
-    Task.prototype.reset = function() {
-        // Reset all the times:
-        this.totalManualChange = 0;
-        this.currentDuration = 0;
-        this.pastDuration = 0;
-        var resetDate = new Date();
-        this.startTime = resetDate;
-        this.endTime = resetDate;
-
-        // Update the total duration
-        this.updateDuration();
     };
 
 

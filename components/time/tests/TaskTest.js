@@ -14,7 +14,7 @@ suite('Task Class', function() {
         test('No params creates empty task', function() {
             var task = new Task();
             // Check that default values are correct
-            assert.equal(task.isComplete(), false, 'task is not complete by default');
+            assert.equal(task.completed, false, 'task is not complete by default');
             assert.equal(task.isActive(), true, 'task starts active by default');
             assert.equal(task.totalManualChange, 0, 'task has no manual change by default');
             assert.equal(task.name, '', 'ticket name is empty by default');
@@ -32,7 +32,7 @@ suite('Task Class', function() {
             );
             // Check that default values are correct
             assert.equal(task.name, name);
-            assert.equal(task.isComplete(), true);
+            assert.equal(task.completed, true);
             assert.equal(task.isActive(), false);
             assert.equal(task.totalManualChange, 30000);
             assert.equal(task.totalDuration, 92000);
@@ -44,7 +44,7 @@ suite('Task Class', function() {
         test('Empty args creates default', function() {
             var task = Task.createFromJSON();
             // Check that default values are correct
-            assert.equal(task.isComplete(), false);
+            assert.equal(task.completed, false);
             assert.equal(task.isActive(), true);
             assert.equal(task.totalManualChange, 0);
             assert.equal(task.totalDuration, 0);
@@ -63,7 +63,7 @@ suite('Task Class', function() {
             };
             var task = Task.createFromJSON(jsonTask);
             // Check that default values are correct
-            assert.equal(task.isComplete(), true);
+            assert.equal(task.completed, true);
             assert.equal(task.isActive(), true);
             assert.equal(task.totalManualChange, 123456);
             assert.equal(task.totalDuration, 123579);
@@ -74,7 +74,6 @@ suite('Task Class', function() {
     /**
      * TODO
      * continue
-     * reset
      * stop
      * updateDuration
      */

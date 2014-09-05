@@ -25,10 +25,7 @@ suite('TimeCtrl', function() {
         assert.equal($scope.newTaskName, '', 'new task name is empty');
 
         assert.isFunction($scope.createNewTask, 'has createNewTask function');
-        assert.isFunction($scope.deleteTask, 'has deleteTask function');
-        assert.isFunction($scope.archiveTask, 'has archiveTask function');
-        assert.isFunction($scope.unArchiveTask, 'has unArchiveTask function');
-        assert.isFunction($scope.clearArchive, 'has clearArchive function');
+        assert.isFunction($scope.deleteCompleted, 'has deleteCompleted function');
         assert.isFunction($scope.continueTask, 'has continueTask function');
 
         // TODO: these tests should go in a new test() call, but it doesn't work, see below
