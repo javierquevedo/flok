@@ -35,7 +35,7 @@
                         }
                     }
                 },
-                template: '<i class="icon-[[type]] [[extraClasses]]"></i>',
+                template: '<i class="icon-{{type}} {{extraClasses}}"></i>',
                 replace: true
             };
         },
