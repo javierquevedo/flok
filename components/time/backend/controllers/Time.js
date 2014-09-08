@@ -14,7 +14,7 @@ exports.get = function(req, res, next) {
     var user =  req.params.user;
 
     // Get all entries from current user
-    Time.find({owner: user}, function (err, times) {
+    Time.find({owner: user}).sort({startTime: 'desc'}).exec(function (err, times) {
         if (err) {
             return next(err);
         }
