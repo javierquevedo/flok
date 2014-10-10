@@ -1,7 +1,7 @@
 var baseConfig = require('./karma.conf');
 
 /**
- * Karma configuration for running tests on a CI server
+ * Karma configuration for running tests on a PhpStorm
  * @param config
  */
 module.exports = function (config) {

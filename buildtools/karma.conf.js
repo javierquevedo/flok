@@ -21,7 +21,7 @@ module.exports = function (config) {
             'buildtools/karma/*.js',
 
             // Fixtures
-            'tests/flok/enabledComponentsFixture.js',
+            'tests/public/flok/enabledComponentsFixture.js',
 
             // The actual application files
             'public/app/flok/flokModule.js',
@@ -30,8 +30,8 @@ module.exports = function (config) {
             'components/time/public/app/**/*.js',
 
             // And finally the tests
-            'tests/**/*.js',
-            'components/time/tests/**/*.js'
+            'tests/public/**/*.js',
+            'components/time/tests/public/**/*.js'
         ],
 
         // List of files to exclude

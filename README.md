@@ -76,11 +76,19 @@ This will use the `production` settings in `config/config.js`. Make sure the set
 
 ## Contributing
 ### Running Tests
+
+#### Frontend Tests
 [Karma](http://karma-runner.github.io/) is installed as a local node module.
 
 * Start Karma: `./node_modules/.bin/karma start buildtools/karma.conf.js`.
 * Access [http://localhost:9876/](http://localhost:9876/) with a browser to execute the tests.
 * Karma is configured to watch the JavaScript files and re-execute the test when the files are modified.
+
+#### Backend Tests
+[Mocha](http://visionmedia.github.io/mocha/) is used for backend testing.
+
+* Make sure you configured a test db in your config.js
+* Run mocha `mocha components/time/tests/backend/**/*Test.js`
 
 ### JSHint
 Please respect the coding standards described in the [JSHint](http://www.jshint.com/) config file (_buildtools/.jshintrc_).

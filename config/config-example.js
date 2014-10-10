@@ -28,6 +28,11 @@ var config = {
         }
     },
 
+    // Overwriting config for testing
+    test: {
+        db: 'mongodb://localhost/flok_test'
+    },
+
     // Overwriting config for production
     production: {
         backendUrl: 'https://example.com/api'
