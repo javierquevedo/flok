@@ -99,6 +99,15 @@ Please respect the coding standards described in the [JSHint](http://www.jshint.
 * `./node_modules/.bin/jsdoc -c buildtools/jsdoc.conf.json`
 * The documentation is generated in the _doc_ folder
 
+### Plato
+
+We currently generate 2 [Plato](https://github.com/es-analysis/plato) reports:
+
+* One for components
+  * `plato --jshint=buildtools/.jshintrc --title="Flok Components" --dir=doc/components -x "tests/" --recurse --noempty components`
+* One for the core
+  * `plato --jshint=buildtools/.jshintrc --title="Flok Core" --dir=doc/core --recurse --noempty public/app`
+
 ### Less
 The `flok.css` must be generated from the less files found in `dev/less`. The appropriate version of less is
 in the package.json.
