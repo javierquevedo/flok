@@ -88,7 +88,7 @@ This will use the `production` settings in `config/config.js`. Make sure the set
 [Mocha](http://visionmedia.github.io/mocha/) is used for backend testing.
 
 * Make sure you configured a test db in your config.js
-* Run mocha `mocha components/time/tests/backend/**/*Test.js`
+* Run mocha `./node_modules/.bin/mocha components/time/tests/backend/**/*Test.js`
 
 ### JSHint
 Please respect the coding standards described in the [JSHint](http://www.jshint.com/) config file (_buildtools/.jshintrc_).
@@ -104,9 +104,9 @@ Please respect the coding standards described in the [JSHint](http://www.jshint.
 We currently generate 2 [Plato](https://github.com/es-analysis/plato) reports:
 
 * One for components
-  * `plato --jshint=buildtools/.jshintrc --title="Flok Components" --dir=doc/components -x "tests/" --recurse --noempty components`
+  * `./node_modules/.bin/plato --jshint=buildtools/.jshintrc --title="Flok Components" --dir=doc/components -x "tests/" --recurse --noempty components`
 * One for the core
-  * `plato --jshint=buildtools/.jshintrc --title="Flok Core" --dir=doc/core --recurse --noempty public/app`
+  * `./node_modules/.bin/plato --jshint=buildtools/.jshintrc --title="Flok Core" --dir=doc/core --recurse --noempty public/app`
 
 ### Less
 The `flok.css` must be generated from the less files found in `dev/less`. The appropriate version of less is
