@@ -11,7 +11,16 @@ suite('backendStorageService', function() {
 
     // before each
     setup(function() {
-        angular.mock.module('flokModule');
+        angular.mock.module(
+            'flokModule',
+            /*
+             * We have to setup the translateProvider to use static strings otherwise
+             * we get `Unexpected request: Get locale....js Errors.
+             */
+            function($translateProvider) {
+                $translateProvider.translations('en', {});
+            }
+        );
         angular.mock.module(function($provide) {
             $provide.value('backendUrl', '');
         });
@@ -29,21 +38,23 @@ suite('backendStorageService', function() {
     test('getTime method', angular.mock.inject(function($httpBackend, backendStorageService) {
         assert.typeOf(backendStorageService.getTime, 'function', 'backendStorageService has a getTime method');
 
+        var calledSuccess = false;
         var expectedData = [
             {name: 'Task1', owner: 'Vibes'}
         ];
-        var req = backendStorageService.getTime('Vibes');
-
-        var calledSuccess = false;
-        req.success(function(data) {
-            calledSuccess = true;
-            assert.equal(data, expectedData, 'Got the expected data');
-        });
 
         // Define our expectations
         $httpBackend.expectGET('/time/Vibes')
             .respond(expectedData)
         ;
+
+        var req = backendStorageService.getTime('Vibes');
+
+        req.success(function(data) {
+            calledSuccess = true;
+            assert.deepEqual(data, expectedData, 'Got unexpected');
+        });
+
         $httpBackend.flush();
 
         // Make sure we got a $http object

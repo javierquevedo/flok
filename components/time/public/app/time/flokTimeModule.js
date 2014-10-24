@@ -6,8 +6,8 @@
      * @type {module}
      */
     var flokTimeModule = angular.module('flokTimeModule', [
-        'ngRoute', 'ui.bootstrap', 'ui.utils',
-        'localization', 'onRootScope',
+        'ngRoute',
+        'ui.bootstrap', 'ui.utils', 'pascalprecht.translate', 'onRootScope',
         'flokFilters', 'flokDirectives', 'flokMenuModule'
     ]);
 

@@ -14,6 +14,8 @@ module.exports = function (config) {
             // Application vendors
             'public/vendor/bower/angular/angular.js',
             'public/vendor/bower/angular-route/angular-route.js',
+            'public/vendor/bower/angular-translate/angular-translate.js',
+            'public/vendor/bower/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
             'public/vendor/js/*.js',
 
             // Testing resources

@@ -2,10 +2,12 @@
     "name": "nothing-flok",
     "private": true,
     "dependencies": {
-        "angular": "1.2.0",
-        "angular-route": "1.2.0",
+        "angular": "1.3.0",
+        "angular-route": "1.3.0",
         "bootstrap": "3.0.2",
         "fontawesome": "3.2.1",
-        "angular-ui-sortable": "0.12.10"
+        "angular-ui-sortable": "0.13.0",
+        "angular-translate": "2.4.2",
+        "angular-translate-loader-static-files": "2.4.2"
     }
 }

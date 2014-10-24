@@ -6,8 +6,8 @@
      * @type {module}
      */
     var flokTodoModule = angular.module('flokTodoModule', [
-        'ngRoute', 'ui.bootstrap', 'ui.utils', 'ui.sortable',
-        'localization', 'onRootScope',
+        'ngRoute',
+        'ui.bootstrap', 'ui.utils', 'ui.sortable', 'pascalprecht.translate', 'onRootScope',
         'flokFilters', 'flokDirectives', 'flokMenuModule'
     ]);
 

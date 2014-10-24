@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="flokModule" ng-controller="AppCtrl">
+<html ng-app="flokModule"  ng-controller="AppCtrl">
 <head>
     <meta charset="UTF-8"/>
     <title>flok</title>
@@ -14,15 +14,15 @@
     <script type="text/javascript" src="vendor/bower/jquery/dist/jquery<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular/angular<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular-route/angular-route<% if (environment !== 'development') { %>.min<% } %>.js"></script>
+    <script type="text/javascript" src="vendor/bower/angular-translate/angular-translate<% if (environment !== 'development') { %>.min<% } %>.js"></script>
+    <script type="text/javascript" src="vendor/bower/angular-translate-loader-static-files/angular-translate-loader-static-files<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/js/ui-bootstrap-tpls-0.6.0.js"></script>
     <script type="text/javascript" src="vendor/js/ui-utils-0.0.4.js"></script>
-    <script type="text/javascript" src="vendor/js/localize.js"></script>
 
     <script type="text/javascript">
         var ENABLED_FLOK_COMPONENTS = [<% if (angularModules.length > 0) { %>'<%- angularModules.join("','") %>'<% } %>];
     </script>
 
-    <script type="text/javascript" src="app/flok/angularExtensions.js"></script>
     <script type="text/javascript" src="app/flok/angularPiwik.js"></script>
     <script type="text/javascript" src="app/flok/flokDirectives.js"></script>
     <script type="text/javascript" src="app/flok/flokFilters.js"></script>
@@ -90,7 +90,7 @@
     <footer>
         <div class="container text-muted">
             <span class="pull-right">
-                <button popover="{{ 'flok.title'|trans }} - {{ 'flok.version'|trans }} <%= version %>"
+                <button popover="{{ 'flok.title'| translate }} - {{ 'flok.version'| translate }} <%= version %>"
                  popover-trigger="mouseenter"
                  popover-placement="left"
                  class="btn btn-link">

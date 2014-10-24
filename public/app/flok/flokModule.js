@@ -4,8 +4,12 @@
 
     // Define the module dependencies
     var flokDependencies = [
-        'ngRoute', 'ui.bootstrap', 'ui.utils', 'localization', 'onRootScope',
-        'flokFilters', 'flokDirectives', 'angularPiwik', 'flokMenuModule'
+        // Angular Core Components:
+        'ngRoute',
+        // External Components:
+        'pascalprecht.translate', 'ui.bootstrap', 'ui.utils',
+        // flok Components:
+        'onRootScope', 'flokFilters', 'flokDirectives', 'angularPiwik', 'flokMenuModule'
     ];
 
     // Add the enabled components' module
@@ -23,8 +27,16 @@
      *
      * @exports flokModule
      */
-    var flokModule = angular.module('flokModule', flokDependencies,
-        function($routeProvider, localizeProvider, localePathConst) {
+    var flokModule = angular.module('flokModule', flokDependencies);
+
+    /**
+     * Configure the core modules and their dependencies
+     * piwik
+     * angular-translate
+     */
+    flokModule.config(['$routeProvider', '$translateProvider', 'piwikProvider', 'piwikConfig',
+        function($routeProvider, $translateProvider, piwikProvider, piwikConfig) {
+            // Configure Routes
             $routeProvider
                 .when('/', {
                     templateUrl: 'app/flok/home.tpl.html'
@@ -34,17 +46,19 @@
                 })
             ;
 
-            // Configure localization
-            localizeProvider.setResourcePath(localePathConst);
-        }
-    );
+            // Configure angular translate
+            $translateProvider.useStaticFilesLoader({
+                prefix: 'locale/',
+                suffix: '.json'
+            });
+            $translateProvider.preferredLanguage('en');
 
-    // Configure piwik
-    flokModule.config(function(piwikProvider, piwikConfig) {
-        piwikProvider.enableTracking(piwikConfig.enable);
-        piwikProvider.setPiwikDomain(piwikConfig.url);
-        piwikProvider.setSiteId(piwikConfig.siteId);
-    });
+            // Configure Piwik
+            piwikProvider.enableTracking(piwikConfig.enable);
+            piwikProvider.setPiwikDomain(piwikConfig.url);
+            piwikProvider.setSiteId(piwikConfig.siteId);
+        }
+    ]);
 
     /**
      * Main controller of the project
@@ -58,10 +72,12 @@
          */
         $scope.location = $location;
 
+        $scope.contentLoaded = true;
         // Set the content to loaded when the localization says it's done
-        $scope.$on('localizeResourcesUpdates', function() {
-            $scope.contentLoaded = true;
-        });
+        // TODO $translateLoadingSuccess isn't called but content is translated
+        //$scope.$on('$translateLoadingSuccess', function() {
+        //    $scope.contentLoaded = true;
+        //});
 
         // Bind to the status of the backend
         $scope.backendStatus = '';
