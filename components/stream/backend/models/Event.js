@@ -1,5 +1,5 @@
 /**
- * MessageSchema
+ * EventSchema
  *
  * Version 0.0.3
  */
@@ -13,7 +13,7 @@ var types = 'trac'.split(' ');
 
 var formats = 'html'.split(' ');
 
-var MessageSchema = new Schema({
+var EventSchema = new Schema({
     timestamp: { type: Date, default: Date.now },
     provider: { type: String, enum: types, default: 'trac' } ,
     sourceId: String, // Hash of the item from source provider, to avoid duplicates
@@ -29,7 +29,7 @@ var MessageSchema = new Schema({
     duration: Number
 });
 
-MessageSchema.methods.toJSON = function () {
+EventSchema.methods.toJSON = function () {
     return _.pick(this,
         'timestamp',
         'provider',
@@ -41,4 +41,4 @@ MessageSchema.methods.toJSON = function () {
     );
 };
 
-mongoose.model('Message', MessageSchema);
+mongoose.model('Event', EventSchema);

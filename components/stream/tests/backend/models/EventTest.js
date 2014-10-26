@@ -1,5 +1,5 @@
 /**
- * Tests for Message.js model
+ * Tests for Event.js model
  *
  * @copyright  Nothing Interactive 2014
  */
@@ -15,26 +15,26 @@ var assert = chai.assert;
 var config = require('../../../../../config/config.js');
 
 // Class / Object we want to test
-require('../../../backend/models/Message.js');
-var Message = mongoose.model('Message');
+require('../../../backend/models/Event.js');
+var Event = mongoose.model('Event');
 
-describe('Flok Component Message', function() {
+describe('Flok Component Stream: Event Model', function() {
 
     before(function () {
         // Connect to mongoose before the tests
         mongoose.connect(config.test.db);
     });
 
-    it('Message objects can be created', function() {
-        assert.isFunction(Message,'Message should be a function');
-        var testMessage = new Message();
-        assert.isObject(testMessage,'Expected new Message() to create object');
+    it('Event objects can be created', function() {
+        assert.isFunction(Event,'Event should be a function');
+        var testEvent = new Event();
+        assert.isObject(testEvent,'Expected new Event() to create object');
     });
 
     it('converts toJSON', function() {
-        var testMessage = new Message();
+        var testEvent = new Event();
 
-        var json = testMessage.toJSON();
+        var json = testEvent.toJSON();
 
         assert.isObject(json,'Expecting a JSON object');
         // TODO test the properties of the aboject according to schema
