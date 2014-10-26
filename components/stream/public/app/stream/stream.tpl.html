@@ -1,8 +1,7 @@
 <div ng-show="contentLoaded">
     <h1>{{ 'flok.stream.title'| translate }}: {{ user }}</h1>
 
-    <div class="" ng-repeat="event in events | orderBy:'startTime':'desc' | filter:getStatusFilter()"
-     ng-class="{active: event.isActive(), well: event.isActive(), completed: event.completed}">
+    <div class="">
         <div class="row">
             <div class="col-xs-3">
                 User logo & Name

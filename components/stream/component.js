@@ -1,11 +1,13 @@
 var config = {
     registerRouter: true,
-    registerLocale: false,
-    registerAngularModule: false,
-    registerPublicFiles: false,
+    registerLocale: true,
+    registerAngularModule: true,
+    registerPublicFiles: true,
     jsFiles: [
-        // TODO frontend files here
-        // 'app/stream/....js',
+        'app/stream/flokStreamModule.js',
+        'app/stream/eventsProvider.js',
+        'app/stream/backendStorageService.js',
+        'app/stream/streamCtrl.js'
     ]
 };
 

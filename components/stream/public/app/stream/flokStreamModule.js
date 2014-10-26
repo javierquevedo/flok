@@ -1,3 +1,8 @@
+/**
+ * Stream Module
+ *
+ * @copyright  Nothing Interactive 2014
+ */
 (function() {
     'use strict';
 
