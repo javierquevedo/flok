@@ -1,5 +1,7 @@
 /**
  * Our Time Controller
+ *
+ * @copyright  Nothing Interactive 2014
  */
 'use strict';
 

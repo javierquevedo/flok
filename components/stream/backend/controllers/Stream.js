@@ -13,21 +13,9 @@ exports.get = function(req, res, next) {
 
 
     // TODO get messages from configured url...
+    var stream = [];
 
-    res.send([]);
-
-    // Get all entries from current user
-    Time.find({owner: user}).sort({startTime: 'desc'}).exec(function (err, times) {
-        if (err) {
-            return next(err);
-        }
-
-        var formattedTimes = _.map(times, function(time) {
-            return time.toJSON();
-        });
-
-        // Send the formatted time of this user
-        res.send(formattedTimes);
-    });
+    // Then send the stream
+    res.send(stream);
 
 };

@@ -1,5 +1,5 @@
 var config = {
-    registerRouter: false,
+    registerRouter: true,
     registerLocale: false,
     registerAngularModule: false,
     registerPublicFiles: false,
