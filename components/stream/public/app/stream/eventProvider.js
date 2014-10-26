@@ -30,12 +30,11 @@ angular.module('flokStreamModule').provider('eventProvider', function() {
         return JSON.stringify(events, Event.INCLUDE_IN_JSON);
     };
 
-    var retrieveEventsFor = function(user) {
+    var retrieveEventsFor = function() {
         _initialising = true;
-        _currentUser = user;
         events = [];
         // Retrieve the stored tasks
-        streamBackendStorageService.getStream(_currentUser)
+        streamBackendStorageService.getStream()
             .success(function(data) {
                 for (var i = 0; i < data.length; i++) {
 
@@ -55,7 +54,7 @@ angular.module('flokStreamModule').provider('eventProvider', function() {
     };
 
 
-    this.$get = ['$timeout', '$rootScope', 'streamBackendStorageService', function($timeout, _$rootScope_, _backendStorageService_)  {
+    this.$get = ['$timeout', '$rootScope', 'streamBackendStorageService', function($timeout, _$rootScope_, _backendStorageService_) {
 
         streamBackendStorageService = _backendStorageService_;
         $rootScope = _$rootScope_;
@@ -69,7 +68,7 @@ angular.module('flokStreamModule').provider('eventProvider', function() {
 
             /**
              * The provided Tasks
-             * @type {Task[]}
+             * @type {Event[]}
              */
             getEvents: function() {
                 return events;
