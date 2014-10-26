@@ -60,13 +60,14 @@
 <body>
     <div class="navbar navbar-fixed-top<% if (environment === 'development') {%> dev<% } %>">
         <div class="container">
-            <button type="button" class="navbar-toggle" ng-click="menuShown = !menuShown">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#/"><i class="icon-home"></i></a>
-
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" ng-click="menuShown = !menuShown">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/"><i class="icon-home"></i></a>
+            </div>
             <div class="navbar-collapse" ng-class="{collapse: !menuShown}">
 
                 <ul class="nav navbar-nav">
