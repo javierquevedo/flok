@@ -42,7 +42,7 @@ describe('Flok Component Message', function() {
 
         // for now test that it has the require properties:
         assert.property(json,'timestamp','timestamp is a required property');
-        assert.property(json,'type','type is a required property');
+        assert.property(json,'provider','provider is a required property');
         assert.property(json,'author','author is a required property');
     });
 
