@@ -13,10 +13,11 @@ angular.module('flokStreamModule').provider('eventProvider', function() {
 
     /**
      * events storage
-     * @type {Events[]}
+     * @type {Event[]}
      * @private
      */
     var events = [];
+    var $rootScope;
     var _initialising = true;
     var _currentUser = '';
     var _lastPlannedDataToPersistToBackend = '';
@@ -33,11 +34,11 @@ angular.module('flokStreamModule').provider('eventProvider', function() {
         _initialising = true;
         _currentUser = user;
         events = [];
-
         // Retrieve the stored tasks
         backendStorageService.getStream(_currentUser)
             .success(function(data) {
                 for (var i = 0; i < data.length; i++) {
+
                     events.push(Event.createFromJSON(data[i]));
                 }
                 _lastPlannedDataToPersistToBackend = stringifyEvents(events);
@@ -54,7 +55,10 @@ angular.module('flokStreamModule').provider('eventProvider', function() {
     };
 
 
-    this.$get = [function() {
+    this.$get = ['$timeout', '$rootScope', 'backendStorageService', function($timeout, _$rootScope_, _backendStorageService_)  {
+
+        backendStorageService = _backendStorageService_;
+        $rootScope = _$rootScope_;
 
         /**
          * Services that retrieves events from db

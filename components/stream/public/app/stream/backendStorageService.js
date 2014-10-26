@@ -15,9 +15,9 @@
         var $rootScope;
         var backendUrl;
 
-        var getStream = function(user) {
+        var getStream = function() {
             $rootScope.$emit('flok.backend.status', 'requesting');
-            return $http.get(backendUrl + '/stream/' + user)
+            return $http.get(backendUrl + '/stream')
                 .success(function() {
                     $rootScope.$emit('flok.backend.status', 'success');
                 })
@@ -26,18 +26,6 @@
                 })
             ;
         };
-
-        //var putStream = function(user, data) {
-        //    $rootScope.$emit('flok.backend.status', 'requesting');
-        //    return $http.put(backendUrl + '/time/' + user, data)
-        //        .success(function() {
-        //            $rootScope.$emit('flok.backend.status', 'success');
-        //        })
-        //        .error(function() {
-        //            $rootScope.$emit('flok.backend.status', 'error');
-        //        })
-        //    ;
-        //};
 
         /**
          * Returns this service
