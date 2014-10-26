@@ -4,6 +4,7 @@
     <div class="" ng-repeat="event in events">
         <div class="row">
             <div class="col-xs-3">
+                <img src="..." alt="..." class="img-circle">
                 {{event.author.name}}
                 <button class="btn btn-success hidden" ng-click="userFollow() | track:'user follow':$event">
                     <icon type="play"></icon>
@@ -20,7 +21,9 @@
                         <p class="content-text" ng-bind-html="event.message.content"></p>
                     </div>
                     <div class="col-xs-12">
-                        on {{event.timestamp | date:'dd.mm'}} added {{event.duration}} mins
+                        <p class="text-muted">
+                            on {{event.timestamp | date:'dd.mm'}} added {{event.duration}} mins
+                        </p>
                     </div>
                     <div class="hidden">
                         <div class="col-xs-8">
