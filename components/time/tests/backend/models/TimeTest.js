@@ -19,15 +19,24 @@ var config = require('../../../../../config/config.js');
 require('../../../backend/models/Time.js');
 var Time = mongoose.model('Time');
 
-// Connect to mongoose
-mongoose.connect(config.test.db);
-
-
 describe('Flok Component Time', function() {
+
+    before(function () {
+        // Connect to mongoose
+        mongoose.connect(config.test.db);
+    });
 
     it('Time objects can be created', function() {
         assert.isFunction(Time,'Time should be a function');
         var testTime = new Time();
         assert.isObject(testTime,'Expected new Time() to create object');
     });
+
+    after(function (done) {
+        // Close connection after all tests
+        mongoose.connection.close(function () {
+            done();
+        });
+    });
 });
+
