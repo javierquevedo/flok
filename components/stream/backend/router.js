@@ -14,9 +14,10 @@ var Stream = require('./../backend/controllers/Stream');
 // Create the router
 var router = express.Router();
 
-// Handle the "/:user" URL
+// Handle the "/" URL
 router.options('/', cors());
 router.get('/', cors(), Stream.get);
+router.post('/', cors(), Stream.post);
 
-// Export the router. It will be mounted on /api/time
+// Export the router. It will be mounted on /api/stream
 module.exports = router;
