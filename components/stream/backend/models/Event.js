@@ -9,19 +9,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var _ = require('lodash');
 
-var types = 'trac'.split(' ');
+var types = 'inside'.split(' ');
 
 var formats = 'html'.split(' ');
 
 var EventSchema = new Schema({
     timestamp: { type: Date, default: Date.now },
-    provider: { type: String, enum: types, default: 'trac' } ,
+    provider: { type: String, enum: types },
     sourceId: String, // Hash of the item from source provider, to avoid duplicates
     link: String,
     title: String,
     message: {
         content: String,
-        format: { type: String, enum: formats, default: 'html' }
+        format: { type: String, enum: formats }
     },
     author: {
         name: String

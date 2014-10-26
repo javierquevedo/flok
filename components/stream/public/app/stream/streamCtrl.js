@@ -4,17 +4,22 @@
  * @copyright  Nothing Interactive 2014
  * @module TimeCtrl
  */
-angular.module('flokStreamModule').controller('StreamCtrl', function($scope, $routeParams, eventProvider) { // $timeout, $routeParams
+angular.module('flokStreamModule').controller('StreamCtrl', function($scope, $routeParams, eventProvider) {
     'use strict';
 
-    $scope.user = $routeParams.user;
+    eventProvider.retrieveEventsFor();
 
-    eventProvider.retrieveEventsFor($scope.user);
     /**
-     * The Events to be displayed on the stream
+     * The Events to be displayed on the stream, once per minute.
      *
      * @alias module:StreamCtrl
      * @type {events[]}
      */
     $scope.events = eventProvider.getEvents();
+
+    // calls the stream every minute
+    setInterval(function() {
+        eventProvider.retrieveEventsFor();
+        $scope.events = eventProvider.getEvents();
+    }, 60000);
 });
