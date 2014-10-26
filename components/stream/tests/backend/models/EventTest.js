@@ -50,8 +50,7 @@ describe('Flok Component Stream: Event Model', function() {
         // for this we could write a jsonSchema and parse it through a validator to save time.
 
         // for now test that it has the require properties:
-        assert.property(json, 'timestamp', 'timestamp is a required property');
-        assert.property(json, 'provider', 'provider is a required property');
+        assert.property(json, 'timestamp', 'timestamp should have a default value');
         assert.property(json, 'author', 'author is a required property');
     });
 
@@ -61,10 +60,10 @@ describe('Flok Component Stream: Event Model', function() {
         event.title = 'The Test Event';
         event.sourceId = 'TestSaveEventToDb!1';
 
-        event.save(function(err, event, numberAffected) {
+        event.save(function(err, newEvent, numberAffected) {
             assert.isNull(err, 'save should not throw error');
 
-            console.log(event);
+            assert.equal(newEvent.title, event.title, 'The title of the created event should match');
 
             assert.equal(numberAffected, 1, 'only 1 object should be affected');
 

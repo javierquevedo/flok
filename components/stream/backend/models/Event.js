@@ -21,7 +21,7 @@ var EventSchema = new Schema({
     title: String,
     message: {
         content: String,
-        format: { type: String, enum: formats, default: 'html' }
+        format: { type: String, enum: formats }
     },
     author: {
         name: String
