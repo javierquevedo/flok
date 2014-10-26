@@ -32,6 +32,7 @@ var config = {
 
     // Overwriting config for testing
     test: {
+        // Tests will drop the database and modify it, so they should run on a separate database!
         db: 'mongodb://localhost/flok_test'
     },
 
