@@ -108,6 +108,11 @@ We currently generate 2 [Plato](https://github.com/es-analysis/plato) reports:
 * One for the core
   * `./node_modules/.bin/plato --jshint=buildtools/.jshintrc --title="Flok Core" --dir=doc/core --recurse --noempty public/app`
 
+### Bower
+We use bower to manage vendors scripts. After installing it with `npm install` you should run:
+
+    ./node_modules/.bin/bower install
+
 ### Less
 The `flok.css` must be generated from the less files found in `dev/less`. The appropriate version of less is
 in the package.json.
