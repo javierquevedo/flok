@@ -19,7 +19,7 @@
 
     flokStreamModule.config(['$routeProvider', 'menuServiceProvider', function($routeProvider, menuServiceProvider) {
         $routeProvider
-            .when('/stream', {
+            .when('/events', {
                 templateUrl: 'app/stream/stream.tpl.html',
                 controller: 'StreamCtrl',
                 controllerAs: 'stream'
@@ -28,7 +28,7 @@
 
         menuServiceProvider.addMenuItem(
             {
-                url: '/stream',
+                url: '/events',
                 name: 'Events',
                 icon: 'tasks' // TODO what is this ?
             }
