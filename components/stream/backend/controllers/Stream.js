@@ -18,21 +18,21 @@ exports.get = function(req, res, next) {
             provider: 'trac',
             link: 'http://thecodinglove.com/post/100817136612/when-i-accidentally-click-rebuild-on-a-big-project',
             title: 'She must have hidden the plans in the escape pod.',
-            author: {user: 'Nodz'},
+            author: {name: 'Nodz'},
             duration: 15
         },
         {
             timestamp: '2014-10-26T13:09:59.079Z',
             provider: 'trac',
             title: 'Well, take care of yourself, Han.',
-            author: {user: 'Nodz'},
+            author: {name: 'Nodz'},
             duration: 20
         },
         {
             timestamp: '2014-10-26T13:09:59.079Z',
             provider: 'trac',
             title: 'Escape is not his plan. I must face him, alone.',
-            author: {user: 'Nodz'},
+            author: {name: 'Nodz'},
             duration: 45
         },
         {
@@ -44,7 +44,7 @@ exports.get = function(req, res, next) {
                 content: '<h2>The Day The Earth Stood Stupid</h2><p>They\'re like sex, except I\'m having them! Guards! Bring me the forms I need to fill out to have her taken away! Are you crazy? I can\'t swallow that. OK, this has gotta stop. I\'m going to remind Fry of his humanity the way only a woman can. Daddy Bender, we\'re hungry. But I\'ve never been to the moon!</p>'
             },
             link: 'http://chrisvalleskey.com/fillerama/',
-            author: {user: 'Nodz'},
+            author: {name: 'Nodz'},
             duration: 120
         },
         {
@@ -54,7 +54,7 @@ exports.get = function(req, res, next) {
                 format: 'html',
                 content: 'Send a detachment down to retrieve them, and see to it personally, Commander.'
             },
-            author: {user: 'Nodz'},
+            author: {name: 'Nodz'},
             duration: 90
         }
     ];
