@@ -1,6 +1,49 @@
 <div ng-show="contentLoaded">
     <h1>{{ 'flok.stream.title'| translate }}: {{ user }}</h1>
 
+    <div class="" ng-repeat="event in events | orderBy:'startTime':'desc' | filter:getStatusFilter()"
+     ng-class="{active: event.isActive(), well: event.isActive(), completed: event.completed}">
+        <div class="row">
+            <div class="col-xs-3">
+                User logo & Name
+                <button class="btn btn-success" ng-click="userFollow() | track:'new task':$event">
+                    <icon type="play"></icon>
+                    {{ 'flok.stream.user.follow'| translate }}
+                </button>
+            </div>
+            <div class="col-xs-9">
+                <div class="row">
+                    <div class="col-xs-12">
+                        Peter closes task "...."
+                    </div>
+                    <div class="col-xs-12">
+                        on DATE TIME added DURATION hours of WHATEVER_THAT_IS hours
+                    </div>
+                    <div class="col-xs-8">
+                        Favourites:
+                        IMAGE IMAGE IMAGE IMAGE
+                        + 12 more!
+                    </div>
+                    <div class="col-xs-8">
+                        <button class="btn btn-success" ng-click="addComment() | track:'new task':$event">
+                            {{ 'flok.stream.comment.add'| translate }}
+                        </button>
+                    </div>
+                    <div class="col-xs-4">
+                        <icon type="play"></icon>
+                        Collaborate
+                    </div>
+                    <div class="col-xs-4">
+                        <icon type="play"></icon>
+                        Tell your followers
+                    </div>
+                    <div class="col-xs-4">
+                        <icon type="play"></icon>
+                        Well done!
+                    </div>
 
-
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
