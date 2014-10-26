@@ -13,8 +13,9 @@
     var flokStreamModule = angular.module('flokStreamModule', [
         'ngRoute',
         'ui.bootstrap', 'ui.utils', 'pascalprecht.translate', 'onRootScope',
-        'flokFilters', 'flokDirectives', 'flokMenuModule'
+        'flokFilters', 'flokDirectives', 'flokMenuModule', 'ngSanitize'
     ]);
+    // TODO remove unnecessary dependencies
 
     flokStreamModule.config(['$routeProvider', 'menuServiceProvider', function($routeProvider, menuServiceProvider) {
         $routeProvider
