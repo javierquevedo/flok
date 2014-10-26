@@ -98,22 +98,22 @@ exports.post = function(req, res, next) {
             // hardcoded.
             if (submittedData.version !== '0.0.3') {
                 next(new Error('Unsupported format version: ' + submittedData.version));
-            } else if (_.isArray(submittedData.events)) {
+            }
+            else if (!_.isArray(submittedData.events)) {
                 next(new Error('events is not an array'));
             }
 
             // Executed when all updates have been made
-            var done = _.after(submittedData.length, function() {
+            var done = _.after(submittedData.events.length, function() {
                 res.send({status: 'OK'});
             });
 
             // Iterate over all the time data and save it
-            _.each(submittedData, function(eventData) {
-
+            _.each(submittedData.events, function(eventData) {
                 /*
                  * Look up by provider if we already have an event with that id, this is to avoid inserting duplicates
                  */
-                Event.count({ provider: eventData.provider, sourceId: eventData.sourceId}, function(err,count) {
+                Event.count({provider: eventData.provider, sourceId: eventData.sourceId}, function(err, count) {
                     if (err) {
                         return next(err);
                     }
@@ -127,8 +127,8 @@ exports.post = function(req, res, next) {
                         // Create a Event object
                         var event = new Event();
 
-                        // Pick the right data from the request
-                        eventData = _.pick(eventData,
+                        // Pick the right data from the request and write it to the event
+                        _.assign(event, _.pick(eventData,
                             'timestamp',
                             'provider',
                             'sourceId',
@@ -137,10 +137,7 @@ exports.post = function(req, res, next) {
                             'message',
                             'author',
                             'duration'
-                        );
-
-                        // Write it to the Time object
-                        _.assign(event, eventData);
+                        ));
 
                         // Save it
                         event.save(function(err) {
@@ -154,4 +151,4 @@ exports.post = function(req, res, next) {
             });
         }
     }
-}
+};

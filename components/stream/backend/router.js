@@ -9,7 +9,7 @@ var express = require('express');
 var cors = require('cors');
 
 // Controllers
-var Stream = require('./../backend/controllers/Stream');
+var Stream = require('./controllers/Stream');
 
 // Create the router
 var router = express.Router();
