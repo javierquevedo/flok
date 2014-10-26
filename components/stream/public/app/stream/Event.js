@@ -11,7 +11,7 @@
      */
     function Event(timestamp, provider, link, title, message, author, duration) {
 
-        this.timestamp = 0;
+        this.timestamp = timestamp;
         this.provider = provider;
         this.author = author;
 
