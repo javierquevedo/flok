@@ -1,5 +1,5 @@
 var locale = {
-    'flok.stream.title': 'Stream',
+    'flok.stream.title': 'Events',
     'flok.stream.user.follow': 'Follow'
 };
 

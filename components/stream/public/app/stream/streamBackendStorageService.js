@@ -10,7 +10,7 @@
      *
      * @module backendStorageService
      */
-    angular.module('flokStreamModule').provider('backendStorageService', function() {
+    angular.module('flokStreamModule').provider('streamBackendStorageService', function() {
         var $http;
         var $rootScope;
         var backendUrl;

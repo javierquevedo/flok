@@ -73,6 +73,7 @@ angular.module('flokTimeModule').provider('taskProvider', function() {
     this.$get = ['$timeout', '$rootScope', 'backendStorageService', function($timeout, _$rootScope_, _backendStorageService_) {
         backendStorageService = _backendStorageService_;
         $rootScope = _$rootScope_;
+        console.log(backendStorageService);
 
         // Note: for @module to work the variable needs to be named exports
         // see http://usejsdoc.org/tags-exports.html

@@ -29,7 +29,7 @@
         menuServiceProvider.addMenuItem(
             {
                 url: '/stream/User',
-                name: 'Stream',
+                name: 'Events',
                 icon: 'tasks' // TODO what is this ?
             }
         );

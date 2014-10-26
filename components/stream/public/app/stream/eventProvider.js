@@ -7,7 +7,7 @@ angular.module('flokStreamModule').provider('eventProvider', function() {
     'use strict';
 
 
-    var backendStorageService;
+    var streamBackendStorageService;
 
     var STORAGE_ID = 'nothingFlokEventStorage-1';
 
@@ -35,7 +35,7 @@ angular.module('flokStreamModule').provider('eventProvider', function() {
         _currentUser = user;
         events = [];
         // Retrieve the stored tasks
-        backendStorageService.getStream(_currentUser)
+        streamBackendStorageService.getStream(_currentUser)
             .success(function(data) {
                 for (var i = 0; i < data.length; i++) {
 
@@ -55,9 +55,9 @@ angular.module('flokStreamModule').provider('eventProvider', function() {
     };
 
 
-    this.$get = ['$timeout', '$rootScope', 'backendStorageService', function($timeout, _$rootScope_, _backendStorageService_)  {
+    this.$get = ['$timeout', '$rootScope', 'streamBackendStorageService', function($timeout, _$rootScope_, _backendStorageService_)  {
 
-        backendStorageService = _backendStorageService_;
+        streamBackendStorageService = _backendStorageService_;
         $rootScope = _$rootScope_;
 
         /**
