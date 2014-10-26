@@ -1,7 +1,7 @@
 /**
  * MessageSchema
  *
- * Version 0.0.2
+ * Version 0.0.3
  */
 'use strict';
 
@@ -9,15 +9,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var _ = require('lodash');
 
-var types = 'plain'.split(' ');
+var types = 'trac'.split(' ');
+
+var formats = 'html'.split(' ');
 
 var MessageSchema = new Schema({
     timestamp: { type: Date, default: Date.now },
-    type: { type: String, enum: types, default: 'plain' } ,
+    provider: { type: String, enum: types, default: 'trac' } ,
+    sourceId: String, // Hash of the item from source provider, to avoid duplicates
+    link: String,
     title: String,
     message: {
         content: String,
-        format: String
+        format: { type: String, enum: formats, default: 'html' }
     },
     author: {
         name: String
@@ -28,7 +32,8 @@ var MessageSchema = new Schema({
 MessageSchema.methods.toJSON = function () {
     return _.pick(this,
         'timestamp',
-        'type',
+        'provider',
+        'link',
         'title',
         'message',
         'author',
