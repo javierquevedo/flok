@@ -30,15 +30,20 @@ var EventSchema = new Schema({
 });
 
 EventSchema.methods.toJSON = function () {
-    return _.pick(this,
+    // Pick the simple properties
+    var json = _.pick(this,
         'timestamp',
         'provider',
         'link',
         'title',
-        'message',
-        'author',
         'duration'
     );
+
+    // Explicitly add the nested objects, otherwise they are not correctly converted to json
+    json.author = _.pick(this.author, 'name');
+    json.message = _.pick(this.message, 'content', 'format');
+
+    return json;
 };
 
 mongoose.model('Event', EventSchema);

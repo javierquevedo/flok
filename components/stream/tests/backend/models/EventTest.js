@@ -54,6 +54,23 @@ describe('Flok Component Stream: Event Model', function() {
         assert.property(json, 'author', 'author is a required property');
     });
 
+    it('converts nested objects toJSON', function() {
+        var testEvent = new Event({
+            author: {
+                name: 'test'
+            }
+        });
+
+        var json = testEvent.toJSON();
+
+        // Stringify and parse again
+        // TODO: this is what happens when it's send over the API, so should probably rather be an integration test
+        json = JSON.parse(JSON.stringify(json));
+        assert.isObject(json, 'Expecting a JSON object');
+        assert.isObject(json.author, 'author is an object');
+        assert.equal(json.author.name, 'test', 'correct author name');
+    });
+
     it('saves Events to the db', function(done) {
         var event = new Event();
 
