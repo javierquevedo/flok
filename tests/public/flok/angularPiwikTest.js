@@ -1,6 +1,6 @@
 'use strict';
-/*global suite, setup, test, assert, inject */
-suite('angularPiwik', function() {
+/*global describe, beforeEach, it, assert, inject */
+describe('angularPiwik', function() {
     var documentTitle = 'Angular Piwik Test';
     var piwik, windowMock;
 
@@ -12,7 +12,7 @@ suite('angularPiwik', function() {
     });
 
     // ---------------- BEFORE ----------------
-    setup(function() {
+    beforeEach(function() {
         // Mock the $window
         windowMock = {
             document: {
@@ -34,23 +34,23 @@ suite('angularPiwik', function() {
 
     // TODO: test filter and root scope method more
     // ---------------- TESTS ----------------
-    test('should have a track filter', inject(function($filter) {
+    it('should have a track filter', angular.mock.inject(function($filter) {
         var track = $filter('track');
         assert.typeOf(track, 'function', 'there is a track filter');
     }));
 
-    test('should have a track method on $rootScope', inject(function($rootScope) {
+    it('should have a track method on $rootScope', angular.mock.inject(function($rootScope) {
         var track = $rootScope.track;
         assert.typeOf(track, 'function');
         assert.equal(track.length, 2, 'track $rootScope method takes 2 arguments');
     }));
 
-    test('should set up _paq', inject(function() {
+    it('should set up _paq', inject(function() {
         assert.typeOf(windowMock._paq, 'array');
     }));
 
 
-    test('Event: click event on a non-zero location', function() {
+    it('Event: click event on a non-zero location', function() {
         var action = 'edit';
         var event = {
             type: 'click',
@@ -63,7 +63,7 @@ suite('angularPiwik', function() {
     });
 
 
-    test('Event: click event on a non-zero location where action was defined as false', function() {
+    it('Event: click event on a non-zero location where action was defined as false', function() {
         var action = 'edit';
         var event = {
             type: 'click',
@@ -77,7 +77,7 @@ suite('angularPiwik', function() {
     });
 
 
-    test('Event: Keydown using Tab to get to the button and firing with the Enter key', function() {
+    it('Event: Keydown using Tab to get to the button and firing with the Enter key', function() {
         var action = 'edit';
         var event = {
             type: 'click',
@@ -89,7 +89,7 @@ suite('angularPiwik', function() {
         assert.deepEqual(windowMock._paq[0], ['trackEvent', documentTitle, action, 'keydown / enter']);
     });
 
-    test('Event: Keydown enter event on an Input element', function() {
+    it('Event: Keydown enter event on an Input element', function() {
         var action = 'save';
         var event = {
             type: 'keydown',
@@ -102,7 +102,7 @@ suite('angularPiwik', function() {
 
     });
 
-    test('Event : Keydown esc event on an Input element', function() {
+    it('Event : Keydown esc event on an Input element', function() {
         var action = 'abort';
         var event = {
             type: 'keydown',
@@ -114,7 +114,7 @@ suite('angularPiwik', function() {
         assert.deepEqual(windowMock._paq[0], ['trackEvent', documentTitle, action, 'keydown / esc']);
     });
 
-    test('Event: Keydown using Tab to get to the button and firing with the Enter key, with form value not accepted', function() {
+    it('Event: Keydown using Tab to get to the button and firing with the Enter key, with form value not accepted', function() {
         var action = 'edit';
         var event = {
             type: 'click',
@@ -127,7 +127,7 @@ suite('angularPiwik', function() {
         assert.deepEqual(windowMock._paq[0], ['trackEvent', documentTitle, action, 'e_keydown / enter']);
     });
 
-    test('Event: Keydown enter event on an Input element, with form value not accepted', function() {
+    it('Event: Keydown enter event on an Input element, with form value not accepted', function() {
         var action = 'save';
         var event = {
             type: 'keydown',
@@ -141,7 +141,7 @@ suite('angularPiwik', function() {
     });
 
 
-    test('Track action without event', function() {
+    it('Track action without event', function() {
         var action = 'test';
         piwik.track(action);
         assert.deepEqual(windowMock._paq[0], ['trackEvent', documentTitle, action]);

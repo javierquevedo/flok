@@ -21,6 +21,7 @@ module.exports = function (config) {
             // Testing resources
             'node_modules/chai/chai.js',
             'buildtools/karma/*.js',
+            'public/vendor/bower/angular-mocks/angular-mocks.js',
 
             // Fixtures
             'tests/public/flok/enabledComponentsFixture.js',

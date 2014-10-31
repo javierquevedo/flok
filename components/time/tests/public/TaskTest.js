@@ -2,16 +2,12 @@
 /**
  * Task Class tests
  */
-/*global suite, setup, test, teardown, assert */
+/*global describe, before, it, assert */
 /*global Task */
-suite('Task Class', function() {
-    // before each
-    setup(function() {
-        // TODO
-    });
+describe('Task Class', function() {
 
-    suite('Task()', function() {
-        test('No params creates empty task', function() {
+    describe('Task()', function() {
+        it('No params creates empty task', function() {
             var task = new Task();
             // Check that default values are correct
             assert.equal(task.completed, false, 'task is not complete by default');
@@ -20,7 +16,7 @@ suite('Task Class', function() {
             assert.equal(task.name, '', 'ticket name is empty by default');
         });
 
-        test('Constructor parameters work', function() {
+        it('Constructor parameters work', function() {
             var name = 'Work on flok';
             var task = new Task(
                 name,
@@ -40,8 +36,8 @@ suite('Task Class', function() {
     });
 
 
-    suite('createFromJSON()', function() {
-        test('Empty args creates default', function() {
+    describe('createFromJSON()', function() {
+        it('Empty args creates default', function() {
             var task = Task.createFromJSON();
             // Check that default values are correct
             assert.equal(task.completed, false);
@@ -51,7 +47,7 @@ suite('Task Class', function() {
             assert.equal(task.name, '');
         });
 
-        test('Non Empty parameters correctly loaded', function() {
+        it('Non Empty parameters correctly loaded', function() {
             var name = 'Random';
             var jsonTask = {
                 name: name,
@@ -77,16 +73,4 @@ suite('Task Class', function() {
      * stop
      * updateDuration
      */
-
-        // TODO Please to test more:
-//    suite('someFunction()', function () {
-//        test('some expectations', function () {
-//            // Disapointement
-//        });
-//    });
-
-        //after each
-    teardown(function() {
-        // Can and should restore any classes that were mocked here
-    });
 });

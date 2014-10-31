@@ -4,7 +4,7 @@ var should, assert, expect;
     'use strict';
 
     // Mocha setup
-    mocha.setup('tdd');
+    mocha.setup('bdd');
 
     // Don't bail on failure
     mocha.bail(false);

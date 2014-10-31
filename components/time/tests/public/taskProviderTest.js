@@ -2,34 +2,35 @@
 /**
  * taskProvider tests
  */
-/* global suite, setup, test, assert */
-suite('taskProvider', function() {
+/*global describe, beforeEach, it, assert */
+
+describe('taskProvider', function() {
     var taskProvider;
 
     // before each
-    setup(function() {
+    beforeEach(function() {
         angular.mock.module('flokModule');
     });
 
-    setup(angular.mock.inject(function($rootScope, $injector) {
+    beforeEach(angular.mock.inject(function($rootScope, $injector) {
         taskProvider = $injector.get('taskProvider');
     }));
 
-    test('has tasks', function() {
+    it('has tasks', function() {
         var tasks = taskProvider.getTasks();
         assert.typeOf(tasks, 'array', 'tasks is an array');
         assert.lengthOf(tasks, 0, 'tasks is empty');
     });
 
     var taskName = 'task1';
-    test('can add task', function() {
+    it('can add task', function() {
         var tasks = taskProvider.getTasks();
         taskProvider.addTask(taskName);
         assert.lengthOf(tasks, 1, 'task was added');
         assert.equal(tasks[0], taskName, 'correct tasks was stored');
     });
 
-    test('can remove task', function() {
+    it('can remove task', function() {
         taskProvider.deleteTask(taskName);
         assert.lengthOf(taskProvider.getTasks(), 0, 'task was removed');
     });

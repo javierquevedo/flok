@@ -5,12 +5,12 @@
  * @author     Patrick Fiaux <nodz@nothing.ch>
  *
  */
-/* global suite, setup, test, assert */
-suite('backendStorageService', function() {
+/*global describe, beforeEach, it, assert */
+describe('backendStorageService', function() {
     var backendStorageService;
 
     // before each
-    setup(function() {
+    beforeEach(function() {
         angular.mock.module(
             'flokModule',
             /*
@@ -26,16 +26,16 @@ suite('backendStorageService', function() {
         });
     });
 
-    setup(angular.mock.inject(function($rootScope, $injector) {
+    beforeEach(angular.mock.inject(function($rootScope, $injector) {
         backendStorageService = $injector.get('backendStorageService');
     }));
 
-    test('service loaded', function() {
+    it('service loaded', function() {
         assert.typeOf(backendStorageService, 'object', 'backendStorageService is an object');
     });
 
 
-    test('getTime method', angular.mock.inject(function($httpBackend, backendStorageService) {
+    it('getTime method', angular.mock.inject(function($httpBackend, backendStorageService) {
         assert.typeOf(backendStorageService.getTime, 'function', 'backendStorageService has a getTime method');
 
         var calledSuccess = false;
@@ -65,7 +65,7 @@ suite('backendStorageService', function() {
         assert.isTrue(calledSuccess, 'success method was called');
     }));
 
-    test('putTime method', angular.mock.inject(function($httpBackend, backendStorageService) {
+    it('putTime method', angular.mock.inject(function($httpBackend, backendStorageService) {
         assert.typeOf(backendStorageService.putTime, 'function', 'backendStorageService has a putTime method');
 
         var expectedData = [
