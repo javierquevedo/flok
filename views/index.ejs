@@ -59,7 +59,7 @@
 </head>
 
 <body>
-    <div class="navbar navbar-fixed-top<% if (environment === 'development') {%> dev<% } %>">
+    <div ng-cloak class="navbar navbar-fixed-top<% if (environment === 'development') {%> dev<% } %>">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" ng-click="menuShown = !menuShown">
@@ -88,7 +88,7 @@
     <div class="text-center overlay" ng-hide="contentLoaded">
         <i class="icon-spinner icon-spin icon-4x overlay-spinner"></i>
     </div>
-    <div class="container" ng-view></div>
+    <div class="container" ng-cloak ng-view></div>
 
     <footer>
         <div class="container text-muted">
