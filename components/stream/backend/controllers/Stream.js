@@ -8,6 +8,9 @@
 var mongoose = require('mongoose');
 var _ = require('lodash');
 
+var config = require('../../../../backend/Config');
+var authorizedKeys = config.stream.apiKeys;
+
 require('../models/Event');
 var Event = mongoose.model('Event');
 
@@ -41,18 +44,6 @@ exports.post = function(req, res, next) {
     // Get the auth header
     var authHeader = req.get('Authorization');
 
-    // TODO keys should be stored in the config
-    /*
-     * We'll need to implement a config provider so that components can access the config
-     * Then we can add:
-     * stream: {
-     *   apiKeys: []
-     * },
-     * to the main config and load it here.
-     * Also when we do that we'll need to change the key!
-     */
-    var authorizedKeys = ['Uishosiekohzaekoohucoboh5Eoqu9ootaefof0y'];
-
     if (authHeader) {
         var parts = authHeader.split(' ');
         // Verify the identifier and the key
@@ -61,9 +52,9 @@ exports.post = function(req, res, next) {
             // process request
             var submittedData = req.body;
 
-            // If we don't have the right version or the event's aren't an array
-            // TODO we should probably check by semver here, also version could be coming from config rather than
-            // hardcoded.
+            // If we don't have the right version or the stream isn't an array
+            // TODO we should probably check by semver here
+            // also version could be coming from config rather than hardcoded.
             if (submittedData.version !== '0.0.3') {
                 next(new Error('Unsupported format version: ' + submittedData.version));
             }

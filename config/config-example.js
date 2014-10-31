@@ -13,6 +13,9 @@ var config = {
             time: true,
             todo: false,
             stream: false
+        },
+        stream: {
+            apiKeys: []
         }
     },
 
