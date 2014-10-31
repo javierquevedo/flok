@@ -10,26 +10,14 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors');
 var http = require('http');
-var packageJson = require('./package.json');
-var config = require('./config/config.js');
+
+var activeConfig = require('./backend/Config.js');
 
 // Load the base locale
 var locale = require('./locale/en.js');
 
 // Create the express app
 var app = express();
-
-// Define defaultsDeep method (from http://lodash.com/docs#partialRight)
-var defaultsDeep = _.partialRight(_.merge, function deep(value, other) {
-    return _.merge(value, other, deep);
-});
-
-// Load the config and set the defaults
-var activeConfig = defaultsDeep(config[app.settings.env], config.default);
-
-// Set additional settings
-activeConfig.environment = app.settings.env;
-activeConfig.version = packageJson.version;
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
