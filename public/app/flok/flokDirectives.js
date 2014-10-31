@@ -7,6 +7,39 @@
      */
     var flokDirectives = {
         /**
+         * Directive for input elements, triggers focus
+         * on or off (focusOn/blurOn) based on an expression. These were renamed to not conflict with the core
+         * ngFocus and ngBlur
+         * See http://stackoverflow.com/questions/14859266/input-autofocus-attribute
+         * @param $timeout
+         * @returns {{link: Function}}
+         */
+        focusOn: function($timeout) {
+            return {
+                link: function($scope, $element, attrs) {
+                    /*
+                     * Watch for the expression value to change
+                     */
+                    $scope.$watch(attrs.focusOn, function(val) {
+                        if (angular.isDefined(val) && val) {
+                            $timeout(function() {
+                                $element[0].focus();
+                            });
+                        }
+                    }, true);
+
+                    /*
+                     * blurs the element base on other expression
+                     */
+                    $element.bind('blur', function() {
+                        if (angular.isDefined(attrs.blurOn)) {
+                            $scope.$apply(attrs.blurOn);
+                        }
+                    });
+                }
+            };
+        },
+        /**
          * Directive for an element <icon> that inserts a font-awesome icon.
          * @see {@link http://fortawesome.github.io/Font-Awesome/} Font-Awesome website
          * @example
@@ -24,7 +57,7 @@
         icon: function() {
             return {
                 restrict: 'E',
-                scope: { type: '@' },
+                scope: {type: '@'},
                 controller: function($scope, $attrs) {
                     if ($attrs.options) {
                         var optionArray = $attrs.options.split(/\s+/).map(function(value) {
@@ -68,5 +101,6 @@
     angular.module('flokDirectives', [])
         .directive('icon', flokDirectives.icon)
         .directive('clickLink', ['$location', flokDirectives.clickLink])
+        .directive('focusOn', flokDirectives.focusOn)
     ;
 })();
