@@ -30,6 +30,8 @@
     <script type="text/javascript" src="app/flok/flokFilters.js"></script>
     <script type="text/javascript" src="app/flok/onRootScope.js"></script>
     <script type="text/javascript" src="app/flok/flokModule.js"></script>
+    <script type="text/javascript" src="app/flok/UserService.js"></script>
+    <script type="text/javascript" src="app/flok/UserCtrl.js"></script>
     <script type="text/javascript" src="app/menu/flokMenuModule.js"></script>
     <script type="text/javascript" src="app/menu/menuService.js"></script>
 
@@ -53,6 +55,9 @@
         });
 
         flokModule.constant('backendUrl', '<%= backendUrl %>');
+
+
+        flokModule.constant('users', <%- JSON.stringify(users) %>);
     </script>
 
     <link rel="icon" type="image/x-icon" href="favicon<% if (environment === 'development') { %>-dev<% } %>.ico"/>
@@ -76,6 +81,18 @@
                         <a href="{{ '#' + nav.url }}"><i class="{{ 'icon-' + nav.icon }}"></i> <span ng-bind="nav.name"></span></a>
                     </li>
                 </ul>
+                <div ng-controller="UserCtrl" class="pull-right">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="userSelect" data-toggle="dropdown">
+                            <img class="user-icon" ng-src="/media/avatar/{{currentUser}}.png"/>
+                            {{currentUser}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="userSelect">
+                            <li ng-repeat="user in users" role="presentation"><a role="menuitem" tabindex="-1" ng-click="changeUser(user)">{{user}}</a></li>
+                        </ul>
+                    </div>
+                </div>
                 <span class="pull-right backendStatus">
                     <i class="icon-spinner icon-spin icon-2x" ng-show="backendStatus === 'requesting'"></i>
                     <i class="icon-warning-sign icon-2x error" ng-show="backendStatus === 'error'"></i>

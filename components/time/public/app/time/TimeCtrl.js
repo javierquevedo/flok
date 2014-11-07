@@ -3,7 +3,9 @@
  * Controller for flok Time
  * @module TimeCtrl
  */
-angular.module('flokTimeModule').controller('TimeCtrl', function($scope, $timeout, $routeParams, taskProvider) {
+angular.module('flokTimeModule').controller('TimeCtrl',
+    ['$scope', '$timeout', '$routeParams', 'userService', 'taskProvider',
+        function($scope, $timeout, $routeParams, userService, taskProvider) {
     'use strict';
 
     /**
@@ -12,7 +14,7 @@ angular.module('flokTimeModule').controller('TimeCtrl', function($scope, $timeou
      */
     $scope.showAll = false;
 
-    $scope.user = $routeParams.user;
+    $scope.user = userService.getCurrentUser();
 
     taskProvider.retrieveTasksFor($scope.user);
 
@@ -165,4 +167,4 @@ angular.module('flokTimeModule').controller('TimeCtrl', function($scope, $timeou
     // Update right now and start the scheduling
     updateDuration();
     scheduleUpdate();
-});
+}]);

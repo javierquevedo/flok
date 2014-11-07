@@ -35,6 +35,7 @@ app.get('/', function(req, res) {
 });
 
 // Dummy api method to check if API is up
+// TODO this should probably return the version of the API
 app.options('/api', cors());
 app.get('/api', function(req, res) {
     res.send({ status: 'OK' });

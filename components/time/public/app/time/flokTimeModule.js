@@ -8,12 +8,12 @@
     var flokTimeModule = angular.module('flokTimeModule', [
         'ngRoute',
         'ui.bootstrap', 'ui.utils', 'pascalprecht.translate', 'onRootScope',
-        'flokFilters', 'flokDirectives', 'flokMenuModule'
+        'flokModule', 'flokFilters', 'flokDirectives', 'flokMenuModule'
     ]);
 
     flokTimeModule.config(['$routeProvider', 'menuServiceProvider', function($routeProvider, menuServiceProvider) {
         $routeProvider
-            .when('/time/:user', {
+            .when('/time', {
                 templateUrl: 'app/time/time.tpl.html',
                 controller: 'TimeCtrl',
                 controllerAs: 'time'
@@ -22,7 +22,7 @@
 
         menuServiceProvider.addMenuItem(
             {
-                url: '/time/User',
+                url: '/time',
                 name: 'Time',
                 icon: 'tasks'
             }

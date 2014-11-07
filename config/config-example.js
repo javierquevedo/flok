@@ -4,6 +4,10 @@ var config = {
         db: 'mongodb://localhost/flok',
         backendUrl: 'http://localhost:3000/api',
         localePath: 'locale/en.json',
+        users: [
+            //List of string user names here.
+            'Nothing'
+        ],
         piwik: {
             enable: true,
             url: 'piwik.example.com',
