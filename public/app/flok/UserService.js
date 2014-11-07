@@ -12,7 +12,7 @@
      *
      * @module userService
      */
-    angular.module('flokModule').factory('userService', ['users', function(users) {
+    angular.module('flokModule').factory('userService', ['$route', 'users', function($route, users) {
         /**
          * Key used in the local storage
          * @type {string}
@@ -30,8 +30,8 @@
             },
 
             changeUser: function(newUser) {
-                // TODO might need to change the page if we rely on the user for that page
-                /// $route.reload();
+                // TODO we need to implement events to have a better way than reloading the page
+                $route.reload();
                 currentUser = newUser;
                 localStorage.setItem(STORAGE_ID, newUser);
             },
@@ -42,7 +42,7 @@
         };
 
         if (angular.isUndefined(currentUser)) {
-            // TODO if no user force selection
+            // TODO if no user force selection, first user
             userService.changeUser(availableUsers[0]);
         }
 
