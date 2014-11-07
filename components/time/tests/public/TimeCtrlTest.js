@@ -9,7 +9,12 @@ describe('TimeCtrl', function() {
 
     // Before each, load the angular module
     beforeEach(function() {
-        angular.mock.module('flokModule');
+        angular.mock.module('flokModule',
+            // We need to mock the user value for the userService to work
+            function ($provide) {
+                $provide.value('users', ['TestUser']);
+            }
+        );
     });
 
     // Inject the TimeCtrl
@@ -29,6 +34,7 @@ describe('TimeCtrl', function() {
         assert.isFunction($scope.continueTask, 'has continueTask function');
 
         // TODO: these tests should go in a new it() call, but it doesn't work, see below
+
         var newTaskName = 'New Task';
         $scope.newTaskName = newTaskName;
         $scope.createNewTask();
