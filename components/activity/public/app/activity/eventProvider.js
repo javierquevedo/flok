@@ -3,7 +3,7 @@
  *
  * @copyright  Nothing Interactive 2014
  */
-angular.module('flokStreamModule').provider('eventProvider', function() {
+angular.module('flokActivityModule').provider('eventProvider', function() {
     'use strict';
 
 

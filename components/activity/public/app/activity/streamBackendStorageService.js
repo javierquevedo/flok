@@ -10,14 +10,14 @@
      *
      * @module backendStorageService
      */
-    angular.module('flokStreamModule').provider('streamBackendStorageService', function() {
+    angular.module('flokActivityModule').provider('streamBackendStorageService', function() {
         var $http;
         var $rootScope;
         var backendUrl;
 
         var getStream = function() {
             $rootScope.$emit('flok.backend.status', 'requesting');
-            return $http.get(backendUrl + '/stream')
+            return $http.get(backendUrl + '/activity')
                 .success(function() {
                     $rootScope.$emit('flok.backend.status', 'success');
                 })

@@ -4,7 +4,7 @@
  * @copyright  Nothing Interactive 2014
  * @module TimeCtrl
  */
-angular.module('flokStreamModule').controller('StreamCtrl', function($scope, $routeParams, eventProvider) {
+angular.module('flokActivityModule').controller('StreamCtrl', function($scope, $routeParams, eventProvider) {
     'use strict';
 
     eventProvider.retrieveEventsFor();

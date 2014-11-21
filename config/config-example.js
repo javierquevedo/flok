@@ -16,7 +16,7 @@ var config = {
         components: {
             time: true,
             priority: false,
-            stream: false
+            activity: false
         },
         stream: {
             apiKeys: []
@@ -32,8 +32,8 @@ var config = {
         },
         components: {
             time: true,
-            todo: true,
-            stream: true
+            priority: true,
+            activity: true
         }
     },
 
