@@ -15,7 +15,7 @@ var config = {
         },
         components: {
             time: true,
-            todo: false,
+            priority: false,
             stream: false
         },
         stream: {

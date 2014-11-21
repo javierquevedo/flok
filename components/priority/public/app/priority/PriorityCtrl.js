@@ -1,8 +1,8 @@
 /**
- * Controller for flok Todo
+ * Controller for flok Priority
  * @module TimeCtrl
  */
-angular.module('flokTodoModule').controller('TodoCtrl', ['$scope', function($scope) {
+angular.module('flokPriorityModule').controller('PriorityCtrl', ['$scope', function($scope) {
     'use strict';
 
     // Set some dummy data
@@ -10,7 +10,7 @@ angular.module('flokTodoModule').controller('TodoCtrl', ['$scope', function($sco
         planned: [
             {
                 id: 100,
-                name: 'Flok Todo prototype',
+                name: 'Flok Priority prototype',
                 project: 'flok',
                 milestone: '0.4.0',
                 owner: 'Vibes',

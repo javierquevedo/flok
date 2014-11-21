@@ -1,5 +1,5 @@
 var locale = {
-    'flok.todo.title': 'Todo'
+    'flok.priority.title': 'Priority'
 };
 
 module.exports = locale;

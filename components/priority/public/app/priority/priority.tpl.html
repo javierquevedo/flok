@@ -1,9 +1,9 @@
-<div ng-show="contentLoaded" ng-controller="TodoCtrl">
-    <h1>{{ 'flok.todo.title'| translate }}</h1>
+<div ng-show="contentLoaded" ng-controller="PriorityCtrl">
+    <h1>{{ 'flok.priority.title'| translate }}</h1>
 
     <!-- TODO: move all the test to the locale file -->
     <div class="alert alert-warning" ng-hide="hideAlert" ng-click="hideAlert = true">
-        The Todo component is currently a prototype for trying out interactions. No data is stored outside the browser and everything is subject to change.
+        The Priority component is currently a prototype for trying out interactions. No data is stored outside the browser and everything is subject to change.
     </div>
 
     <table class="table table-hover">
@@ -11,8 +11,8 @@
         <tr>
             <th colspan="3">
                 <h2>
-                    <span ng-if="listType === 'planned'">This week</span>
-                    <span ng-if="listType === 'unplanned'">Unplanned tasks</span>
+                    <span ng-if="listType === 'planned'">Doing</span>
+                    <span ng-if="listType === 'unplanned'">Todo</span>
                 </h2>
             </th>
             <th colspan="3" class="hidden-xs"></th>

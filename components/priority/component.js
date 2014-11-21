@@ -7,8 +7,8 @@ var config = {
         // TODO: how to make sure these vendors are only loaded once? Also: should we have a bower.json in every component?
         'vendor/bower/jquery-ui/jquery-ui.js',
         'vendor/bower/angular-ui-sortable/sortable.js',
-        'app/todo/flokTodoModule.js',
-        'app/todo/TodoCtrl.js'
+        'app/priority/flokPriorityModule.js',
+        'app/priority/PriorityCtrl.js'
     ]
 };
 
