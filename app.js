@@ -13,6 +13,19 @@ var http = require('http');
 
 var activeConfig = require('./backend/Config.js');
 
+// let's make sure we have a valid default module in the config
+if (_.isUndefined(activeConfig.defaultComponent)) {
+    // This will go to a blank page on root
+    activeConfig.defaultComponent = '';
+    // Try to find first active component if we don't have an default one.
+    _.forEach(activeConfig.components, function(component, enabled) {
+        if (component === '' && enabled) {
+            console.log(component,enabled);
+            activeConfig.defaultComponent = component;
+        }
+    });
+}
+
 // Load the base locale
 var locale = require('./locale/en.js');
 

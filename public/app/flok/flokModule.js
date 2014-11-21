@@ -34,17 +34,31 @@
      * piwik
      * angular-translate
      */
-    flokModule.config(['$routeProvider', '$translateProvider', 'piwikProvider', 'piwikConfig',
-        function($routeProvider, $translateProvider, piwikProvider, piwikConfig) {
-            // Configure Routes
-            $routeProvider
-                .when('/', {
-                    templateUrl: 'app/flok/home.tpl.html'
-                })
-                .otherwise({
-                    redirectTo: '/'
-                })
-            ;
+    flokModule.config(['$routeProvider', '$translateProvider',
+        'defaultComponent', 'piwikProvider', 'piwikConfig',
+        function($routeProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig) {
+            // No enabled modules:
+            if (ENABLED_FLOK_COMPONENTS.length === 0) {
+                // Configure Routes
+                $routeProvider
+                    .when('/', {
+                        templateUrl: 'app/flok/errorNoModules.tpl.html'
+                    })
+                    .otherwise({
+                        redirectTo: '/'
+                    })
+                ;
+            }
+            else {
+
+                // Configure Routes
+                $routeProvider
+                    .otherwise({
+                        redirectTo: '/' + defaultComponent
+                    })
+                ;
+            }
+
 
             // Configure angular translate
             $translateProvider.useStaticFilesLoader({

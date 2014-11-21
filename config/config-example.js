@@ -15,9 +15,10 @@ var config = {
         },
         components: {
             time: true,
-            priority: false,
-            activity: false
+            activity: false,
+            priority: false
         },
+        defaultComponent: 'time',
         stream: {
             apiKeys: []
         }
