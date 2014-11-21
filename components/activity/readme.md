@@ -1,4 +1,4 @@
-# Flok Stream Component
+# Flok Activity Component
 
 ## Pushing stream events
 
