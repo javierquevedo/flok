@@ -122,6 +122,16 @@ To build the less files (from the project root):
     ./node_modules/.bin/lessc dev/less/flok.less > public/css/flok.css
 
 ## Version History
+
+### 0.4.0 - 2014-11-28
+* Removed Homepage, default component can be configured
+* Added Activity Component
+* Added backend testing
+* Updated dependencies, notably now using angular 1.3
+* Updated components now loaded using modular system
+* Updated config can now be accessible by components
+* Updated core now has a prototype users concept
+
 ### 0.3.0 - 2014-07-18
 * Switched whole application to ExpressJS instead of Symfony.
 * Added basic storage of the data from the Time component in a MongoDB database.
@@ -132,5 +142,5 @@ To build the less files (from the project root):
 ## Copyright and license
 * Brought to you by Nothing Interactive, Switzerland
 * Website: [https://www.nothing.ch/](https://www.nothing.ch/)
-* Version: 0.3.0
+* Version: 0.4.0
 * License: [The MIT License (MIT)](http://opensource.org/licenses/MIT)
