@@ -15,7 +15,7 @@
         this.provider = provider;
         this.author = author;
 
-        this.link = link || '';
+        this.link = link || false;
         this.title = title || '';
         this.message = message || '';
         this.duration = duration || 0;

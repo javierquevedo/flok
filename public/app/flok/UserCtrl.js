@@ -1,6 +1,6 @@
 /**
- * Controller for flok Todo
- * @module TimeCtrl
+ * Controller for flok users
+ * @module UserCtrl
  */
 angular.module('flokModule').controller('UserCtrl', ['$scope', 'userService', function($scope, userService) {
     'use strict';
