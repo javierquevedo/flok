@@ -1,4 +1,5 @@
 /.idea/workspace.xml
+/.idea/dictionaries/*.xml
 /build/
 /buildtools/build.properties
 /config/config.js
