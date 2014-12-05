@@ -1,5 +1,6 @@
 .events {
-    .row.event {
+    .event {
+        width: 100%;
         padding: 20px 0;
         border-top: 1px dashed @color_nothing;
     }
@@ -9,7 +10,7 @@
     }
 
     // if same author, no separation line and closer content
-    .row.event.event-same-author {
+    .event.event-same-author {
         padding-top: 0;
         border-top: 0;
     }
@@ -17,8 +18,13 @@
     .avatar {
         background-position: center center;
         background-size: cover;
-        height: 100px;
-        width: 100px;
+        height: 50px;
+        width: 50px;
+        
+        @media @tabletUp {
+            height: 75px;
+            width: 75px;
+        }
     }
 
     .avatar-name {

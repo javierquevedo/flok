@@ -2,66 +2,74 @@
     <h1>{{ 'flok.activity.title'| translate }}</h1>
 
     <div class="events" ng-repeat="event in events | limitTo:20">
-        <div class="row event" ng-class="event.author.name === events[$index-1].author.name? 'event-same-author':''">
-            <!-- If author is the same, don't display the avatar twice in a row -->
-            <div class="col-xs-3">
-                <div class="center-block" ng-if="event.author.name !== events[$index-1].author.name">
+        <div class="event" ng-class="event.author.name === events[$index-1].author.name? 'event-same-author':''">
 
-                    <div class="avatar img-circle center-block img-responsive" alt="Avatar of {{event.author.name}}" style="background-image: url('/media/avatar/{{event.author.name}}.png'), url('/image/avatar/fallback.png');">
+            <div class="grid-container grid-parent">
+                <!--AVATAR-->
+                <!-- If author is the same, don't display the avatar twice in a row -->
+                <div class="grid-20 tablet-grid-20 mobile-grid-100">&nbsp;
+                    <div class="center-block" ng-if="event.author.name !== events[$index-1].author.name">
+
+                        <div class="avatar img-circle center-block img-responsive" alt="Avatar of {{event.author.name}}" style="background-image: url('/media/avatar/{{event.author.name}}.png'), url('/image/avatar/fallback.png');">
+                        </div>
+                        <p class="avatar-name text-center">
+                            <strong>{{event.author.name}}</strong>
+                        </p>
+                        <button class="btn btn-success hidden" ng-click="userFollow() | track:'user follow':$event">
+                            <icon type="play"></icon>
+                            {{ 'flok.activity.user.follow'| translate }}
+                        </button>
                     </div>
-                    <p class="avatar-name text-center">
-                        <strong>{{event.author.name}}</strong>
-                    </p>
-                    <button class="btn btn-success hidden" ng-click="userFollow() | track:'user follow':$event">
-                        <icon type="play"></icon>
-                        {{ 'flok.activity.user.follow'| translate }}
-                    </button>
                 </div>
-            </div>
-            <div class="col-xs-9">
-                <div class="row">
-                    <div ng-if="event.title" class="col-xs-12 lead">
-                        <a ng-if="event.link" ng-href="{{event.link}}">{{event.title}}</a>
-                        <span ng-if="!event.link" ng-bind="event.title"></span>
-                    </div>
-                    <div ng-if="event.message" class="col-xs-12">
-                        <!-- DESCRIPTION -->
-                        <p class="content-text" ng-bind-html="event.message.content"></p>
-                    </div>
-                    <div class="col-xs-12">
-                        <p ng-if="event.duration && event.author.name !== events[$index-1].author.name" class="text-muted">
-                            on {{event.timestamp | date:dateFormat}}, {{event.duration | activityDuration}}
-                        </p>
-                        <p ng-if="event.duration && event.author.name === events[$index-1].author.name" class="text-muted">
-                            @ {{event.timestamp | date:'HH:MM'}}, {{event.duration | activityDuration}}
-                        </p>
 
-                        <p ng-if="!event.duration" class="text-muted">
-                            on {{event.timestamp | date:dateFormat}}
-                        </p>
-                    </div>
-                    <div class="hidden">
-                        <div class="col-xs-8">
-                            Favourites:
-                            IMAGE IMAGE IMAGE IMAGE
-                            + 12 more!
+                <!--CONTENT-->
+                <div class="grid-80 tablet-grid-80 mobile-grid-100">
+                    <div class="row">
+                        <div ng-if="event.title" class="lead">
+                            <a ng-if="event.link" ng-href="{{event.link}}">{{event.title}}</a>
+                            <span ng-if="!event.link" ng-bind="event.title"></span>
                         </div>
-                        <div class="col-xs-8">
-                            <button class="btn btn-success" ng-click="addComment() | track:'new comment':$event">
-                                {{ 'flok.activity.comment.add'| translate }}
-                            </button>
+                        <div ng-if="event.message" class="">
+                            <!-- DESCRIPTION -->
+                            <p class="content-text" ng-bind-html="event.message.content"></p>
                         </div>
-                        <div class="col-xs-4">
-                            <icon type="play"></icon>
-                            Collaborate
+                        <div>
+                            <p ng-if="event.duration && event.author.name !== events[$index-1].author.name" class="text-muted">
+                                on {{event.timestamp | date:dateFormat}}, {{event.duration | activityDuration}}
+                            </p>
+
+                            <p ng-if="event.duration && event.author.name === events[$index-1].author.name" class="text-muted">
+                                @ {{event.timestamp | date:'HH:MM'}}, {{event.duration | activityDuration}}
+                            </p>
+
+                            <p ng-if="!event.duration" class="text-muted">
+                                on {{event.timestamp | date:dateFormat}}
+                            </p>
                         </div>
-                        <div class="col-xs-4">
-                            <icon type="play"></icon>
-                            Tell your followers
-                        </div>
-                        <div class="col-xs-4">
-                            <icon type="play"></icon>
-                            Well done!
+                        <div class="hidden">
+                            <div>
+                                Favourites:
+                                IMAGE IMAGE IMAGE IMAGE
+                                + 12 more!
+                            </div>
+                            <div>
+                                <button class="btn btn-success" ng-click="addComment() | track:'new comment':$event">
+                                    {{ 'flok.activity.comment.add'| translate }}
+                                </button>
+                            </div>
+
+                            <div>
+                                <icon type="play"></icon>
+                                Collaborate
+                            </div>
+                            <div>
+                                <icon type="play"></icon>
+                                Tell your followers
+                            </div>
+                            <div>
+                                <icon type="play"></icon>
+                                Well done!
+                            </div>
                         </div>
                     </div>
                 </div>

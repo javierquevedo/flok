@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="flokModule"  ng-controller="AppCtrl">
+<html ng-app="flokModule" ng-controller="AppCtrl">
 <head>
     <meta charset="UTF-8"/>
     <title>flok</title>
@@ -38,10 +38,12 @@
     <%
     var i = 0;
     for (i = 0; i < cssFiles.length; i++) { %>
-        <link href="<%= cssFiles[i] %>" type="text/css" rel="stylesheet" media="all"/> <%
+    <link href="<%= cssFiles[i] %>" type="text/css" rel="stylesheet" media="all"/>
+    <%
     }
     for (i = 0; i < jsFiles.length; i++) { %>
-        <script type="text/javascript" src="<%= jsFiles[i] %>"></script> <%
+    <script type="text/javascript" src="<%= jsFiles[i] %>"></script>
+    <%
     }
     %>
 
@@ -66,59 +68,65 @@
 </head>
 
 <body>
-    <div ng-cloak class="navbar navbar-fixed-top<% if (environment === 'development') {%> dev<% } %>">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" ng-click="menuShown = !menuShown">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse" ng-class="{collapse: !menuShown}">
+<div ng-cloak class="navbar navbar-fixed-top<% if (environment === 'development') { %> dev<% } %>">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-click="menuShown = !menuShown">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse" ng-class="{collapse: !menuShown}">
 
-                <ul class="nav navbar-nav">
-                    <li ng-repeat="nav in menuItems">
-                        <a href="{{ '#' + nav.url }}"><i class="{{ 'icon-' + nav.icon }}"></i> <span ng-bind="nav.name"></span></a>
-                    </li>
-                </ul>
-                <div ng-controller="UserCtrl" class="pull-right">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="userSelect" data-toggle="dropdown">
-                            <img class="user-icon" ng-src="/media/avatar/{{currentUser}}.png"/>
-                            {{currentUser}}
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="userSelect">
-                            <li ng-repeat="user in users" role="presentation"><a role="menuitem" tabindex="-1" ng-click="changeUser(user)">{{user}}</a></li>
-                        </ul>
-                    </div>
+            <ul class="nav navbar-nav">
+                <li ng-repeat="nav in menuItems">
+                    <a href="{{ '#' + nav.url }}"><i class="{{ 'icon-' + nav.icon }}"></i>
+                        <span ng-bind="nav.name"></span></a>
+                </li>
+            </ul>
+            <div ng-controller="UserCtrl" class="pull-right">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="userSelect" data-toggle="dropdown">
+                        <img class="user-icon" ng-src="/media/avatar/{{currentUser}}.png"/>
+                        {{currentUser}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="userSelect">
+                        <li ng-repeat="user in users" role="presentation">
+                            <a role="menuitem" tabindex="-1" ng-click="changeUser(user)">{{user}}</a></li>
+                    </ul>
                 </div>
+            </div>
                 <span class="pull-right backendStatus">
                     <i class="icon-spinner icon-spin icon-2x" ng-show="backendStatus === 'requesting'"></i>
                     <i class="icon-warning-sign icon-2x error" ng-show="backendStatus === 'error'"></i>
                     <i class="icon-ok icon-2x success" ng-show="backendStatus === 'success'"></i>
                 </span>
-            </div>
         </div>
     </div>
+</div>
 
-    <div class="text-center overlay" ng-hide="contentLoaded">
-        <i class="icon-spinner icon-spin icon-4x overlay-spinner"></i>
+<div class="text-center overlay" ng-hide="contentLoaded">
+    <i class="icon-spinner icon-spin icon-4x overlay-spinner"></i>
+</div>
+<div class="grid-container">
+    <div class="prefix-5 tablet-prefix-5 grid-90 tablet-grid-90 mobile-grid-100">
+        <div ng-cloak ng-view></div>
     </div>
-    <div class="container" ng-cloak ng-view></div>
+</div>
 
-    <footer>
-        <div class="container text-muted">
+<footer>
+    <div class="grid-container text-muted">
             <span class="pull-right">
                 <button popover="{{ 'flok.title'| translate }} - {{ 'flok.version'| translate }} <%= version %>"
-                 popover-trigger="mouseenter"
-                 popover-placement="left"
-                 class="btn btn-link">
+                        popover-trigger="mouseenter"
+                        popover-placement="left"
+                        class="btn btn-link">
                     <i class="icon-info"></i>
                 </button>
             </span>
-        </div>
-    </footer>
+    </div>
+</footer>
 </body>
 </html>
