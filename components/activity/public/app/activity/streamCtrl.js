@@ -27,19 +27,30 @@ flokActivityModule.filter('activityDuration', ['$filter', function($filter) {
         var minutes = input % 60;
         var hours = Math.floor(input / 60);
 
-        // TODO translate
-        var string = negative ? 'removed ' : 'added ';
+        // First we get the hours/minute translated string
+        // TODO we'll need pluralize here.
+        var timeString;
         if (hours > 0) {
-            string += hours + ' hours ';
             if (minutes > 0) {
-                string += minutes + ' minutes';
+                timeString = $filter('translate')('flok.activity.duration.hoursAndMinutes', {hours: hours, minutes: minutes});
+            }
+            else {
+                timeString = $filter('translate')('flok.activity.duration.hours', {hours: hours});
             }
         }
         else {
-            string += minutes + ' minutes';
+            timeString = $filter('translate')('flok.activity.duration.minutes', {minutes: minutes});
         }
 
-        return string;
+        // Then we turn it into a phrase for added/removed time
+        if (negative) {
+            timeString = $filter('translate')('flok.activity.duration.removed', {duration: timeString});
+        }
+        else {
+            timeString = $filter('translate')('flok.activity.duration.added', {duration: timeString});
+        }
+
+        return timeString;
     };
 }]);
 
