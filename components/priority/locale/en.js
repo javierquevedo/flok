@@ -8,7 +8,21 @@ var locale = {
 };
 
 locale.flok.priority = {
-    'title': 'Priority'
+    'title': 'Priority',
+    'planned': 'Doing',
+    'unplanned': 'Todo',
+    'prototypeWarning': 'The Priority component is currently a prototype for trying out interactions.' +
+    ' No data is stored outside the browser and everything is subject to change.',
+    'task': {
+        'number': '#',
+        'name': 'Task',
+        'project': 'Project',
+        'milestone': 'Milestone',
+        'owner': 'Owner',
+        'remainingTime': 'Remaining Hours',
+        'timeDetails': 'Estimated: {{ estimated }}, Used: {{ used }}'
+    },
+    'total': '{{total}} Total'
 };
 
 module.exports = locale;
