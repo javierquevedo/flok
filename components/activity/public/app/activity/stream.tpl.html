@@ -1,20 +1,21 @@
 <div ng-show="contentLoaded">
     <h1>{{ 'flok.activity.title'| translate }}</h1>
 
-    <div class="events" ng-repeat="event in events">
-        <div class="row event">
+    <div class="events" ng-repeat="event in events | limitTo:20">
+        <div class="row event" ng-class="event.author.name === events[$index-1].author.name? 'event-same-author':''">
+            <!-- If author is the same, don't display the avatar twice in a row -->
             <div class="col-xs-3">
-                <div class="center-block">
+                <div class="center-block" ng-if="event.author.name !== events[$index-1].author.name">
 
-                <div class="avatar img-circle center-block img-responsive" alt="Avatar of {{event.author.name}}" style="background-image: url('/media/avatar/{{event.author.name}}.png'), url('/image/avatar/fallback.png');">
-                </div>
-                <p class="avatar-name text-center">
-                    <strong>{{event.author.name}}</strong>
-                </p>
-                <button class="btn btn-success hidden" ng-click="userFollow() | track:'user follow':$event">
-                    <icon type="play"></icon>
-                    {{ 'flok.activity.user.follow'| translate }}
-                </button>
+                    <div class="avatar img-circle center-block img-responsive" alt="Avatar of {{event.author.name}}" style="background-image: url('/media/avatar/{{event.author.name}}.png'), url('/image/avatar/fallback.png');">
+                    </div>
+                    <p class="avatar-name text-center">
+                        <strong>{{event.author.name}}</strong>
+                    </p>
+                    <button class="btn btn-success hidden" ng-click="userFollow() | track:'user follow':$event">
+                        <icon type="play"></icon>
+                        {{ 'flok.activity.user.follow'| translate }}
+                    </button>
                 </div>
             </div>
             <div class="col-xs-9">
@@ -28,9 +29,13 @@
                         <p class="content-text" ng-bind-html="event.message.content"></p>
                     </div>
                     <div class="col-xs-12">
-                        <p ng-if="event.duration" class="text-muted">
+                        <p ng-if="event.duration && event.author.name !== events[$index-1].author.name" class="text-muted">
                             on {{event.timestamp | date:dateFormat}}, {{event.duration | activityDuration}}
                         </p>
+                        <p ng-if="event.duration && event.author.name === events[$index-1].author.name" class="text-muted">
+                            @ {{event.timestamp | date:'HH:MM'}}, {{event.duration | activityDuration}}
+                        </p>
+
                         <p ng-if="!event.duration" class="text-muted">
                             on {{event.timestamp | date:dateFormat}}
                         </p>

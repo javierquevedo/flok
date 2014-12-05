@@ -1,7 +1,17 @@
 .events {
     .row.event {
         padding: 20px 0;
-        border-bottom: 1px dashed @color_nothing;
+        border-top: 1px dashed @color_nothing;
+    }
+
+    &:first-of-type > .event {
+        border-top: 0;
+    }
+
+    // if same author, no separation line and closer content
+    .row.event.event-same-author {
+        padding-top: 0;
+        border-top: 0;
     }
 
     .avatar {
@@ -10,7 +20,6 @@
         height: 100px;
         width: 100px;
     }
-
 
     .avatar-name {
         color: @color_nothing;

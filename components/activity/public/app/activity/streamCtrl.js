@@ -30,7 +30,10 @@ flokActivityModule.filter('activityDuration', function() {
         // TODO translate
         var string = negative ? 'removed ' : 'added ';
         if (hours > 0) {
-            string += hours + ' hours ' + minutes + ' minutes';
+            string += hours + ' hours ';
+            if (minutes > 0) {
+                string += minutes + ' minutes';
+            }
         }
         else {
             string += minutes + ' minutes';
@@ -58,6 +61,21 @@ flokActivityModule.controller('StreamCtrl', function($scope, $routeParams, STREA
     // calls the stream every minute
     setInterval(function() {
         eventProvider.retrieveEventsFor();
-        $scope.events = eventProvider.getEvents();
-    }, 60000);
+        var newEvents = eventProvider.getEvents();
+
+        // collects new events
+        var eventsToAdd = [];
+        for (var i = 0; i < newEvents.length; i++) {
+            if (newEvents[i].timestamp <= $scope.events[0].timestamp) {
+                eventsToAdd = newEvents.splice(0, i + 1);
+                break;
+            }
+        }
+
+        // add the new events to the current flow
+        // Note: for now, the flow always displays the last 20 events thanks to "limitTo:20" in the ng-repeat
+        if (eventsToAdd.length > 0) {
+            $scope.events = eventsToAdd.concat($scope.events);
+        }
+    }, 15000);
 });
