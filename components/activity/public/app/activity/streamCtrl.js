@@ -9,7 +9,7 @@ var flokActivityModule = angular.module('flokActivityModule');
 flokActivityModule.constant('STREAM_DATE_FORMAT', 'MMM d @ HH:mm');
 
 // TODO this might be better done in flokFilters, however the filters there are millisecond based.
-flokActivityModule.filter('activityDuration', function() {
+flokActivityModule.filter('activityDuration', ['$filter', function($filter) {
     'use strict';
 
     return function(input) {
@@ -41,7 +41,7 @@ flokActivityModule.filter('activityDuration', function() {
 
         return string;
     };
-});
+}]);
 
 flokActivityModule.controller('StreamCtrl', function($scope, $routeParams, STREAM_DATE_FORMAT, eventProvider) {
     'use strict';

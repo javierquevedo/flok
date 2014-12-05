@@ -9,7 +9,13 @@ var locale = {
 
 locale.flok.activity = {
     'title': 'Activity',
-    'user.follow': 'Follow'
+    'user': {
+        'follow': 'Follow'
+    },
+    'item': {
+        'timestampWithDuration': 'on {{ date }}, {{duration}}',
+        'timestamp': 'on {{ date }}'
+    }
 };
 
 module.exports = locale;
