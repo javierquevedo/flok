@@ -22,17 +22,17 @@ locale.flok.time = {
         'total_time_completed': 'Total done',
         'total_time_uncompleted': 'Total undone'
     },
-   'action': {
-       'start': 'Start',
-       'continue': 'Continue',
-       'stop': 'Stop',
-       'edit': 'Edit',
-       'cancel': 'Cancel',
-       'save': 'Save',
-       'delete_completed': 'Delete done tasks',
-       'set_completed': 'Done',
-       'set_uncompleted': 'Reactivate'
-   }
+    'action': {
+        'start': 'Start',
+        'continue': 'Continue',
+        'stop': 'Stop',
+        'edit': 'Edit',
+        'cancel': 'Cancel',
+        'save': 'Save',
+        'delete_completed': 'Delete done tasks',
+        'set_completed': 'Done',
+        'set_uncompleted': 'Reactivate'
+    }
 };
 
 module.exports = locale;
