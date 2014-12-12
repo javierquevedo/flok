@@ -31,7 +31,7 @@
         menuServiceProvider.addMenuItem(
             {
                 url: '/activity',
-                name: 'Activity',
+                name: 'flok.activity.title',
                 icon: 'user'
             }
         );

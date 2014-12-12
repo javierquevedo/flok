@@ -82,7 +82,7 @@
             <ul class="nav navbar-nav">
                 <li ng-repeat="nav in menuItems">
                     <a href="{{ '#' + nav.url }}"><i class="{{ 'icon-' + nav.icon }}"></i>
-                        <span ng-bind="nav.name"></span></a>
+                        <span translate="{{nav.name}}"></span></a>
                 </li>
             </ul>
             <div ng-controller="UserCtrl" class="pull-right">

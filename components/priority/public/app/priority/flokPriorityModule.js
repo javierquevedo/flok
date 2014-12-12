@@ -21,7 +21,7 @@
         menuServiceProvider.addMenuItem(
             {
                 url: '/priority',
-                name: 'Priority',
+                name: 'flok.priority.title',
                 icon: 'list'
             }
         );

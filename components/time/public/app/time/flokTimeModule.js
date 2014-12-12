@@ -23,7 +23,7 @@
         menuServiceProvider.addMenuItem(
             {
                 url: '/time',
-                name: 'Time',
+                name: 'flok.time.title',
                 icon: 'tasks'
             }
         );
