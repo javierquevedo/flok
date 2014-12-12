@@ -1,29 +1,15 @@
-/* exported durationUtil */
-(/** @lends <global> */function() {
+angular.module('flokTimeModule').factory('durationUtil', [function() {
     'use strict';
-
+    
     /**
-     * @type {{parseStringToMinutes: Function}}
-     * @global
+     * durationUtil functions
+     * @copyright  Nothing Interactive 2014
+     * @author     Patrick Fiaux <nodz@nothing.ch>
+     * @constructor
+     * @exports flokTimeModule/durationUtil
      */
-    var durationUtil = {
-        /**
-         * Parses a time/duration string into a minutes number.
-         * @param {string}input
-         * @returns {number}
-         */
-        parseStringToMinutes: function(input) {
-            var minutes = 0;
-            if (input) {
-                minutes = input.replace(/^([-+]?)(\d{1,6})([mh]?)([:]?)(\d{1,2})?$/m, stringToMinutesRegExp);
-                if (isNaN(minutes)) {
-                    minutes = 0;
-                }
-            }
-            return minutes;
-        }
+    var DurationUtil = function() {
     };
-
 
     /**
      * RegExp function to parse time input string into minutes.
@@ -36,7 +22,7 @@
      * @param group5
      * @returns {number}
      */
-    function stringToMinutesRegExp(str, group1, group2, group3, group4, group5) {
+    var stringToMinutesRegExp = function(str, group1, group2, group3, group4, group5) {
         // backref 1 is optional + or -
         var isAddition = true;
         if (group1 !== undefined) {
@@ -115,9 +101,23 @@
         }
 
         return result;
-    }
+    };
 
+    /**
+     * Parses a time/duration string into a minutes number.
+     * @param {string}input
+     * @returns {number}
+     */
+    DurationUtil.prototype.parseStringToMinutes = function(input) {
+        var minutes = 0;
+        if (input) {
+            minutes = input.replace(/^([-+]?)(\d{1,6})([mh]?)([:]?)(\d{1,2})?$/m, stringToMinutesRegExp);
+            if (isNaN(minutes)) {
+                minutes = 0;
+            }
+        }
+        return minutes;
+    };
 
-    // Export
-    window.durationUtil = durationUtil;
-})();
+    return new DurationUtil();
+}]);

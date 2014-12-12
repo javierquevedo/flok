@@ -6,6 +6,7 @@
 /*global angular, Task */
 describe('TimeCtrl', function() {
     var $scope;
+    var Task;
 
     // Before each, load the angular module
     beforeEach(function() {
@@ -16,6 +17,10 @@ describe('TimeCtrl', function() {
             }
         );
     });
+
+    beforeEach(angular.mock.inject(function($rootScope, $injector) {
+        Task = $injector.get('Task');
+    }));
 
     // Inject the TimeCtrl
     beforeEach(angular.mock.inject(function($rootScope, $controller) {

@@ -1,11 +1,11 @@
 'use strict';
 /**
- * taskProvider tests
+ * taskService tests
  */
 /*global describe, beforeEach, it, assert */
 
-describe('taskProvider', function() {
-    var taskProvider;
+describe('taskService', function() {
+    var taskService;
 
     // before each
     beforeEach(function() {
@@ -13,26 +13,26 @@ describe('taskProvider', function() {
     });
 
     beforeEach(angular.mock.inject(function($rootScope, $injector) {
-        taskProvider = $injector.get('taskProvider');
+        taskService = $injector.get('taskService');
     }));
 
     it('has tasks', function() {
-        var tasks = taskProvider.getTasks();
+        var tasks = taskService.getTasks();
         assert.typeOf(tasks, 'array', 'tasks is an array');
         assert.lengthOf(tasks, 0, 'tasks is empty');
     });
 
     var taskName = 'task1';
     it('can add task', function() {
-        var tasks = taskProvider.getTasks();
-        taskProvider.addTask(taskName);
+        var tasks = taskService.getTasks();
+        taskService.addTask(taskName);
         assert.lengthOf(tasks, 1, 'task was added');
         assert.equal(tasks[0], taskName, 'correct tasks was stored');
     });
 
     it('can remove task', function() {
-        taskProvider.deleteTask(taskName);
-        assert.lengthOf(taskProvider.getTasks(), 0, 'task was removed');
+        taskService.deleteTask(taskName);
+        assert.lengthOf(taskService.getTasks(), 0, 'task was removed');
     });
 
     // TODO: complete tests

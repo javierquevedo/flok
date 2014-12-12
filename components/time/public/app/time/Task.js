@@ -1,20 +1,13 @@
-/* global durationUtil */
-/* exported Task */
-(/** @lends <global> */function() {
+angular.module('flokTimeModule').service('Task', ['durationUtil', function(durationUtil) {
     'use strict';
 
     /**
+     * Task Model
      * Represents a task for which time is tracked.
-     * @param {string} [name=''] Name of this task
-     * @param {number} [pastDuration=0] Sum of total time excluding lastTime
-     * @param {Date} [startTime=new Date()] When this Task was last started
-     * @param {Date} [endTime=undefined] When this Task last ended, if not
-     *      defined, the Task is currently active
-     * @param {number} [totalManualChange=0] Manual time change in ms
-     * @param {boolean} [completed=false] completed or not
-     * @class
-     * @global
+     * @copyright  Nothing Interactive 2014
+     * @param {{}} jsonData
      * @constructor
+     * @exports flokTimeModule/Task
      */
     function Task(name, pastDuration, startTime, endTime, totalManualChange, completed) {
         /**
@@ -77,6 +70,7 @@
 
     /**
      * Creates a Task from it's JSON representation
+     * TODO refactor constructor to do this via angular.extend
      * @param {JSON} definition
      * @returns {Task}
      */
@@ -201,6 +195,5 @@
         this.manualChangeInputString = '';
     };
 
-    // Export to global
-    window.Task = Task;
-})();
+    return Task;
+}]);

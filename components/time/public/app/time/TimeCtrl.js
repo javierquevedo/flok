@@ -1,11 +1,10 @@
-/* global Task */
 /**
  * Controller for flok Time
- * @module TimeCtrl
+ * @module flokTimeModule/TimeCtrl
  */
 angular.module('flokTimeModule').controller('TimeCtrl',
-    ['$scope', '$timeout', '$routeParams', 'userService', 'taskProvider',
-        function($scope, $timeout, $routeParams, userService, taskProvider) {
+    ['$scope', '$timeout', '$routeParams', 'userService', 'taskService', 'Task',
+        function($scope, $timeout, $routeParams, userService, taskService, Task) {
     'use strict';
 
     /**
@@ -16,7 +15,7 @@ angular.module('flokTimeModule').controller('TimeCtrl',
 
     $scope.user = userService.getCurrentUser();
 
-    taskProvider.retrieveTasksFor($scope.user);
+    taskService.retrieveTasksFor($scope.user);
 
     // TODO: improve the organisation of what functions are called in the view, at the moment it's a mess
 
@@ -25,7 +24,7 @@ angular.module('flokTimeModule').controller('TimeCtrl',
      * @alias module:TimeCtrl
      * @type {Task[]}
      */
-    $scope.tasks = taskProvider.getTasks();
+    $scope.tasks = taskService.getTasks();
 
     /**
      * Stores the total time of all uncompleted tasks.
@@ -77,7 +76,8 @@ angular.module('flokTimeModule').controller('TimeCtrl',
         }
 
         // Add the new task
-        taskProvider.addTask(new Task($scope.newTaskName));
+        // TODO task dependency might not be needed here service could handle it.
+        taskService.addTask(new Task($scope.newTaskName));
 
         // Reset the input field
         $scope.newTaskName = '';
@@ -88,7 +88,7 @@ angular.module('flokTimeModule').controller('TimeCtrl',
      * @alias module:TimeCtrl
      */
     $scope.deleteCompleted = function() {
-        taskProvider.deleteCompleted();
+        taskService.deleteCompleted();
     };
 
     /**
@@ -102,16 +102,16 @@ angular.module('flokTimeModule').controller('TimeCtrl',
 
         // Continue the given task and move it to the beginning of the list
         task.continue();
-        taskProvider.deleteTask(task);
-        taskProvider.addTask(task);
+        taskService.deleteTask(task);
+        taskService.addTask(task);
     };
 
     // Watch for changes on the tasks
     $scope.$watch('tasks', function() {
         // TODO: improve watch expression, this persists way too often
         // https://github.com/tastejs/todomvc/blob/gh-pages/architecture-examples/angularjs/js/controllers/todoCtrl.js line 19 might help
-        taskProvider.persist();
-        $scope.completedCount = taskProvider.completedCount();
+        taskService.persist();
+        $scope.completedCount = taskService.completedCount();
 
         // Update total time of all completed and uncompleted tasks:
         $scope.totalTimeUncompleted = getTotalTimeUncompleted();

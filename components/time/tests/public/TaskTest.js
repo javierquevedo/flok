@@ -2,11 +2,22 @@
 /**
  * Task Class tests
  */
-/*global describe, before, it, assert */
+/*global describe, beforeEach, it, assert */
 /*global Task */
-describe('Task Class', function() {
+describe('Task Class.', function() {
 
-    describe('Task()', function() {
+    var Task;
+
+    // before each
+    beforeEach(function() {
+        angular.mock.module('flokModule');
+    });
+
+    beforeEach(angular.mock.inject(function($rootScope, $injector) {
+        Task = $injector.get('Task');
+    }));
+
+    describe('Task().', function() {
         it('No params creates empty task', function() {
             var task = new Task();
             // Check that default values are correct
@@ -36,7 +47,7 @@ describe('Task Class', function() {
     });
 
 
-    describe('createFromJSON()', function() {
+    describe('createFromJSON().', function() {
         it('Empty args creates default', function() {
             var task = Task.createFromJSON();
             // Check that default values are correct
