@@ -13,6 +13,9 @@ var http = require('http');
 
 var activeConfig = require('./backend/Config.js');
 
+var coreRouter = require('./backend/router.js');
+
+
 // let's make sure we have a valid default module in the config
 if (_.isUndefined(activeConfig.defaultComponent)) {
     // This will go to a blank page on root
@@ -59,6 +62,9 @@ app.get('/locale/en.json', function(req, res) {
     res.send(locale);
 });
 
+// Register core router
+app.use('/api/core/', coreRouter);
+
 // TODO: all of this component loading should go in a separate file
 // Read the config of the enabled components
 activeConfig.angularModules = [];
@@ -100,6 +106,31 @@ _.forOwn(activeConfig.components, function(enabled, name) {
         }
     }
 });
+
+// Handle errors and if no one responded to the request (must have 4 arguments to be seen as error handler)
+app.use(function(err, req, res, next) { // jshint ignore:line
+    // Check if we got an error
+    if (err) {
+        // TODO: should have the status code on the Error object
+        if (res.statusCode < 400) {
+            // If no error status code has been set, use 500 by default
+            res.status(500);
+        }
+
+        // TODO: improve what is sent and how it's send
+        // Send the error details
+        return res.send({
+            error: err.message,
+            details: err.details
+        });
+    }
+
+    // No error given, still ended up here, must be 404
+    return res.status(404).send({
+        error: 'Method not found'
+    });
+});
+
 
 
 // Server
