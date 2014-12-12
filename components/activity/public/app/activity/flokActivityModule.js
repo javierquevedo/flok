@@ -1,40 +1,46 @@
 /**
- * Activity Module
- *
+ * Activity module, can show a stream of events.
  * @copyright  Nothing Interactive 2014
+ * @type {module}
+ * @exports flokActivityModule
  */
-(function() {
+angular.module('flokActivityModule', [
+    // Angular core dependencies:
+    'ngRoute', 'ngSanitize',
+    // 3rd Party Dependencies
+    'ui.bootstrap', 'ui.utils', 'pascalprecht.translate', 'onRootScope',
+    // Flok dependencies
+    'flokFilters', 'flokDirectives', 'flokMenuModule'
+]);
+
+/**
+ * Stream output format for activity datetime.
+ * @constant flokActivityModule/streamCtrl
+ */
+angular.module('flokActivityModule').constant('STREAM_DATE_FORMAT', 'MMM d @ HH:mm');
+
+/**
+ * Activity Module configuration
+ */
+angular.module('flokActivityModule').config(['$routeProvider', 'menuServiceProvider', function($routeProvider, menuServiceProvider) {
     'use strict';
 
-    /**
-     * Activity module, can show a stream of events.
-     * @type {module}
-     */
-    var flokActivityModule = angular.module('flokActivityModule', [
-        // Angular core dependencies:
-        'ngRoute', 'ngSanitize',
-        // 3rd Party Dependencies
-        'ui.bootstrap', 'ui.utils', 'pascalprecht.translate', 'onRootScope',
-        // Flok dependencies
-        'flokFilters', 'flokDirectives', 'flokMenuModule'
-    ]);
+    // Register the route
+    $routeProvider
+        .when('/activity', {
+            templateUrl: 'app/activity/stream.tpl.html',
+            controller: 'StreamCtrl',
+            controllerAs: 'stream'
+        })
+    ;
 
-    flokActivityModule.config(['$routeProvider', 'menuServiceProvider', function($routeProvider, menuServiceProvider) {
-        $routeProvider
-            .when('/activity', {
-                templateUrl: 'app/activity/stream.tpl.html',
-                controller: 'StreamCtrl',
-                controllerAs: 'stream'
-            })
-        ;
-
-        menuServiceProvider.addMenuItem(
-            {
-                url: '/activity',
-                name: 'flok.activity.title',
-                icon: 'user'
-            }
-        );
-    }]);
-})();
+    // Register the menu item
+    menuServiceProvider.addMenuItem(
+        {
+            url: '/activity',
+            name: 'flok.activity.title',
+            icon: 'user'
+        }
+    );
+}]);
 

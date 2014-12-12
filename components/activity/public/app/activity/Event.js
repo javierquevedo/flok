@@ -2,61 +2,42 @@ angular.module('flokActivityModule').service('Event', ['$filter', 'STREAM_DATE_F
     'use strict';
 
     /**
-     * Represents a event for which time is tracked.
+     * Represents a event on the activity stream
      *
-     * TODO implement using angular.extend
      * @copyright  Nothing Interactive 2014
-     * @class
-     * @global
+     * @param {object} jsonData Data to initialize the event with
      * @constructor
-     * @exports flokActivityModule/Event
+     * @module flokActivityModule/Event
      */
-    var Event = function (timestamp, provider, link, title, message, author, duration) {
+    function Event(jsonData) {
+        this.link = false;
+        this.title = '';
+        this.message = '';
+        this.duration = 0;
 
-        this.timestamp = timestamp;
-        this.provider = provider;
-        this.author = author;
+        // Extend with the data from the backend
+        angular.extend(this, jsonData);
 
-        this.link = link || false;
-        this.title = title || '';
-        this.message = message || '';
-        this.duration = duration || 0;
-    };
+        // TODO date helper will be needed here again
+        if (angular.isDefined(this.timestamp)) {
+            this.timestamp = new Date(this.timestamp);
+        }
+    }
 
-    Event.prototype.getFormatedTimestamp = function() {
+    /**
+     * Returns a formatted date and time string using STREAM_DATE_FORMAT
+     * @returns {string} 'on Month day @ hour:minutes'
+     */
+    Event.prototype.getFormattedTimestamp = function() {
         return $filter('date')(this.timestamp, STREAM_DATE_FORMAT);
     };
 
-    Event.prototype.getFormatedDuration = function() {
-        return $filter('activityDuration')(this.duration);
-    };
-
     /**
-     * Creates an Event from it's JSON representation
-     * @param {JSON} definition
-     * @returns {Task}
+     * Returns a string formatted duration
+     * @returns {string} 'added|removed x hours y minutes'
      */
-    Event.createFromJSON = function(definition) {
-        definition = definition || {};
-
-        var timestamp = new Date(definition.timestamp);
-        var provider = definition.provider;
-        var author = definition.author;
-        var link, title, message, duration;
-        if (definition.link) {
-            link = definition.link;
-        }
-        if (definition.title) {
-            title = definition.title;
-        }
-        if (definition.message) {
-            message = definition.message;
-        }
-        if (definition.duration) {
-            duration = definition.duration;
-        }
-
-        return new Event(timestamp, provider, link, title, message, author, duration);
+    Event.prototype.getFormattedDuration = function() {
+        return $filter('activityDuration')(this.duration);
     };
 
     /**

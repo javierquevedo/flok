@@ -5,7 +5,8 @@ var config = {
     registerPublicFiles: true,
     jsFiles: [
         'app/activity/flokActivityModule.js',
-        'app/activity/eventProvider.js',
+        'app/activity/activityDurationFilter.js',
+        'app/activity/eventService.js',
         'app/activity/streamBackendStorageService.js',
         'app/activity/streamCtrl.js',
         'app/activity/Event.js'

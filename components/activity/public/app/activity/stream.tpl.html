@@ -35,15 +35,15 @@
                         </div>
                         <div>
                             <p ng-if="event.duration && event.author.name !== events[$index-1].author.name" class="text-muted">
-                                on {{event.timestamp | date:dateFormat}}, {{event.duration | activityDuration}}
+                                {{ 'flok.activity.item.datetimeWithDuration' | translate : {date: event.getFormattedTimestamp(), duration: event.getFormattedDuration()} }}
                             </p>
 
                             <p ng-if="event.duration && event.author.name === events[$index-1].author.name" class="text-muted">
-                                @ {{event.timestamp | date:'HH:MM'}}, {{event.duration | activityDuration}}
+                                {{ 'flok.activity.item.timeWithDuration' | translate : {time: event.timestamp, duration: event.getFormattedDuration()} }}
                             </p>
 
                             <p ng-if="!event.duration" class="text-muted">
-                                on {{event.timestamp | date:dateFormat}}
+                                {{ 'flok.activity.item.datetime' | translate : {date: event.getFormattedTimestamp()} }}
                             </p>
                         </div>
                         <div class="hidden">

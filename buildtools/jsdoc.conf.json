@@ -5,6 +5,7 @@
     "source": {
         "include": [
             "public/app/",
+            "components/",
             "README.md"
         ],
         "includePattern": ".+\\.js(doc)?$",

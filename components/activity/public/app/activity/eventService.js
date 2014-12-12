@@ -1,4 +1,4 @@
-angular.module('flokActivityModule').factory('eventProvider',
+angular.module('flokActivityModule').factory('eventService',
     ['$timeout', '$rootScope', 'streamBackendStorageService', 'Event',
         function($timeout, $rootScope, streamBackendStorageService, Event) {
             'use strict';
@@ -28,12 +28,15 @@ angular.module('flokActivityModule').factory('eventProvider',
              *
              * @copyright  Nothing Interactive 2014
              * @constructor
-             * @exports flokActivityModule/eventProvider
+             * @exports flokActivityModule/eventService
              */
-            var EventProvider = function() {
+            var EventService = function() {
             };
 
-            EventProvider.prototype.retrieveEventsFor = function() {
+            /**
+             * Retrieves events from the backend and stores them in the provider instance
+             */
+            EventService.prototype.retrieveEventsFor = function() {
                 _initialising = true;
                 events = [];
                 // Retrieve the stored tasks
@@ -41,7 +44,7 @@ angular.module('flokActivityModule').factory('eventProvider',
                     .success(function(data) {
                         for (var i = 0; i < data.length; i++) {
 
-                            events.push(Event.createFromJSON(data[i]));
+                            events.push(new Event(data[i]));
                         }
                         _lastPlannedDataToPersistToBackend = stringifyEvents(events);
                         _initialising = false;
@@ -49,7 +52,7 @@ angular.module('flokActivityModule').factory('eventProvider',
                     .error(function() {
                         var storedEvents = JSON.parse(localStorage.getItem(getStorageId()) || '[]');
                         for (var i = 0; i < storedEvents.length; i++) {
-                            events.push(Event.createFromJSON(storedEvents[i]));
+                            events.push(new Event(storedEvents[i]));
                         }
                         _initialising = false;
                     })
@@ -60,11 +63,11 @@ angular.module('flokActivityModule').factory('eventProvider',
              * The provided Tasks
              * @returns {Event[]}
              */
-            EventProvider.prototype.getEvents = function() {
+            EventService.prototype.getEvents = function() {
                 return events;
             };
 
-            return new EventProvider();
+            return new EventService();
 
         }
     ]

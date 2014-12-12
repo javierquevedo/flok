@@ -13,8 +13,9 @@ locale.flok.activity = {
         'follow': 'Follow'
     },
     'item': {
-        'timestampWithDuration': 'on {{ date }}, {{duration}}',
-        'timestamp': 'on {{ date }}'
+        'datetimeWithDuration': 'on {{date}}, {{duration}}',
+        'timeWithDuration': '@ {{ time | date : \'HH:MM\' }}, {{duration}}',
+        'datetime': 'on {{ date }}'
     },
     'duration': {
         'minutes': '{{minutes}} minutes',

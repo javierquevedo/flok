@@ -1,20 +1,17 @@
-/**
- * @copyright  Nothing Interactive 2014
- */
-(function() {
-    'use strict';
+angular.module('flokActivityModule').factory('streamBackendStorageService', ['$http', '$rootScope', 'backendUrl',
+    function($http, $rootScope, backendUrl) {
+        'use strict';
 
-    /**
-     * Interface with the backend
-     *
-     * @module backendStorageService
-     */
-    angular.module('flokActivityModule').provider('streamBackendStorageService', function() {
-        var $http;
-        var $rootScope;
-        var backendUrl;
+        /**
+         * Interface with the backend API for activity
+         * @copyright  Nothing Interactive 2014
+         * @class
+         * @exports flokActivityModule/streamBackendStorageService
+         */
+        var StreamBackendStorageService = function() {
+        };
 
-        var getStream = function() {
+        StreamBackendStorageService.prototype.getStream = function() {
             $rootScope.$emit('flok.backend.status', 'requesting');
             return $http.get(backendUrl + '/activity')
                 .success(function() {
@@ -23,20 +20,9 @@
                 .error(function() {
                     $rootScope.$emit('flok.backend.status', 'error');
                 })
-            ;
+                ;
         };
 
-        /**
-         * Returns this service
-         */
-        this.$get = ['$http', '$rootScope', 'backendUrl', function(_$http_, _$rootScope_, _backendUrl_) {
-            $http = _$http_;
-            $rootScope = _$rootScope_;
-            backendUrl = _backendUrl_;
-
-            return {
-                getStream: getStream
-            };
-        }];
-    });
-})();
+        return new StreamBackendStorageService();
+    }
+]);
