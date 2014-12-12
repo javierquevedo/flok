@@ -1,8 +1,14 @@
 /**
  * Mongoose schema for a User.
+ *
+ * @copyright  Nothing Interactive 2014
+ * @author     Tobias Leugger <vibes@nothing.ch>
  */
 'use strict';
 
+// TODO: set up integration testing of the whole API
+
+var _ = require('lodash');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -29,6 +35,15 @@ userSchema.virtual('password')
 
 userSchema.methods.verify = function(candidatePassword, next) {
     bcrypt.compare(candidatePassword, this.password, next);
+};
+
+userSchema.methods.toJSON = function() {
+    return _.assign(
+        _.pick(this, ['email']),
+        {
+            id: this.id
+        }
+    );
 };
 
 module.exports = mongoose.model('User', userSchema);
