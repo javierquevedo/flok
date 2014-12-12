@@ -1,44 +1,48 @@
 <div ng-show="contentLoaded" ng-controller="PriorityCtrl">
-    <h1>{{ 'flok.priority.title'| translate }}</h1>
+    <div class="grid-container">
+        <div class="prefix-5 tablet-prefix-5 grid-90 tablet-grid-90 mobile-grid-100">
+            <h1>{{ 'flok.priority.title'| translate }}</h1>
 
-    <!-- TODO: move all the test to the locale file -->
-    <div class="alert alert-warning" ng-hide="hideAlert" ng-click="hideAlert = true">
-        {{ 'flok.priority.prototypeWarning' | translate }}
+            <!-- TODO: move all the test to the locale file -->
+            <div class="alert alert-warning" ng-hide="hideAlert" ng-click="hideAlert = true">
+                {{ 'flok.priority.prototypeWarning' | translate }}
+            </div>
+
+            <table class="table table-hover">
+                <thead ng-repeat-start="(listType, taskList) in tasks">
+                <tr>
+                    <th colspan="3">
+                        <h2>
+                            <span>{{ 'flok.priority.' + listType | translate }}</span>
+                        </h2>
+                    </th>
+                    <th colspan="3" class="hide-on-mobile"></th>
+                </tr>
+                <tr>
+                    <th class="hidden-xs">{{ 'flok.priority.task.number' | translate }}</th>
+                    <th>{{ 'flok.priority.task.name' | translate }}</th>
+                    <th class="hidden-xs">{{ 'flok.priority.task.project' | translate }}</th>
+                    <th class="hidden-xs">{{ 'flok.priority.task.milestone' | translate }}</th>
+                    <th>{{ 'flok.priority.task.owner' | translate }}</th>
+                    <th>{{ 'flok.priority.task.remainingTime' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat-end ui-sortable="sortableOptions" class="task-container" ng-model="taskList">
+                <tr class="task-row" ng-repeat="task in taskList">
+                    <td class="hide-on-mobile">{{ task.id }}</td>
+                    <td>{{ task.name }}</td>
+                    <td class="hide-on-mobile">{{ task.project }}</td>
+                    <td class="hide-on-mobile">{{ task.milestone }}</td>
+                    <td>{{ task.owner }}</td>
+                    <td title="{{ 'flok.priority.task.timeDetails'| translate : {estimated: task.time.estimated, used: task.time.used} }}">{{ task.time.estimated - task.time.used }}</td>
+                </tr>
+                <tr ng-if="listType === 'planned'">
+                    <td colspan="2"></td>
+                    <td colspan="3" class="hidden-xs"></td>
+                    <td>{{ 'flok.priority.total' | translate : {total: getTotalPlannedRemaining()} }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <table class="table table-hover">
-        <thead ng-repeat-start="(listType, taskList) in tasks">
-        <tr>
-            <th colspan="3">
-                <h2>
-                    <span>{{ 'flok.priority.' + listType | translate }}</span>
-                </h2>
-            </th>
-            <th colspan="3" class="hide-on-mobile"></th>
-        </tr>
-        <tr>
-            <th class="hidden-xs">{{ 'flok.priority.task.number' | translate }}</th>
-            <th>{{ 'flok.priority.task.name' | translate }}</th>
-            <th class="hidden-xs">{{ 'flok.priority.task.project' | translate }}</th>
-            <th class="hidden-xs">{{ 'flok.priority.task.milestone' | translate }}</th>
-            <th>{{ 'flok.priority.task.owner' | translate }}</th>
-            <th>{{ 'flok.priority.task.remainingTime' | translate }}</th>
-        </tr>
-        </thead>
-        <tbody ng-repeat-end ui-sortable="sortableOptions" class="task-container" ng-model="taskList">
-        <tr class="task-row" ng-repeat="task in taskList">
-            <td class="hide-on-mobile">{{ task.id }}</td>
-            <td>{{ task.name }}</td>
-            <td class="hide-on-mobile">{{ task.project }}</td>
-            <td class="hide-on-mobile">{{ task.milestone }}</td>
-            <td>{{ task.owner }}</td>
-            <td title="{{ 'flok.priority.task.timeDetails'| translate : {estimated: task.time.estimated, used: task.time.used} }}">{{ task.time.estimated - task.time.used }}</td>
-        </tr>
-        <tr ng-if="listType === 'planned'">
-            <td colspan="2"></td>
-            <td colspan="3" class="hidden-xs"></td>
-            <td>{{ 'flok.priority.total' | translate : {total: getTotalPlannedRemaining()} }}</td>
-        </tr>
-        </tbody>
-    </table>
 </div>

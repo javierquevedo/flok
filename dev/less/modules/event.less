@@ -2,17 +2,24 @@
     .event {
         width: 100%;
         padding: 20px 0;
-        border-top: 1px dashed @color_nothing;
+        border-top: 2px dashed @color_nothing;
     }
 
-    &:first-of-type > .event {
+    &:nth-child(odd) {
+        background-color: @color_background-zebra;
+    }
+
+    &:first-child .event {
         border-top: 0;
     }
 
     // if same author, no separation line and closer content
     .event.event-same-author {
-        padding-top: 0;
         border-top: 0;
+    }
+
+    .event-title {
+        font-size: @largerFontSize;
     }
 
     .avatar {
@@ -20,7 +27,7 @@
         background-size: cover;
         height: 50px;
         width: 50px;
-        
+
         @media @tabletUp {
             height: 75px;
             width: 75px;
@@ -34,14 +41,6 @@
 
     // handle the font-size properly (make them relative smaller)
     .content-text {
-        p {
-            font-size: 1.2em;
-        }
-        h1, h2 {
-            font-size: 1.5em;
-        }
-        h3, h4, h5, h6 {
-            font-size: 1.2em;
-        }
+        font-size: @normalFontSize;
     }
 }
