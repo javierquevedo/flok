@@ -1,11 +1,4 @@
 <div ng-show="contentLoaded">
-
-    <div class="grid-container">
-        <div class="prefix-5 tablet-prefix-5 grid-90 tablet-grid-90 mobile-grid-100">
-            <h1>{{ 'flok.activity.title'| translate }}</h1>
-        </div>
-    </div>
-
     <div class="events-list">
         <div class="events" ng-repeat="event in events | limitTo:20">
             <div class="event" ng-class="event.author.name === events[$index-1].author.name? 'event-same-author':''">
@@ -15,16 +8,15 @@
                         <!-- If author is the same, don't display the avatar twice in a row -->
                         <div class="grid-20 tablet-grid-20 mobile-grid-100">&nbsp;
                             <div class="center-block" ng-if="event.author.name !== events[$index-1].author.name">
-
                                 <div class="avatar img-circle center-block img-responsive" alt="Avatar of {{event.author.name}}" style="background-image: url('/media/avatar/{{event.author.name}}.png'), url('/image/avatar/fallback.png');">
                                 </div>
-                                <p class="avatar-name text-center">
-                                    <strong>{{event.author.name}}</strong>
-                                </p>
                                 <button class="btn btn-success hidden" ng-click="userFollow() | track:'user follow':$event">
                                     <icon type="play"></icon>
                                     {{ 'flok.activity.user.follow'| translate }}
                                 </button>
+                            </div>
+                            <div class="center-block" ng-if="event.author.name === events[$index-1].author.name">
+                                <div class="center-block avatar-dot"></div>
                             </div>
                         </div>
 
@@ -32,8 +24,10 @@
                         <div class="grid-80 tablet-grid-80 mobile-grid-100">
                             <div class="block-element">
                                 <div ng-if="event.title" class="event-title block-element-small">
-                                    <a ng-if="event.link" ng-href="{{event.link}}">{{event.title}}</a>
-                                    <span ng-if="!event.link" ng-bind="event.title"></span>
+                                    <a ng-if="event.link" ng-href="{{event.link}}">
+                                        <strong ng-if="event.author.name !== events[$index-1].author.name">{{event.author.name}}
+                                        </strong> <strong ng-if="event.author.name === events[$index-1].author.name">{{ 'flok.activity.and'| translate }}</strong> {{event.title}}</a>
+                                    <strong ng-if="!event.link">{{event.author.name}}</strong> <span ng-if="!event.link" ng-bind="event.title"></span>
                                 </div>
                                 <div ng-if="event.message" class="">
                                     <!-- DESCRIPTION -->

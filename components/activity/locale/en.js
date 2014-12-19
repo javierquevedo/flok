@@ -23,7 +23,8 @@ locale.flok.activity = {
         'hoursAndMinutes': '{{hours}} hours {{minutes}} minutes',
         'added': 'added {{duration}}',
         'removed': 'removed {{duration}}'
-    }
+    },
+    'and': '...and'
 };
 
 module.exports = locale;

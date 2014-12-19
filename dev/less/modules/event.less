@@ -2,10 +2,10 @@
     .event {
         width: 100%;
         padding: 20px 0;
-        border-top: 2px dashed @color_nothing;
+        position: relative;
     }
 
-    &:nth-child(odd) {
+    &:nth-child(even) {
         background-color: @color_background-zebra;
     }
 
@@ -34,9 +34,24 @@
         }
     }
 
-    .avatar-name {
-        color: @color_nothing;
-        font-size: 1.5em;
+    .avatar-dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: @color_subtle;
+        position: relative;
+
+        // TODO : finish the dot connexion on the left to represent the user's connexion
+        &:before {
+            content: '';
+            position: absolute;
+            visibility: visible;
+            left: 7px;
+            bottom: 15px;
+            width: 2px;
+            height: 41px;
+            background-color: @color_subtle;
+        }
     }
 
     // handle the font-size properly (make them relative smaller)
