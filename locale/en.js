@@ -14,7 +14,15 @@ locale.flok = {
         'noModules': 'Welcome to flok, the Radically Open Business Operation Toolkit. It looks like you currently don\'t have any configured components, check your config and make sure you enable at least 1!'
     },
     'version': 'Version',
-    'format.date_and_time': 'dd.MM.y HH:mm:ss'
+    'format.date_and_time': 'dd.MM.y HH:mm:ss',
+    login: {
+        title: 'Register / Login / Logout'
+    },
+    action: {
+        login: 'Login',
+        logout: 'Logout',
+        register: 'Register'
+    }
 };
 
 module.exports = locale;

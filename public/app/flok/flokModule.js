@@ -35,8 +35,8 @@
      * angular-translate
      */
     flokModule.config(['$routeProvider', '$translateProvider',
-        'defaultComponent', 'piwikProvider', 'piwikConfig',
-        function($routeProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig) {
+        'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
+        function($routeProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
             // No enabled modules:
             if (ENABLED_FLOK_COMPONENTS.length === 0) {
                 // Configure Routes
@@ -50,15 +50,25 @@
                 ;
             }
             else {
-
                 // Configure Routes
                 $routeProvider
+                    .when('/login', {
+                        templateUrl: 'app/user/login.tpl.html'
+                    })
                     .otherwise({
                         redirectTo: '/' + defaultComponent
                     })
                 ;
             }
 
+            // Login menu item
+            menuServiceProvider.addMenuItem(
+                {
+                    url: '/login',
+                    name: 'flok.login.title',
+                    icon: 'key'
+                }
+            );
 
             // Configure angular translate
             $translateProvider.useStaticFilesLoader({
