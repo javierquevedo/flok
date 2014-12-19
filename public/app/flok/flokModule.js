@@ -34,9 +34,9 @@
      * piwik
      * angular-translate
      */
-    flokModule.config(['$routeProvider', '$translateProvider',
+    flokModule.config(['$routeProvider','$httpProvider', '$translateProvider',
         'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
-        function($routeProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
+        function($routeProvider,$httpProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
             // No enabled modules:
             if (ENABLED_FLOK_COMPONENTS.length === 0) {
                 // Configure Routes
@@ -81,6 +81,9 @@
             piwikProvider.enableTracking(piwikConfig.enable);
             piwikProvider.setPiwikDomain(piwikConfig.url);
             piwikProvider.setSiteId(piwikConfig.siteId);
+
+            // Interceptor setup (see interceptors.js)
+            $httpProvider.interceptors.push('httpErrorCodeInterceptor');
         }
     ]);
 
