@@ -67,11 +67,11 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Restrict access to all urls under /api, except the given ones
+// Restrict access to all urls under /api, except the given ones (relative to /api)
 var PUBLIC_URLS = [
-    '/api',
-    '/api/flok/register',
-    '/api/flok/session'
+    '/',
+    '/flok/register',
+    '/flok/session'
 ];
 app.use('/api', SessionController.restrict(PUBLIC_URLS));
 
