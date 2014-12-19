@@ -7,20 +7,28 @@
 'use strict';
 
 var _ = require('lodash');
+var async = require('async');
 var User = require('../models/UserModel');
 
+/**
+ * Registers a new user with the email (username) and password
+ * taken from the request body.
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.register = function(req, res, next) {
     // Pick the posted data
-    var userData = _.pick(req.body, 'email', 'password');
+    var userData = _.pick(req.body, 'email');
+    var password = req.body.password;
+
     var user = new User(userData);
-
-    // Make sure a password is specified. E-Mail is validated by the model, password not,
-    // because we will support other auth methods than password
-    if (!user.password) {
-        return next(new Error('Missing password to register new user.'));
-    }
-
-    user.save(function(err) {
+    async.series([
+        function(cb) {
+            user.setPassword(password, cb);
+        },
+        user.save.bind(user)
+    ], function(err) {
         if (err) {
             // Send a 400 status if the email address is already used
             if (err.name === 'MongoError' && err.code === 11000) {

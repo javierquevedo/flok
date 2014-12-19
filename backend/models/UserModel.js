@@ -11,31 +11,16 @@
 var _ = require('lodash');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var passportLocalMongoose = require('passport-local-mongoose');
 
-var bcrypt = require('bcryptjs'); // TODO: might want to use 'bcrypt' package, looks more stable, but sucky to install on windows
-var BCRYPT_WORK_FACTOR = 10; // To generate salt for password
+var userSchema = new Schema({});
 
-var userSchema = new Schema({
-    email: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    hashedPassword: String
+// Make it a passport user: this will add email (= username), hash, and salt fields
+// as well as a few helper methods
+userSchema.plugin(passportLocalMongoose, {
+    usernameField: 'email',
+    usernameLowerCase: true
 });
-
-userSchema.virtual('password')
-    .set(function(password) {
-        this.hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(BCRYPT_WORK_FACTOR));
-    })
-    .get(function() {
-        return this.hashedPassword;
-    })
-;
-
-userSchema.methods.verify = function(candidatePassword, next) {
-    bcrypt.compare(candidatePassword, this.password, next);
-};
 
 userSchema.methods.toJSON = function() {
     return _.assign(

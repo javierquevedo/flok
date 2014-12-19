@@ -2,19 +2,26 @@
  * Module dependencies.
  */
 'use strict';
+
+// TODO: clean this whole thing up and split it into different files
 var path = require('path');
 var _  = require('lodash');
 var express = require('express');
+var session = require('express-session');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var mongoose = require('mongoose');
 var cors = require('cors');
 var http = require('http');
+var passport = require('passport');
 
 var activeConfig = require('./backend/Config.js');
 
 var coreRouter = require('./backend/router.js');
 
+var User = require('./backend/models/UserModel.js');
+var SessionController = require('./backend/controllers/SessionController.js');
 
 // let's make sure we have a valid default module in the config
 if (_.isUndefined(activeConfig.defaultComponent)) {
@@ -42,7 +49,31 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3000);
 app.use(morgan('combined'));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+    secret: activeConfig.sessionSecret,
+    resave: false,
+    saveUninitialized: true // TODO: what setting to we want?
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(cors());
+
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Restrict access to all urls under /api, except the given ones
+var PUBLIC_URLS = [
+    '/api',
+    '/api/core/register',
+    '/api/core/session'
+];
+app.use('/api', SessionController.restrict(PUBLIC_URLS));
 
 // Set up the routes
 // Route for delivering the angular page
@@ -52,9 +83,8 @@ app.get('/', function(req, res) {
 
 // Dummy api method to check if API is up
 // TODO this should probably return the version of the API
-app.options('/api', cors());
 app.get('/api', function(req, res) {
-    res.send({ status: 'OK' });
+    return res.send({ status: 'OK' });
 });
 
 // Expose that locale
