@@ -30,7 +30,7 @@ module.exports = function (config) {
             'public/app/flok/flokModule.js',
             'public/app/**/*.js',
             'components/time/public/app/time/flokTimeModule.js',
-            'components/time/public/app/**/*.js',
+            'components/time/public/app/time/*.js',
 
             // And finally the tests
             'tests/public/**/*.js',

@@ -1,6 +1,6 @@
 angular.module('flokTimeModule').factory('durationUtil', [function() {
     'use strict';
-    
+
     /**
      * durationUtil functions
      * @copyright  Nothing Interactive 2014

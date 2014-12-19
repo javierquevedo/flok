@@ -1,51 +1,48 @@
-/**
- *
- * @copyright  Nothing Interactive 2014
- * @author     Patrick Fiaux <nodz@nothing.ch>
- *
- */
-(function() {
+angular.module('flokModule').factory('userService', ['$route', '$window', 'users', function($route, $window, users) {
     'use strict';
 
     /**
      * Provides the user session functionality
-     *
-     * @module userService
+     * @copyright  Nothing Interactive 2014
+     * @author     Patrick Fiaux <nodz@nothing.ch>
+     * @constructor
+     * @exports flokModule/userService
      */
-    angular.module('flokModule').factory('userService', ['$route', 'users', function($route, users) {
-        /**
-         * Key used in the local storage
-         * @type {string}
-         * @private
-         */
-        var STORAGE_ID = 'nothingFlokUserStorage-1';
+    var UserService = function() {
+    };
 
-        var availableUsers = users;
+    /**
+     * Key used in the local storage
+     * @type {string}
+     * @private
+     */
+    var STORAGE_ID = 'nothingFlokUserStorage-1';
 
-        var currentUser = localStorage.getItem(STORAGE_ID);
+    var availableUsers = users;
 
-        var userService = {
-            getCurrentUser: function() {
-                return currentUser;
-            },
+    var currentUser = $window.localStorage.getItem(STORAGE_ID);
 
-            changeUser: function(newUser) {
-                // TODO we need to implement events to have a better way than reloading the page
-                $route.reload();
-                currentUser = newUser;
-                localStorage.setItem(STORAGE_ID, newUser);
-            },
+    UserService.prototype.getCurrentUser = function() {
+        return currentUser;
+    };
 
-            getUsersList: function() {
-                return availableUsers;
-            }
-        };
+    UserService.prototype.changeUser = function(newUser) {
+        // TODO we need to implement events to have a better way than reloading the page
+        $route.reload();
+        currentUser = newUser;
+        $window.localStorage.setItem(STORAGE_ID, newUser);
+    };
 
-        if (angular.isUndefined(currentUser)) {
-            // TODO if no user force selection, first user
-            userService.changeUser(availableUsers[0]);
-        }
+    UserService.prototype.getUsersList = function() {
+        return availableUsers;
+    };
 
-        return userService;
-    }]);
-})();
+    var userService = new UserService();
+
+    if (angular.isUndefined(currentUser)) {
+        // TODO if no user force selection, first user
+        userService.changeUser(availableUsers[0]);
+    }
+
+    return userService;
+}]);

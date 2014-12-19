@@ -1,4 +1,3 @@
-'use strict';
 /**
  * backendStorageServiceTest tests
  * @copyright  Nothing Interactive 2014
@@ -7,12 +6,15 @@
  */
 /*global describe, beforeEach, it, assert */
 describe('backendStorageService', function() {
-    var backendStorageService;
+    'use strict';
+
+    var backendStorageService, $httpBackend;
 
     // before each
     beforeEach(function() {
         angular.mock.module(
             'flokModule',
+            'flokTimeModule',
             /*
              * We have to setup the translateProvider to use static strings otherwise
              * we get `Unexpected request: Get locale....js Errors.
@@ -26,8 +28,9 @@ describe('backendStorageService', function() {
         });
     });
 
-    beforeEach(angular.mock.inject(function($rootScope, $injector) {
-        backendStorageService = $injector.get('backendStorageService');
+    beforeEach(angular.mock.inject(function(_$httpBackend_, _backendStorageService_) {
+        backendStorageService = _backendStorageService_;
+        $httpBackend = _$httpBackend_;
     }));
 
     it('service loaded', function() {
@@ -35,7 +38,7 @@ describe('backendStorageService', function() {
     });
 
 
-    it('getTime method', angular.mock.inject(function($httpBackend, backendStorageService) {
+    it('getTime method', function() {
         assert.typeOf(backendStorageService.getTime, 'function', 'backendStorageService has a getTime method');
 
         var calledSuccess = false;
@@ -63,9 +66,9 @@ describe('backendStorageService', function() {
         assert.typeOf(req.error, 'function');
 
         assert.isTrue(calledSuccess, 'success method was called');
-    }));
+    });
 
-    it('putTime method', angular.mock.inject(function($httpBackend, backendStorageService) {
+    it('putTime method', function() {
         assert.typeOf(backendStorageService.putTime, 'function', 'backendStorageService has a putTime method');
 
         var expectedData = [
@@ -92,5 +95,5 @@ describe('backendStorageService', function() {
         assert.typeOf(req.error, 'function');
 
         assert.isTrue(calledSuccess, 'success method was called');
-    }));
+    });
 });

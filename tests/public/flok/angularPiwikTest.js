@@ -5,7 +5,10 @@ describe('angularPiwik', function() {
     var piwik, windowMock;
 
     // Make a dummy piwik config
-    flokModule.constant('piwikConfig', {
+    angular.module('flokModule', []);
+
+    // Make a dummy piwik config
+    angular.module('flokModule').constant('piwikConfig', {
         enable: true,
         url: 'dummy',
         siteId: '1'
@@ -22,6 +25,8 @@ describe('angularPiwik', function() {
         angular.mock.module(function($provide) {
             $provide.value('$window', windowMock);
         });
+
+        angular.mock.module('flokModule');
 
         // Setup angularPiwik module
         angular.mock.module('angularPiwik');

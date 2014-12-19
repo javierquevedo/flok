@@ -1,4 +1,3 @@
-/* exported flokModule */
 (function(ENABLED_FLOK_COMPONENTS) {
     'use strict';
 
@@ -27,14 +26,14 @@
      *
      * @exports flokModule
      */
-    var flokModule = angular.module('flokModule', flokDependencies);
+    angular.module('flokModule', flokDependencies);
 
     /**
      * Configure the core modules and their dependencies
      * piwik
      * angular-translate
      */
-    flokModule.config(['$routeProvider', '$translateProvider',
+    angular.module('flokModule').config(['$routeProvider', '$translateProvider',
         'defaultComponent', 'piwikProvider', 'piwikConfig',
         function($routeProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig) {
             // No enabled modules:
@@ -76,9 +75,9 @@
 
     /**
      * Main controller of the project
-     * @module AppCtrl
+     * @exports flokModule/AppCtrl
      */
-    flokModule.controller('AppCtrl', ['$scope', '$location', 'menuService', function($scope, $location, menuService) {
+    angular.module('flokModule').controller('AppCtrl', ['$scope', '$location', 'menuService', function($scope, $location, menuService) {
         // Make the location available in the scope
         /**
          * Angular $location service
@@ -102,5 +101,4 @@
         $scope.menuItems = menuService.getMenuItems();
     }]);
 
-    window.flokModule = flokModule;
 })(window.ENABLED_FLOK_COMPONENTS);

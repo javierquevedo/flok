@@ -48,20 +48,20 @@
     %>
 
     <script type="text/javascript">
-        flokModule.constant('defaultComponent', '<%= defaultComponent %>');
+        angular.module('flokModule').constant('defaultComponent', '<%= defaultComponent %>');
 
-        flokModule.constant('localePathConst', '<%= localePath %>');
+        angular.module('flokModule').constant('localePathConst', '<%= localePath %>');
 
-        flokModule.constant('piwikConfig', {
+        angular.module('flokModule').constant('piwikConfig', {
             enable: <% if (piwik.enable) { %>true<% } else { %>false<% } %>,
             url: '<%= piwik.url %>',
             siteId: '<%= piwik.siteId %>'
         });
 
-        flokModule.constant('backendUrl', '<%= backendUrl %>');
+        angular.module('flokModule').constant('backendUrl', '<%= backendUrl %>');
 
 
-        flokModule.constant('users', <%- JSON.stringify(users) %>);
+        angular.module('flokModule').constant('users', <%- JSON.stringify(users) %>);
     </script>
 
     <link rel="icon" type="image/x-icon" href="favicon<% if (environment === 'development') { %>-dev<% } %>.ico"/>

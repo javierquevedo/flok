@@ -1,8 +1,4 @@
-(function(flokModule) {
-    'use strict';
-
-    /**
-     * Fixture for the backendUrl constant (defined in the index.ejs template)
-     */
-    flokModule.constant('backendUrl', '');
-})(window.flokModule);
+/**
+ * Fixture for the backendUrl constant (defined in the index.ejs template)
+ */
+angular.module('flokModule').constant('backendUrl', '');

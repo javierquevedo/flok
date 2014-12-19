@@ -1,19 +1,20 @@
-'use strict';
 /**
  * taskService tests
  */
 /*global describe, beforeEach, it, assert */
 
 describe('taskService', function() {
+    'use strict';
+
     var taskService;
 
     // before each
     beforeEach(function() {
-        angular.mock.module('flokModule');
+        angular.mock.module('flokModule', 'flokTimeModule');
     });
 
-    beforeEach(angular.mock.inject(function($rootScope, $injector) {
-        taskService = $injector.get('taskService');
+    beforeEach(angular.mock.inject(function(_taskService_) {
+        taskService = _taskService_;
     }));
 
     it('has tasks', function() {

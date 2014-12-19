@@ -1,21 +1,20 @@
-'use strict';
 /**
  * Task Class tests
  */
 /*global describe, beforeEach, it, assert */
-/*global Task */
 describe('Task Class.', function() {
+    'use strict';
 
     var Task;
 
     // before each
     beforeEach(function() {
-        angular.mock.module('flokModule');
-    });
+        angular.mock.module('flokModule', 'flokTimeModule');
 
-    beforeEach(angular.mock.inject(function($rootScope, $injector) {
-        Task = $injector.get('Task');
-    }));
+        angular.mock.inject(function(_$rootScope_, _Task_) {
+            Task = _Task_;
+        });
+    });
 
     describe('Task().', function() {
         it('No params creates empty task', function() {
@@ -53,8 +52,8 @@ describe('Task Class.', function() {
             // Check that default values are correct
             assert.equal(task.completed, false);
             assert.equal(task.isActive(), true);
-            assert.equal(task.totalManualChange, 0);
-            assert.equal(task.totalDuration, 0);
+            assert.equal(task.totalManualChange, 0, 'manual change should be 0');
+            assert.equal(task.totalDuration, 0, 'total duration should be 0');
             assert.equal(task.name, '');
         });
 
