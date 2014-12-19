@@ -123,6 +123,13 @@ To build the less files (from the project root):
 
 ## Version History
 
+### 0.5.0 - 2014-12-19
+* Updated grid for more mobile friendly layouts
+* Updated all components to properly use localization strings
+* Updated activity time display to be simpler
+* Added grouping of similar posts on activity stream
+* Refactored code to use less wrapping and globals
+
 ### 0.4.0 - 2014-11-28
 * Removed Homepage, default component can be configured
 * Added Activity Component
