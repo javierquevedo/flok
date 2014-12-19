@@ -70,8 +70,8 @@ passport.deserializeUser(User.deserializeUser());
 // Restrict access to all urls under /api, except the given ones
 var PUBLIC_URLS = [
     '/api',
-    '/api/core/register',
-    '/api/core/session'
+    '/api/flok/register',
+    '/api/flok/session'
 ];
 app.use('/api', SessionController.restrict(PUBLIC_URLS));
 
@@ -93,7 +93,7 @@ app.get('/locale/en.json', function(req, res) {
 });
 
 // Register core router
-app.use('/api/core/', coreRouter);
+app.use('/api/flok/', coreRouter);
 
 // TODO: all of this component loading should go in a separate file
 // Read the config of the enabled components
