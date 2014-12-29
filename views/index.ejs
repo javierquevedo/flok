@@ -30,10 +30,14 @@
     <script type="text/javascript" src="app/flok/flokFilters.js"></script>
     <script type="text/javascript" src="app/flok/onRootScope.js"></script>
     <script type="text/javascript" src="app/flok/flokModule.js"></script>
-    <script type="text/javascript" src="app/flok/UserService.js"></script>
-    <script type="text/javascript" src="app/flok/UserCtrl.js"></script>
+    <script type="text/javascript" src="app/flok/interceptors.js"></script>
     <script type="text/javascript" src="app/menu/flokMenuModule.js"></script>
     <script type="text/javascript" src="app/menu/menuService.js"></script>
+    <script type="text/javascript" src="app/user/LoginCtrl.js"></script>
+    <script type="text/javascript" src="app/user/LogoutCtrl.js"></script>
+    <script type="text/javascript" src="app/user/sessionService.js"></script>
+    <script type="text/javascript" src="app/user/User.js"></script>
+    <script type="text/javascript" src="app/user/UserCtrl.js"></script>
 
     <%
     var i = 0;
@@ -59,16 +63,13 @@
         });
 
         angular.module('flokModule').constant('backendUrl', '<%= backendUrl %>');
-
-
-        angular.module('flokModule').constant('users', <%- JSON.stringify(users) %>);
     </script>
 
     <link rel="icon" type="image/x-icon" href="favicon<% if (environment === 'development') { %>-dev<% } %>.ico"/>
 </head>
 
-<body>
-<div ng-cloak class="navbar navbar-fixed-top<% if (environment === 'development') { %> dev<% } %>">
+<body ng-cloak>
+<div class="navbar navbar-fixed-top<% if (environment === 'development') { %> dev<% } %>" ng-if="hasValidSession()">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" ng-click="menuShown = !menuShown">
@@ -85,18 +86,8 @@
                         <span translate="{{nav.name}}"></span></a>
                 </li>
             </ul>
-            <div ng-controller="UserCtrl" class="pull-right">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="userSelect" data-toggle="dropdown">
-                        <img class="user-icon" ng-src="/media/avatar/{{currentUser}}.png"/>
-                        {{currentUser}}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="userSelect">
-                        <li ng-repeat="user in users" role="presentation">
-                            <a role="menuitem" tabindex="-1" ng-click="changeUser(user)">{{user}}</a></li>
-                    </ul>
-                </div>
+            <div ng-controller="UserCtrl" class="pull-right user-icon-container">
+                <img class="user-icon" ng-src="{{ user.avatarUrl }}"/>
             </div>
                 <span class="pull-right backendStatus">
                     <i class="icon-spinner icon-spin icon-2x" ng-show="backendStatus === 'requesting'"></i>
@@ -114,14 +105,14 @@
 
 <footer>
     <div class="grid-container text-muted">
-            <span class="pull-right">
-                <button popover="{{ 'flok.title'| translate }} - {{ 'flok.version'| translate }} <%= version %>"
-                        popover-trigger="mouseenter"
-                        popover-placement="left"
-                        class="btn btn-link">
-                    <i class="icon-info"></i>
-                </button>
-            </span>
+        <span class="pull-right">
+            <button popover="{{ 'flok.title'| translate }} - {{ 'flok.version'| translate }} <%= version %>"
+                    popover-trigger="mouseenter"
+                    popover-placement="left"
+                    class="btn btn-link">
+                <i class="icon-info"></i>
+            </button>
+        </span>
     </div>
 </footer>
 </body>

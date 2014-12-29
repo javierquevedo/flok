@@ -58,8 +58,12 @@ angular.module('flokTimeModule').factory('taskService', ['$timeout', '$rootScope
 
         var retrieveTasksFor = function(user) {
             _initialising = true;
-            _currentUser = user;
-            tasks = [];
+            // TODO: use the user id rather than the nickname
+            _currentUser = user.nickname;
+
+            // Delete all existing tasks. Keep this array though,
+            // otherwise the controller might have the wrong reference.
+            tasks.splice(0, tasks.length);
 
             // Retrieve the stored tasks
             backendStorageService.getTime(_currentUser)

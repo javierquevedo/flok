@@ -11,13 +11,7 @@ describe.skip('TimeCtrl', function() {
 
     // Before each, load the angular module
     beforeEach(function() {
-        angular.mock.module('flokTimeModule',
-
-            // We need to mock the user value for the userService to work
-            function ($provide) {
-                $provide.value('users', ['TestUser']);
-            }
-        );
+        angular.mock.module('flokTimeModule');
     });
 
     beforeEach(angular.mock.inject(function($rootScope, $injector) {

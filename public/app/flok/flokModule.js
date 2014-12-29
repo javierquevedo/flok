@@ -33,9 +33,9 @@
      * piwik
      * angular-translate
      */
-    angular.module('flokModule').config(['$routeProvider', '$translateProvider',
-        'defaultComponent', 'piwikProvider', 'piwikConfig',
-        function($routeProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig) {
+    angular.module('flokModule').config(['$routeProvider', '$httpProvider', '$translateProvider',
+        'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
+        function($routeProvider, $httpProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
             // No enabled modules:
             if (ENABLED_FLOK_COMPONENTS.length === 0) {
                 // Configure Routes
@@ -49,15 +49,28 @@
                 ;
             }
             else {
-
                 // Configure Routes
                 $routeProvider
+                    .when('/login', {
+                        templateUrl: 'app/user/login.tpl.html'
+                    })
+                    .when('/logout', {
+                        templateUrl: 'app/user/logout.tpl.html'
+                    })
                     .otherwise({
                         redirectTo: '/' + defaultComponent
                     })
                 ;
             }
 
+            // Logout menu item
+            menuServiceProvider.addMenuItem(
+                {
+                    url: '/logout',
+                    name: 'flok.logout.title',
+                    icon: 'signout'
+                }
+            );
 
             // Configure angular translate
             $translateProvider.useStaticFilesLoader({
@@ -70,35 +83,38 @@
             piwikProvider.enableTracking(piwikConfig.enable);
             piwikProvider.setPiwikDomain(piwikConfig.url);
             piwikProvider.setSiteId(piwikConfig.siteId);
+
+            // Interceptor setup (see interceptors.js)
+            $httpProvider.interceptors.push('httpErrorCodeInterceptor');
         }
     ]);
 
     /**
      * Main controller of the project
+     * TODO: move to a separate file
      * @exports flokModule/AppCtrl
      */
-    angular.module('flokModule').controller('AppCtrl', ['$scope', '$location', 'menuService', function($scope, $location, menuService) {
-        // Make the location available in the scope
-        /**
-         * Angular $location service
-         * @alias module:AppCtrl
-         */
-        $scope.location = $location;
+    angular.module('flokModule').controller('AppCtrl', [
+        '$scope', 'menuService', 'sessionService',
+        function($scope, menuService, sessionService) {
+            $scope.contentLoaded = true;
+            // Set the content to loaded when the localization says it's done
+            // TODO $translateLoadingSuccess isn't called but content is translated
+            //$scope.$on('$translateLoadingSuccess', function() {
+            //    $scope.contentLoaded = true;
+            //});
 
-        $scope.contentLoaded = true;
-        // Set the content to loaded when the localization says it's done
-        // TODO $translateLoadingSuccess isn't called but content is translated
-        //$scope.$on('$translateLoadingSuccess', function() {
-        //    $scope.contentLoaded = true;
-        //});
+            // Bind to the status of the backend
+            $scope.backendStatus = '';
+            $scope.$onRootScope('flok.backend.status', function(event, newStatus) {
+                $scope.backendStatus = newStatus;
+            });
 
-        // Bind to the status of the backend
-        $scope.backendStatus = '';
-        $scope.$onRootScope('flok.backend.status', function(event, newStatus) {
-            $scope.backendStatus = newStatus;
-        });
+            // Expose whether we have a valid session
+            $scope.hasValidSession = sessionService.hasValidSession.bind(sessionService);
 
-        $scope.menuItems = menuService.getMenuItems();
-    }]);
+            $scope.menuItems = menuService.getMenuItems();
+        }
+    ]);
 
 })(window.ENABLED_FLOK_COMPONENTS);

@@ -1,0 +1,40 @@
+<div ng-controller="LoginCtrl" class="grid-container">
+    <div class="prefix-30 tablet-prefix-30 grid-40 tablet-grid-40 mobile-grid-100">
+        <h1>{{ 'flok.login.title' | translate }}</h1>
+
+        <div class="alert alert-{{ messageType }}" ng-show="message" ng-click="message = ''">
+            {{ message }}
+        </div>
+
+        <form novalidate name="sessionForm">
+            <p>
+                <input type="email" class="form-control" required
+                 ng-model="form.email" placeholder="{{ 'flok.login.form.email.placeholder' | translate }}"
+                 />
+            </p>
+
+            <p>
+                <input type="password" class="form-control" required
+                 ng-model="form.password" placeholder="{{ 'flok.login.form.password.placeholder' | translate }}"
+                 />
+            </p>
+
+            <p>
+                <button
+                 type="submit"
+                 class="btn btn-default"
+                 ng-disabled="sessionForm.$invalid"
+                 ng-click="submitLogin()">
+                    {{ 'flok.action.login' | translate }}
+                </button>
+                <button
+                 type="submit"
+                 class="btn btn-default"
+                 ng-disabled="sessionForm.$invalid"
+                 ng-click="submitRegistration()">
+                    {{ 'flok.action.register' | translate }}
+                </button>
+            </p>
+        </form>
+    </div>
+</div>
