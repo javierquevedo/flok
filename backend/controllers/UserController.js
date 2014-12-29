@@ -40,3 +40,13 @@ exports.register = function(req, res, next) {
         return res.status(201).send(user);
     });
 };
+
+
+/**
+ * Gets the user data of the logged in user.
+ * @param req
+ * @param res
+ */
+exports.getMe = function(req, res) {
+    return res.send(req.user);
+};

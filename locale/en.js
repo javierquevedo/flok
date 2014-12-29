@@ -9,18 +9,23 @@ var locale = {};
 
 // Flok Strings
 locale.flok = {
-    'title': 'flok',
-    'error': {
-        'noModules': 'Welcome to flok, the Radically Open Business Operation Toolkit. It looks like you currently don\'t have any configured components, check your config and make sure you enable at least 1!'
+    title: 'flok',
+    error: {
+        'default': 'An error occurred.',
+        noModules: 'Welcome to flok, the Radically Open Business Operation Toolkit. It looks like you currently don\'t have any configured components, check your config and make sure you enable at least 1!'
     },
-    'version': 'Version',
-    'format.date_and_time': 'dd.MM.y HH:mm:ss',
+    version: 'Version',
+    message: {
+        registrationSuccess: 'Registered successfully. You can now log in.'
+    },
     login: {
-        title: 'Register / Login / Logout'
+        title: 'Login or Register'
+    },
+    logout: {
+        title: 'Logout'
     },
     action: {
         login: 'Login',
-        logout: 'Logout',
         register: 'Register'
     }
 };

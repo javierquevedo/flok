@@ -1,5 +1,6 @@
-angular.module('flokModule').factory('httpErrorCodeInterceptor', ['$q', '$location',
-    function($q, $location) {
+angular.module('flokModule').factory('httpErrorCodeInterceptor', [
+    '$q', '$location', '$rootScope', '$translate',
+    function($q, $location, $rootScope, $translate) {
         'use strict';
 
         /**
@@ -19,21 +20,18 @@ angular.module('flokModule').factory('httpErrorCodeInterceptor', ['$q', '$locati
         HttpRequestInterceptor.prototype.responseError = function(rejection) {
             // unauthorized, time or never authorized
             if (rejection.status === 401) {
-                console.log('woot');
-                
-                // TODO show alert message
-                $location.path('/login');
-                return $q.reject(rejection);
+                $rootScope.$emit('flok.backend.unauthorized');
             }
             // Redirect to 404 page when a request 404s
             else if (rejection.status === 404) {
                 $location.path('/404');
-                return $q.reject(rejection);
             }
-            // all others, pass the error on
-            return rejection;
-        };
 
+            // Try to read out the error sent by the backend
+            var error = (rejection.data && rejection.data.error) ||
+                $translate.instant('flok.error.default');
+            return $q.reject(error);
+        };
 
         return new HttpRequestInterceptor();
     }

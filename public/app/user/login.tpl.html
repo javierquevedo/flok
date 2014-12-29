@@ -1,8 +1,7 @@
 <div ng-controller="LoginCtrl">
     <h1>{{ 'flok.login.title' | translate }}</h1>
-    <div class="alert alert-{{ lastMessageType }}" ng-show="lastMessage">
-        {{ lastMessage.status }}
-        {{ lastMessage.data }}
+    <div class="alert alert-{{ messageType }}" ng-show="message" ng-click="message = ''">
+        {{ message }}
     </div>
 
     <form novalidate name="sessionForm">
@@ -23,10 +22,4 @@
             {{ 'flok.action.register' | translate }}
         </button>
     </form>
-
-    <button
-     class="btn btn-default"
-     ng-click="submitLogout()">
-        {{ 'flok.action.logout' | translate }}
-    </button>
 </div>

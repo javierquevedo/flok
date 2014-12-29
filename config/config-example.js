@@ -5,10 +5,6 @@ var config = {
         backendUrl: 'http://localhost:3000/api',
         sessionSecret: 'add some random string here',
         localePath: 'locale/en.json',
-        users: [
-            //List of string user names here.
-            'Nothing'
-        ],
         piwik: {
             enable: true,
             url: 'piwik.example.com',

@@ -34,9 +34,9 @@
      * piwik
      * angular-translate
      */
-    flokModule.config(['$routeProvider','$httpProvider', '$translateProvider',
+    flokModule.config(['$routeProvider', '$httpProvider', '$translateProvider',
         'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
-        function($routeProvider,$httpProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
+        function($routeProvider, $httpProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
             // No enabled modules:
             if (ENABLED_FLOK_COMPONENTS.length === 0) {
                 // Configure Routes
@@ -55,18 +55,21 @@
                     .when('/login', {
                         templateUrl: 'app/user/login.tpl.html'
                     })
+                    .when('/logout', {
+                        templateUrl: 'app/user/logout.tpl.html'
+                    })
                     .otherwise({
                         redirectTo: '/' + defaultComponent
                     })
                 ;
             }
 
-            // Login menu item
+            // Logout menu item
             menuServiceProvider.addMenuItem(
                 {
-                    url: '/login',
-                    name: 'flok.login.title',
-                    icon: 'key'
+                    url: '/logout',
+                    name: 'flok.logout.title',
+                    icon: 'signout'
                 }
             );
 
@@ -89,31 +92,31 @@
 
     /**
      * Main controller of the project
+     * TODO: move to a separate file
      * @module AppCtrl
      */
-    flokModule.controller('AppCtrl', ['$scope', '$location', 'menuService', function($scope, $location, menuService) {
-        // Make the location available in the scope
-        /**
-         * Angular $location service
-         * @alias module:AppCtrl
-         */
-        $scope.location = $location;
+    flokModule.controller('AppCtrl', [
+        '$scope', 'menuService', 'sessionService',
+        function($scope, menuService, sessionService) {
+            $scope.contentLoaded = true;
+            // Set the content to loaded when the localization says it's done
+            // TODO $translateLoadingSuccess isn't called but content is translated
+            //$scope.$on('$translateLoadingSuccess', function() {
+            //    $scope.contentLoaded = true;
+            //});
 
-        $scope.contentLoaded = true;
-        // Set the content to loaded when the localization says it's done
-        // TODO $translateLoadingSuccess isn't called but content is translated
-        //$scope.$on('$translateLoadingSuccess', function() {
-        //    $scope.contentLoaded = true;
-        //});
+            // Bind to the status of the backend
+            $scope.backendStatus = '';
+            $scope.$onRootScope('flok.backend.status', function(event, newStatus) {
+                $scope.backendStatus = newStatus;
+            });
 
-        // Bind to the status of the backend
-        $scope.backendStatus = '';
-        $scope.$onRootScope('flok.backend.status', function(event, newStatus) {
-            $scope.backendStatus = newStatus;
-        });
+            // Expose whether we have a valid session
+            $scope.hasValidSession = sessionService.hasValidSession.bind(sessionService);
 
-        $scope.menuItems = menuService.getMenuItems();
-    }]);
+            $scope.menuItems = menuService.getMenuItems();
+        }
+    ]);
 
     window.flokModule = flokModule;
 })(window.ENABLED_FLOK_COMPONENTS);

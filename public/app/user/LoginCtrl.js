@@ -4,56 +4,51 @@
  * @module LoginCtrl
  */
 angular.module('flokModule').controller('LoginCtrl', [
-    '$scope', 'sessionService',
-    function($scope, sessionService) {
+    '$scope', '$location', '$translate', 'sessionService',
+    function($scope, $location, $translate, sessionService) {
         'use strict';
-
-        // TODO: this whole thing is just dummy code to get a basic register/login/logout flow going
 
         $scope.form = {
             email: '',
             password: ''
         };
 
-        $scope.lastMessage = '';
-        $scope.lastMessageType = '';
+        // TODO: use a proper alert component
+        $scope.message = '';
+        $scope.messageType = '';
 
-        var handleError = function(data) {
-            $scope.lastMessage = data;
-            $scope.lastMessageType = 'danger';
+        var handleError = function(errorMessage) {
+            $scope.message = errorMessage;
+            $scope.messageType = 'danger';
         };
 
-        var handleSuccess = function(data) {
-            $scope.lastMessage = data;
-            $scope.lastMessageType = 'success';
+        var handleSuccess = function(successMessage) {
+            $scope.message = successMessage;
+            $scope.messageType = 'success';
         };
-
 
         /**
          * Submits the form as login action
          */
         $scope.submitLogin = function() {
-            $scope.lastMessage = '';
+            $scope.message = '';
             sessionService.login($scope.form.email, $scope.form.password)
-                .then(handleSuccess).catch(handleError);
+                .then(function() {
+                    $location.url('/');
+                })
+                .catch(handleError);
         };
 
         /**
          * Submits the form as registration action
          */
         $scope.submitRegistration = function() {
-            $scope.lastMessage = '';
+            $scope.message = '';
             sessionService.register($scope.form.email, $scope.form.password)
-                .then(handleSuccess).catch(handleError);
-        };
-
-        /**
-         * Logs the user out
-         */
-        $scope.submitLogout = function() {
-            $scope.lastMessage = '';
-            sessionService.logout()
-                .then(handleSuccess).catch(handleError);
+                .then(function() {
+                    handleSuccess($translate.instant('flok.message.registrationSuccess'));
+                })
+                .catch(handleError);
         };
     }
 ]);

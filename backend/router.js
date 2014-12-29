@@ -21,6 +21,9 @@ router.post('/register', UserController.register);
 router.post('/session', SessionController.createSession);
 router.delete('/session', SessionController.deleteSession);
 
+// Get user
+router.get('/user/me', UserController.getMe);
+
 
 // Export the router
 module.exports = router;
