@@ -3,26 +3,6 @@ angular.module('flokActivityModule').factory('eventService',
         function($timeout, $rootScope, streamBackendStorageService, Event) {
             'use strict';
 
-            var STORAGE_ID = 'nothingFlokEventStorage-1';
-
-            /**
-             * events storage
-             * @type {Event[]}
-             * @private
-             */
-            var events = [];
-            var _initialising = true;
-            var _currentUser = '';
-            var _lastPlannedDataToPersistToBackend = '';
-
-            var getStorageId = function() {
-                return STORAGE_ID + '-' + _currentUser;
-            };
-
-            var stringifyEvents = function(events) {
-                return JSON.stringify(events, Event.INCLUDE_IN_JSON);
-            };
-
             /**
              * Stream event provider. Retrieves events from the DB
              *
@@ -31,44 +11,53 @@ angular.module('flokActivityModule').factory('eventService',
              * @exports flokActivityModule/eventService
              */
             var EventService = function() {
+                /**
+                 * Events storage.
+                 * The array reference should never be overwritten since the controllers
+                 * should be able to bind to it directly.
+                 * @type {Event[]}
+                 * @private
+                 */
+                this._events = [];
             };
 
             /**
              * Retrieves events from the backend and stores them in the provider instance
              */
-            EventService.prototype.retrieveEventsFor = function() {
-                _initialising = true;
-                events = [];
-                // Retrieve the stored tasks
-                streamBackendStorageService.getStream()
-                    .success(function(data) {
-                        for (var i = 0; i < data.length; i++) {
+            EventService.prototype.retrieveEvents = function() {
+                // Request new events
+                var that = this;
+                return streamBackendStorageService.getStream()
+                    .success(function(eventData) {
+                        var addAll = (that._events.length === 0);
+                        var previousNewestTimestamp;
+                        if (!addAll) {
+                            previousNewestTimestamp = that._events[0].timestamp;
+                        }
 
-                            events.push(new Event(data[i]));
+                        // Go backwards through the received events to start with the oldest
+                        for (var i = eventData.length - 1; i >= 0; i--) {
+                            var event = new Event(eventData[i]);
+
+                            // Only add it if it's newer than the previous events
+                            // TODO: this should be done with the id of the event to prevent duplicates
+                            if (addAll || event.timestamp > previousNewestTimestamp) {
+                                that._events.unshift(event);
+                            }
                         }
-                        _lastPlannedDataToPersistToBackend = stringifyEvents(events);
-                        _initialising = false;
-                    })
-                    .error(function() {
-                        var storedEvents = JSON.parse(localStorage.getItem(getStorageId()) || '[]');
-                        for (var i = 0; i < storedEvents.length; i++) {
-                            events.push(new Event(storedEvents[i]));
-                        }
-                        _initialising = false;
-                    })
-                ;
+                    });
             };
 
             /**
-             * The provided Tasks
+             * The events of the activity stream. The returned array will be updated
+             * when retrieveEvents is called
              * @returns {Event[]}
              */
             EventService.prototype.getEvents = function() {
-                return events;
+                return this._events;
             };
 
             return new EventService();
-
         }
     ]
 );
