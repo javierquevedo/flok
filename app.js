@@ -70,6 +70,7 @@ passport.deserializeUser(User.deserializeUser());
 // Restrict access to all urls under /api, except the given ones (relative to /api)
 var PUBLIC_URLS = [
     '/',
+    '/activity', // TODO: this is a temporary fix to allow external resources to POST activity entries.
     '/flok/register',
     '/flok/session'
 ];
