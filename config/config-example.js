@@ -16,8 +16,15 @@ var config = {
             priority: false
         },
         defaultComponent: 'time',
-        stream: {
-            apiKeys: []
+
+        // List of URLs (relative to /api) and methods that are accessible to everyone
+        publicApiUrls: {
+            // /api status call
+            '': ['GET'],
+            // Registering a new user
+            '/flok/register': ['POST'],
+            // Logging in and out
+            '/flok/session': ['POST', 'DELETE']
         }
     },
 
@@ -43,7 +50,16 @@ var config = {
 
     // Overwriting config for production
     production: {
-        backendUrl: 'https://example.com/api'
+        backendUrl: 'https://example.com/api',
+
+        // List of existing API keys
+        apiKeys: {
+            // Every API key maps to a list of URLs that it allows access to
+            'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf': {
+                // Every URL maps to a list of HTTP methods that are allowed for that key
+                '/activity': ['POST']
+            }
+        }
     }
 };
 

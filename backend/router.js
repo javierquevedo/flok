@@ -9,7 +9,7 @@
 var express = require('express');
 
 var UserController = require('./controllers/UserController');
-var SessionController = require('./controllers/SessionController');
+var AccessController = require('./controllers/AccessController');
 
 // Create the router
 var router = express.Router();
@@ -18,8 +18,8 @@ var router = express.Router();
 router.post('/register', UserController.register);
 
 // Creating and deleting sessions (login and logout)
-router.post('/session', SessionController.createSession);
-router.delete('/session', SessionController.deleteSession);
+router.post('/session', AccessController.createSession);
+router.delete('/session', AccessController.deleteSession);
 
 // Get user
 router.get('/user/me', UserController.getMe);

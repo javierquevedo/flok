@@ -4,11 +4,13 @@
 
 The events need to be pushed to the backend using post. Once they're parsed into the database they become available to the frontend.
 
-The authorisation is done with a set of authorized keys which are store in the config (default or other env) using the following format:
+The authorisation is done with API keys. These have to be set up in the config to allow access to posting stream events:
 
-    stream: {
-        apiKeys: ['oneKeyHashHere','anotherKeyHashHere']
-    }
+    apiKeys: {
+		'oneKeyHashHere': {
+			'/activity': ['POST']
+		}
+	}
 
 ## Stream JSON Format
 

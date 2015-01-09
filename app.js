@@ -21,7 +21,7 @@ var activeConfig = require('./backend/Config.js');
 var coreRouter = require('./backend/router.js');
 
 var User = require('./backend/models/UserModel.js');
-var SessionController = require('./backend/controllers/SessionController.js');
+var AccessController = require('./backend/controllers/AccessController.js');
 
 // let's make sure we have a valid default module in the config
 if (_.isUndefined(activeConfig.defaultComponent)) {
@@ -67,14 +67,8 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Restrict access to all urls under /api, except the given ones (relative to /api)
-var PUBLIC_URLS = [
-    '/',
-    '/activity', // TODO: this is a temporary fix to allow external resources to POST activity entries.
-    '/flok/register',
-    '/flok/session'
-];
-app.use('/api', SessionController.restrict(PUBLIC_URLS));
+// Restrict access to all urls under /api with the AccessController
+app.use('/api', AccessController.restrict(activeConfig.publicApiUrls, activeConfig.apiKeys));
 
 // Set up the routes
 // Route for delivering the angular page
