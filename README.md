@@ -88,7 +88,14 @@ This will use the `production` settings in `config/config.js`. Make sure the set
 [Mocha](http://visionmedia.github.io/mocha/) is used for backend testing.
 
 * Make sure you configured a test db in your config.js
-* Run mocha `./node_modules/.bin/mocha components/*/tests/backend/**/*Test.js`
+* Run mocha `NODE_ENV=test ./node_modules/.bin/mocha components/*/tests/backend/**/*Test.js`
+
+#### API E2E Tests
+
+[Mocha](http://visionmedia.github.io/mocha/) is used for backend testing.
+
+* Make sure you configured a test db in your config.js
+* Run mocha `NODE_ENV=test ./node_modules/.bin/mocha tests/e2e/**/*Test.js`
 
 ### JSHint
 Please respect the coding standards described in the [JSHint](http://www.jshint.com/) config file (_buildtools/.jshintrc_).
