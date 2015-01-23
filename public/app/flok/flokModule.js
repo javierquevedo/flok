@@ -34,12 +34,13 @@
      * angular-translate
      */
     angular.module('flokModule').config(['$urlRouterProvider', '$stateProvider', '$httpProvider', '$translateProvider',
+        '$locationProvider',
         'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
-        function($urlRouterProvider, $stateProvider, $httpProvider, $translateProvider,
+        function($urlRouterProvider, $stateProvider, $httpProvider, $translateProvider,$locationProvider,
             defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
 
             // We want nice URLs without hashes
-            //$locationProvider.html5Mode(true);
+            $locationProvider.html5Mode(true);
 
             // No enabled modules:
             if (ENABLED_FLOK_COMPONENTS.length === 0) {

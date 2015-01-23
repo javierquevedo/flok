@@ -156,6 +156,11 @@ app.use(function(err, req, res, next) { // jshint ignore:line
     });
 });
 
+// This route deals enables HTML5Mode by forwarding missing files to the index
+// This must be the last route defined right now or it will serve the html instead of js files.
+app.get('/*', function(req, res) {
+    res.render('index', activeConfig);
+});
 
 
 // Server
