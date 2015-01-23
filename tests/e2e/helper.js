@@ -33,6 +33,7 @@ var request = require('superagent');
 exports.request = function(method, url) {
     // callback
     var callback;
+    // TODO clean up this parameter strangeness
     if ('function' === typeof url) {
         callback = url;
         url = method;
@@ -46,7 +47,7 @@ exports.request = function(method, url) {
     // TODO is this needed?
     // Here, the actual defaults are set
     var r = request(method, url)
-        .set('Authorization', 'VeganautBearer ' + exports.sessionId);
+        .set('Authorization', 'VegaunautBearer ' + exports.sessionId);
     if (callback) {
         return r.end(callback);
     }

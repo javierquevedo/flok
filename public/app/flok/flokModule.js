@@ -4,9 +4,9 @@
     // Define the module dependencies
     var flokDependencies = [
         // Angular Core Components:
-        'ngRoute',
+        'ngSanitize', 'ngMessages', 'ngRoute', // TODO remove route
         // External Components:
-        'pascalprecht.translate', 'ui.bootstrap', 'ui.utils',
+        'pascalprecht.translate', 'ui.bootstrap', 'ui.utils', 'ui.router',
         // flok Components:
         'onRootScope', 'flokFilters', 'flokDirectives', 'angularPiwik', 'flokMenuModule'
     ];
@@ -36,6 +36,13 @@
     angular.module('flokModule').config(['$routeProvider', '$httpProvider', '$translateProvider',
         'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
         function($routeProvider, $httpProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
+
+            // We want nice URLs without hashes
+            //$locationProvider.html5Mode(true);
+
+            // For any unmatched url, redirect to /
+            //$urlRouterProvider.otherwise('/404');
+
             // No enabled modules:
             if (ENABLED_FLOK_COMPONENTS.length === 0) {
                 // Configure Routes
@@ -45,6 +52,21 @@
                     })
                     .otherwise({
                         redirectTo: '/'
+                    })
+                ;
+
+                // Set up global states
+                $stateProvider
+                    .state('home', {
+                        url: '/',
+                        ncyBreadcrumb: {
+                            label: 'home.index'
+                        },
+                        templateUrl: 'angular/cockpit/startPage/startPage.tpl.html'
+                    })
+                    .state('404', {
+                        url: '/404',
+                        templateUrl: 'angular/cockpit/errors/404.tpl.html'
                     })
                 ;
             }
@@ -86,34 +108,6 @@
 
             // Interceptor setup (see interceptors.js)
             $httpProvider.interceptors.push('httpErrorCodeInterceptor');
-        }
-    ]);
-
-    /**
-     * Main controller of the project
-     * TODO: move to a separate file
-     * @exports flokModule/AppCtrl
-     */
-    angular.module('flokModule').controller('AppCtrl', [
-        '$scope', 'menuService', 'sessionService',
-        function($scope, menuService, sessionService) {
-            $scope.contentLoaded = true;
-            // Set the content to loaded when the localization says it's done
-            // TODO $translateLoadingSuccess isn't called but content is translated
-            //$scope.$on('$translateLoadingSuccess', function() {
-            //    $scope.contentLoaded = true;
-            //});
-
-            // Bind to the status of the backend
-            $scope.backendStatus = '';
-            $scope.$onRootScope('flok.backend.status', function(event, newStatus) {
-                $scope.backendStatus = newStatus;
-            });
-
-            // Expose whether we have a valid session
-            $scope.hasValidSession = sessionService.hasValidSession.bind(sessionService);
-
-            $scope.menuItems = menuService.getMenuItems();
         }
     ]);
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="flokModule" ng-controller="AppCtrl">
+<html ng-app="flokModule" ng-controller="flokCtrl">
 <head>
     <meta charset="UTF-8"/>
     <title>flok</title>
@@ -11,34 +11,44 @@
     <link href="vendor/bower/fontawesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" media="all"/>
     <link href="css/flok.css" type="text/css" rel="stylesheet" media="all"/>
 
+    <%# libraries & vendors %>
     <script type="text/javascript" src="vendor/bower/jquery/dist/jquery<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular/angular<% if (environment !== 'development') { %>.min<% } %>.js"></script>
+    <!--TODO remove route-->
     <script type="text/javascript" src="vendor/bower/angular-route/angular-route<% if (environment !== 'development') { %>.min<% } %>.js"></script>
+    <script type="text/javascript" src="vendor/bower/angular-ui-router/release/angular-ui-router<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular-translate/angular-translate<% if (environment !== 'development') { %>.min<% } %>.js"></script>
+    <script type="text/javascript" src="vendor/bower/angular-messages/angular-messages<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular-sanitize/angular-sanitize<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular-translate-loader-static-files/angular-translate-loader-static-files<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/js/ui-bootstrap-tpls-0.6.0.js"></script>
     <script type="text/javascript" src="vendor/js/ui-utils-0.0.4.js"></script>
 
 
+    <%# configure enabled modules %>
     <script type="text/javascript">
         var ENABLED_FLOK_COMPONENTS = [<% if (angularModules.length > 0) { %>'<%- angularModules.join("','") %>'<% } %>];
     </script>
 
+    <%# flok core modules %>
     <script type="text/javascript" src="app/flok/angularPiwik.js"></script>
     <script type="text/javascript" src="app/flok/flokDirectives.js"></script>
     <script type="text/javascript" src="app/flok/flokFilters.js"></script>
     <script type="text/javascript" src="app/flok/onRootScope.js"></script>
     <script type="text/javascript" src="app/flok/flokModule.js"></script>
+    <script type="text/javascript" src="app/flok/flokCtrl.js"></script>
     <script type="text/javascript" src="app/flok/interceptors.js"></script>
+
     <script type="text/javascript" src="app/menu/flokMenuModule.js"></script>
     <script type="text/javascript" src="app/menu/menuService.js"></script>
+
     <script type="text/javascript" src="app/user/LoginCtrl.js"></script>
     <script type="text/javascript" src="app/user/LogoutCtrl.js"></script>
     <script type="text/javascript" src="app/user/sessionService.js"></script>
     <script type="text/javascript" src="app/user/User.js"></script>
     <script type="text/javascript" src="app/user/UserCtrl.js"></script>
 
+    <%# flok component modules %>
     <%
     var i = 0;
     for (i = 0; i < cssFiles.length; i++) { %>
@@ -51,6 +61,7 @@
     }
     %>
 
+    <%# flok configuration %>
     <script type="text/javascript">
         angular.module('flokModule').constant('defaultComponent', '<%= defaultComponent %>');
 
