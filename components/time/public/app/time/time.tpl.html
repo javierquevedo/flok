@@ -83,7 +83,7 @@
                                 ({{task.totalDuration | decimalDuration}})</strong>
                         </div>
                         <div class="input-group" ng-show="task.editing">
-                            <input type="text" focus-on="task.editing" class="form-control"
+                            <input type="text" ni-focus-on="task.editing" class="form-control"
                              placeholder="{{ 'flok.time.label.modify_duration'| translate }}"
                              ng-model="task.manualChangeInputString"
                              ui-keydown="{'enter':'task.manualChange() | track:\'save edit\':$event', 'esc':'task.toggleEdit() | track:\'abort edit\':$event'}"/>

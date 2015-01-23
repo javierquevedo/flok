@@ -1,7 +1,51 @@
-(function() {
+/**
+ * Angular Piwik Analytics Module: track events and page views to Piwik analytics
+ *
+ * The angularPiwik provider can be configured with the server settings. If
+ * piwikDomain and siteId is given and track is enabled, then the Piwik
+ * tracking code is generated and included.
+ *
+ * @example
+ * // Use the 'track' filter to track an action for example on a ng-click.
+ * // The filter takes two arguments:
+ * // i) the action: a short string, e.g. edit/abort task
+ * // ii) $event: the $event object provided by angular (optional)
+ * <button ng-click="task.anyFunc() | track:'action':$event">Track It</button>
+ *
+ * @example
+ * // Use the track() method on the $rootScope from anywhere in the template.
+ * // Again with the above two arguments. This time we leave out the second one:
+ * <a ng-click="track('link')">link</a>
+ *
+ * @namespace angularPiwik
+ */
+angular.module('angularPiwik', []);
+
+angular.module('angularPiwik').factory('piwikTrackingService', [function() {
     'use strict';
-    // saves the milisecond timestamp of the last tracked click and compares it to the listeners, to avoid saving 2 times the same event.
-    var lastClickTimestamp = 0;
+
+    /**
+     * Exposes the page constant variables for last click data.
+     * @copyright  Nothing Interactive 2014
+     * @author     Patrick Fiaux <nodz@nothing.ch>
+     * @constructor
+     * @exports angularPiwik/piwikTrackingService
+     */
+    var PiwikTrackingService = function() {
+
+        /**
+         * saves the milisecond timestamp of the last tracked click and compares it to the listeners, to avoid saving 2 times the same event.
+         * @type {number}
+         */
+        this.lastClickTimestamp = 0;
+    };
+
+    return new PiwikTrackingService();
+}]);
+
+
+angular.module('angularPiwik').service('AdvancedTracking', ['piwikTrackingService', function(piwikTrackingService) {
+    'use strict';
 
     /**
      * TODO: this whole class has to be tested and cleaned up and only loaded when enabled in the config
@@ -11,6 +55,7 @@
      * @param piwikDomain
      * @param siteId
      * @constructor
+     * @exports angularPiwik/AdvancedTracking
      */
     var AdvancedTracking = function($window, piwikDomain, siteId) {
         this._$window = $window;
@@ -260,8 +305,8 @@
             clicking = device;
         }
 
-        if ((isClick && evt.timeStamp !== lastClickTimestamp) ||
-            (!isClick && this._scrollCollection[0].timestamp !== lastClickTimestamp))
+        if ((isClick && evt.timeStamp !== piwikTrackingService.lastClickTimestamp) ||
+            (!isClick && this._scrollCollection[0].timestamp !== piwikTrackingService.lastClickTimestamp))
         { // if the click is not already tracked (compares timestamp at milisecond)
             this._piwikTracker.trackEvent(this._$window.document.title, markupInfo, clicking);
         }
@@ -282,197 +327,183 @@
         }
     };
 
-    /**
-     * AngularPiwik class exposed to angular with the angularPiwik module.
-     * @param $window
-     * @param piwikDomain
-     * @param siteId
-     * @param enableTracking
-     * @constructor
-     */
-    var AngularPiwik = function($window, piwikDomain, siteId, enableTracking) {
-        /**
-         * The window object
-         * @type {Object}
-         * @private
-         */
-        this._$window = $window;
+    return AdvancedTracking;
+}]);
 
-        // Make sure the piwik _paq array exists
-        this._$window._paq = this._$window._paq || [];
+angular.module('angularPiwik').service('AngularPiwik', ['piwikTrackingService', 'AdvancedTracking',
+    function(piwikTrackingService, AdvancedTracking) {
+        'use strict';
 
         /**
-         * Whether to track any events
-         * @type {boolean}
-         * @private
+         * AngularPiwik class exposed to angular with the angularPiwik module.
+         * @param $window
+         * @param piwikDomain
+         * @param siteId
+         * @param enableTracking
+         * @constructor
+         * @exports angularPiwik/AngularPiwik
          */
-        this._enabled = enableTracking;
+        var AngularPiwik = function($window, piwikDomain, siteId, enableTracking) {
+            /**
+             * The window object
+             * @type {Object}
+             * @private
+             */
+            this._$window = $window;
 
-        this._advanceTracker = null;
-        var that = this;
+            // Make sure the piwik _paq array exists
+            this._$window._paq = this._$window._paq || [];
 
-        // Check if we should include the tracking code
-        if (this._enabled === true && typeof piwikDomain !== 'undefined' && typeof siteId !== 'undefined') {
-            // Set up piwik
-            var _paq = this._$window._paq;
-            _paq.push(['trackPageView']);
-            _paq.push(['enableLinkTracking']);
+            /**
+             * Whether to track any events
+             * @type {boolean}
+             * @private
+             */
+            this._enabled = enableTracking;
 
-            // Slightly angularised piwik tracking code
-            var d = $window.document;
-            var u = (('https:' === d.location.protocol) ? 'https' : 'http') + '://' + piwikDomain + '/';
-            _paq.push(['setTrackerUrl', u + 'piwik.php']);
-            _paq.push(['setSiteId', '' + siteId]);
-            var g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-            g.type = 'text/javascript';
-            g.defer = true;
-            g.async = true;
-            g.src = u + 'piwik.js';
-            s.parentNode.insertBefore(g, s);
+            this._advanceTracker = null;
+            var that = this;
 
-            // Start advanced when piwik is loaded
-            var startAdvancedTracking = function() {
-                if ($window.Piwik) {
-                    that._advanceTracker = new AdvancedTracking($window, u + 'piwik.php', siteId);
+            // Check if we should include the tracking code
+            if (this._enabled === true && typeof piwikDomain !== 'undefined' && typeof siteId !== 'undefined') {
+                // Set up piwik
+                var _paq = this._$window._paq;
+                _paq.push(['trackPageView']);
+                _paq.push(['enableLinkTracking']);
+
+                // Slightly angularised piwik tracking code
+                var d = $window.document;
+                var u = (('https:' === d.location.protocol) ? 'https' : 'http') + '://' + piwikDomain + '/';
+                _paq.push(['setTrackerUrl', u + 'piwik.php']);
+                _paq.push(['setSiteId', '' + siteId]);
+                var g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                g.type = 'text/javascript';
+                g.defer = true;
+                g.async = true;
+                g.src = u + 'piwik.js';
+                s.parentNode.insertBefore(g, s);
+
+                // Start advanced when piwik is loaded
+                var startAdvancedTracking = function() {
+                    if ($window.Piwik) {
+                        that._advanceTracker = new AdvancedTracking($window, u + 'piwik.php', siteId);
+                    }
+                    else {
+                        setTimeout(startAdvancedTracking, 100);
+                    }
+                };
+                startAdvancedTracking();
+            }
+        };
+
+        /**
+         * Tracks events tagged in the view.
+         * @param action {string} action defined in the html file
+         * @param event {Object} the $event object, it gives all the data linked to the event
+         * @param input {bool/undefined} defined if action function returns a success flag
+         */
+        AngularPiwik.prototype.track = function(action, event, input) {
+            // Don't do anything if not enabled
+
+            if (!this._enabled) {
+                return;
+            }
+
+            // Preparing the tracking array
+            var track = ['trackEvent', this._$window.document.title, action];
+            var that = this;
+
+            // Add more info if we got event data
+            if (event) {
+                if (this._advanceTracker !== null) {
+                    this._advanceTracker.pushDataToBackend(true);
                 }
-                else {
-                    setTimeout(startAdvancedTracking, 100);
+
+                piwikTrackingService.lastClickTimestamp = event.timeStamp;
+                // Normalise the event type
+                var eventType = event.type.toLowerCase();
+
+                // Check whether it is keyboard or mouse event
+                // Exception : if type = click and clientX & clientY === 0, than it was not a click, but a button was triggered by "enter"
+                var falseClick = (eventType === 'click' && event.clientX === 0 && event.clientY === 0);
+
+                // Add the event type to the tracking array
+                var trigger = (falseClick ? 'keydown' : eventType);
+                if (input === false) {
+                    trigger = 'e_' + trigger;
                 }
-            };
-            startAdvancedTracking();
-        }
+                if (falseClick) {
+                    trigger += ' / enter';
+                }
+                else if (eventType === 'keydown') {
+                    trigger += ' / ' + event.key.toLowerCase();
+                }
+                track.push(trigger);
+            }
+            that._$window._paq.push(track);
+        };
+
+        return AngularPiwik;
+    }
+]);
+
+/**
+ * Piwik tracking provider
+ * @memberof angularPiwik
+ */
+angular.module('angularPiwik').provider('piwik', [function() {
+    'use strict';
+    // Configuration values
+    var enable = true;
+    var piwikDomain;
+    var siteId;
+
+    /**
+     * Set whether to enable any tracking to Piwik
+     * @param shouldEnable {boolean}
+     */
+    this.enableTracking = function(shouldEnable) {
+        // !! to make sure it's a boolean
+        enable = !!shouldEnable;
     };
 
     /**
-     * Tracks events tagged in the view.
-     * @param action {string} action defined in the html file
-     * @param event {Object} the $event object, it gives all the data linked to the event
-     * @param input {bool/undefined} defined if action function returns a success flag
+     * Set the domain of the piwik server, e.g. 'piwik.example.com'
+     * @param domain {string}
      */
-    AngularPiwik.prototype.track = function(action, event, input) {
-        // Don't do anything if not enabled
-
-        if (!this._enabled) {
-            return;
-        }
-
-        // Preparing the tracking array
-        var track = ['trackEvent', this._$window.document.title, action];
-        var that = this;
-
-        // Add more info if we got event data
-        if (event) {
-            if (this._advanceTracker !== null) {
-                this._advanceTracker.pushDataToBackend(true);
-            }
-
-            lastClickTimestamp = event.timeStamp;
-            // Normalise the event type
-            var eventType = event.type.toLowerCase();
-
-            // Check whether it is keyboard or mouse event
-            // Exception : if type = click and clientX & clientY === 0, than it was not a click, but a button was triggered by "enter"
-            var falseClick = (eventType === 'click' && event.clientX === 0 && event.clientY === 0);
-
-            // Add the event type to the tracking array
-            var trigger = (falseClick ? 'keydown' : eventType);
-            if (input === false) {
-                trigger = 'e_' + trigger;
-            }
-            if (falseClick) {
-                trigger += ' / enter';
-            }
-            else if (eventType === 'keydown') {
-                trigger += ' / ' + event.key.toLowerCase();
-            }
-            track.push(trigger);
-        }
-        that._$window._paq.push(track);
+    this.setPiwikDomain = function(domain) {
+        piwikDomain = domain;
     };
 
-
     /**
-     * Angular Piwik Analytics Module: track events and page views to Piwik analytics
-     *
-     * The angularPiwik provider can be configured with the server settings. If
-     * piwikDomain and siteId is given and track is enabled, then the Piwik
-     * tracking code is generated and included.
-     *
-     * @example
-     * // Use the 'track' filter to track an action for example on a ng-click.
-     * // The filter takes two arguments:
-     * // i) the action: a short string, e.g. edit/abort task
-     * // ii) $event: the $event object provided by angular (optional)
-     * <button ng-click="task.anyFunc() | track:'action':$event">Track It</button>
-     *
-     * @example
-     * // Use the track() method on the $rootScope from anywhere in the template.
-     * // Again with the above two arguments. This time we leave out the second one:
-     * <a ng-click="track('link')">link</a>
-     *
-     * @namespace angularPiwik
+     * Set the piwik server site id, e.g. 5
+     * @param id {number}
      */
-    var angularPiwikModule = angular.module('angularPiwik', []);
-
-    /**
-     * Piwik tracking provider
-     * @memberof angularPiwik
-     */
-    var piwikProvider = function() {
-        // Configuration values
-        var enable = true;
-        var piwikDomain;
-        var siteId;
-
-        /**
-         * Set whether to enable any tracking to Piwik
-         * @param shouldEnable {boolean}
-         */
-        this.enableTracking = function(shouldEnable) {
-            // !! to make sure it's a boolean
-            enable = !!shouldEnable;
-        };
-
-        /**
-         * Set the domain of the piwik server, e.g. 'piwik.example.com'
-         * @param domain {string}
-         */
-        this.setPiwikDomain = function(domain) {
-            piwikDomain = domain;
-        };
-
-        /**
-         * Set the piwik server site id, e.g. 5
-         * @param id {number}
-         */
-        this.setSiteId = function(id) {
-            siteId = id;
-        };
-
-        this.$get = ['$window', function($window) {
-            return new AngularPiwik($window, piwikDomain, siteId, enable);
-        }];
+    this.setSiteId = function(id) {
+        siteId = id;
     };
 
+    this.$get = ['$window', 'AngularPiwik', function($window, AngularPiwik) {
+        return new AngularPiwik($window, piwikDomain, siteId, enable);
+    }];
+}]);
+
+angular.module('angularPiwik').filter('track', ['piwik', function(piwik) {
+    'use strict';
     /**
      * Piwik track filter
      * @memberof angularPiwik
      */
-    var piwikFilter = function(piwik) {
-        return function(input, action, event) {
-            piwik.track(action, event, input);
-        };
+    return function(input, action, event) {
+        piwik.track(action, event, input);
     };
+}]);
 
-    // Register the provider and filter
-    angularPiwikModule.provider('piwik', piwikProvider);
-    angularPiwikModule.filter('track', ['piwik', piwikFilter]);
-
-    // Register a track function to root scope
-    angularPiwikModule.run(['$rootScope', 'piwik', function($rootScope, piwik) {
-        // Need to wrap it, otherwise 'this' is not set correctly
-        $rootScope.track = function(action, event) {
-            piwik.track(action, event);
-        };
-    }]);
-})();
+// Register a track function to root scope
+angular.module('angularPiwik').run(['$rootScope', 'piwik', function($rootScope, piwik) {
+    'use strict';
+    // Need to wrap it, otherwise 'this' is not set correctly
+    $rootScope.track = function(action, event) {
+        piwik.track(action, event);
+    };
+}]);

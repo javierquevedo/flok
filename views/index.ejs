@@ -24,6 +24,7 @@
     <script type="text/javascript" src="vendor/js/ui-utils-0.0.4.js"></script>
 
 
+
     <%# configure enabled modules %>
     <script type="text/javascript">
         var ENABLED_FLOK_COMPONENTS = [<% if (angularModules.length > 0) { %>'<%- angularModules.join("','") %>'<% } %>];
@@ -111,7 +112,7 @@
 <div class="text-center overlay" ng-hide="contentLoaded">
     <i class="icon-spinner icon-spin icon-4x overlay-spinner"></i>
 </div>
-<div ng-cloak ui-view></div>
+<ui-view ng-cloak></ui-view>
 
 <footer>
     <div class="grid-container text-muted">
