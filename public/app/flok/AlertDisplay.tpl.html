@@ -1,0 +1,6 @@
+<div class="alert-display">
+    <div ng-repeat="alert in alerts" class="alert" ng-class="{'alert-success': alert.type == 'success', 'alert-danger': alert.type == 'error', 'alert-info': alert.type == 'notification'}">
+        <span ng-bind-html="alert.message"></span>
+        <button class="btn-close" type="button" ng-click="alert.remove()"><i class="icon-remove"></i></button>
+    </div>
+</div>

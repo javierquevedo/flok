@@ -16,7 +16,8 @@ locale.flok = {
     },
     version: 'Version',
     message: {
-        registrationSuccess: 'Registered successfully. You can now log in.'
+        registrationSuccess: 'Registered successfully. You can now log in.',
+        loginSuccess: 'Welcome (back) robot!'
     },
     login: {
         title: 'Login or Register',

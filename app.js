@@ -76,6 +76,9 @@ app.get('/', function(req, res) {
     res.render('index', activeConfig);
 });
 
+// Add the static resources from core:
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Dummy api method to check if API is up
 // TODO this should probably return the version of the API
 app.get('/api', function(req, res) {

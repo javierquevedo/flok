@@ -4,8 +4,8 @@
  * @module LoginCtrl
  */
 angular.module('flokModule').controller('LoginCtrl', [
-    '$scope', '$location', '$translate', 'sessionService',
-    function($scope, $location, $translate, sessionService) {
+    '$scope', '$location', '$translate', 'sessionService','alertService',
+    function($scope, $location, $translate, sessionService,alertService) {
         'use strict';
 
         $scope.form = {
@@ -13,18 +13,8 @@ angular.module('flokModule').controller('LoginCtrl', [
             password: ''
         };
 
-        // TODO: use a proper alert component
-        $scope.message = '';
-        $scope.messageType = '';
-
         var handleError = function(errorMessage) {
-            $scope.message = errorMessage;
-            $scope.messageType = 'danger';
-        };
-
-        var handleSuccess = function(successMessage) {
-            $scope.message = successMessage;
-            $scope.messageType = 'success';
+            alertService.addAlert(errorMessage,'error');
         };
 
         /**
@@ -34,6 +24,7 @@ angular.module('flokModule').controller('LoginCtrl', [
             $scope.message = '';
             sessionService.login($scope.form.email, $scope.form.password)
                 .then(function() {
+                    alertService.addAlert($translate.instant('flok.message.loginSuccess'),'success'); //'Welcome back robot!')
                     $location.url('/');
                 })
                 .catch(handleError);
@@ -46,7 +37,7 @@ angular.module('flokModule').controller('LoginCtrl', [
             $scope.message = '';
             sessionService.register($scope.form.email, $scope.form.password)
                 .then(function() {
-                    handleSuccess($translate.instant('flok.message.registrationSuccess'));
+                    alertService.addAlert($translate.instant('flok.message.registrationSuccess'),'success');
                 })
                 .catch(handleError);
         };

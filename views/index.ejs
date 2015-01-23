@@ -23,8 +23,6 @@
     <script type="text/javascript" src="vendor/js/ui-bootstrap-tpls-0.6.0.js"></script>
     <script type="text/javascript" src="vendor/js/ui-utils-0.0.4.js"></script>
 
-
-
     <%# configure enabled modules %>
     <script type="text/javascript">
         var ENABLED_FLOK_COMPONENTS = [<% if (angularModules.length > 0) { %>'<%- angularModules.join("','") %>'<% } %>];
@@ -37,6 +35,8 @@
     <script type="text/javascript" src="app/flok/onRootScope.js"></script>
     <script type="text/javascript" src="app/flok/flokModule.js"></script>
     <script type="text/javascript" src="app/flok/flokCtrl.js"></script>
+    <script type="text/javascript" src="app/components/niAlertModule.js"></script>
+
     <script type="text/javascript" src="app/flok/interceptors.js"></script>
 
     <script type="text/javascript" src="app/menu/flokMenuModule.js"></script>
@@ -112,6 +112,7 @@
 <div class="text-center overlay" ng-hide="contentLoaded">
     <i class="icon-spinner icon-spin icon-4x overlay-spinner"></i>
 </div>
+<ni-alert-display></ni-alert-display>
 <ui-view ng-cloak></ui-view>
 
 <footer>

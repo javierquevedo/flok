@@ -2,10 +2,6 @@
     <div class="prefix-30 tablet-prefix-30 grid-40 tablet-grid-40 mobile-grid-100">
         <h1>{{ 'flok.login.title' | translate }}</h1>
 
-        <div class="alert alert-{{ messageType }}" ng-show="message" ng-click="message = ''">
-            {{ message }}
-        </div>
-
         <form novalidate name="sessionForm">
             <p>
                 <input type="email"

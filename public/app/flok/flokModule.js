@@ -7,6 +7,8 @@
         'ngSanitize', 'ngMessages',
         // External Components:
         'pascalprecht.translate', 'ui.bootstrap', 'ui.utils', 'ui.router',
+        // Nothing components
+        'nothing.alertModule',
         // flok Components:
         'onRootScope', 'flokFilters', 'flokDirectives', 'angularPiwik', 'flokMenuModule'
     ];
@@ -35,8 +37,10 @@
      */
     angular.module('flokModule').config(['$urlRouterProvider', '$stateProvider', '$httpProvider', '$translateProvider',
         '$locationProvider',
+        'alertServiceProvider',
         'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
         function($urlRouterProvider, $stateProvider, $httpProvider, $translateProvider,$locationProvider,
+            alertServiceProvider,
             defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
 
             // We want nice URLs without hashes
@@ -85,6 +89,9 @@
                 suffix: '.json'
             });
             $translateProvider.preferredLanguage('en');
+
+            // Configure alerts to use a custom template:
+            alertServiceProvider.setTemplateUrl('app/flok/AlertDisplay.tpl.html');
 
             // Configure Piwik
             piwikProvider.enableTracking(piwikConfig.enable);
