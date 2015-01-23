@@ -4,7 +4,8 @@
  * @copyright  Nothing Interactive 2014
  * @exports flokActivityModule/streamCtrl
  */
-angular.module('flokActivityModule').controller('StreamCtrl', function($scope, $routeParams, STREAM_DATE_FORMAT, eventService) {
+angular.module('flokActivityModule').controller('StreamCtrl', ['$scope', 'STREAM_DATE_FORMAT', 'eventService',
+    function($scope, STREAM_DATE_FORMAT, eventService) {
     'use strict';
 
     eventService.retrieveEvents();
@@ -24,4 +25,4 @@ angular.module('flokActivityModule').controller('StreamCtrl', function($scope, $
         // Retrieve new events. It will updated the array we already have a reference to
         eventService.retrieveEvents();
     }, 15000);
-});
+}]);

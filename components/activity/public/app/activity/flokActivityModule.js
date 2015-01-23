@@ -5,12 +5,12 @@
  * @exports flokActivityModule
  */
 angular.module('flokActivityModule', [
-    // Angular core dependencies:
-    'ngRoute', 'ngSanitize',
-    // 3rd Party Dependencies
-    'ui.bootstrap', 'ui.utils', 'pascalprecht.translate', 'onRootScope',
-    // Flok dependencies
-    'flokFilters', 'flokDirectives', 'flokMenuModule'
+    // Angular Core Components:
+    'ngSanitize', 'ngMessages',
+    // External Components:
+    'pascalprecht.translate', 'ui.bootstrap','ui.utils', 'ui.router',
+    // flok Components:
+    'onRootScope', 'flokFilters', 'flokDirectives', 'flokMenuModule'
 ]);
 
 /**
@@ -22,12 +22,13 @@ angular.module('flokActivityModule').constant('STREAM_DATE_FORMAT', 'MMM d @ HH:
 /**
  * Activity Module configuration
  */
-angular.module('flokActivityModule').config(['$routeProvider', 'menuServiceProvider', function($routeProvider, menuServiceProvider) {
+angular.module('flokActivityModule').config(['$stateProvider', 'menuServiceProvider', function($stateProvider, menuServiceProvider) {
     'use strict';
 
     // Register the route
-    $routeProvider
-        .when('/activity', {
+    $stateProvider
+        .state('activity', {
+            url: '/activity',
             templateUrl: 'app/activity/stream.tpl.html',
             controller: 'StreamCtrl',
             controllerAs: 'stream'
@@ -37,7 +38,7 @@ angular.module('flokActivityModule').config(['$routeProvider', 'menuServiceProvi
     // Register the menu item
     menuServiceProvider.addMenuItem(
         {
-            url: '/activity',
+            state: 'activity',
             name: 'flok.activity.title',
             icon: 'user'
         }

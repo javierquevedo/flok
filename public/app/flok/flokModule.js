@@ -4,7 +4,7 @@
     // Define the module dependencies
     var flokDependencies = [
         // Angular Core Components:
-        'ngSanitize', 'ngMessages', 'ngRoute', // TODO remove route
+        'ngSanitize', 'ngMessages',
         // External Components:
         'pascalprecht.translate', 'ui.bootstrap', 'ui.utils', 'ui.router',
         // flok Components:
@@ -33,62 +33,46 @@
      * piwik
      * angular-translate
      */
-    angular.module('flokModule').config(['$routeProvider', '$httpProvider', '$translateProvider',
+    angular.module('flokModule').config(['$urlRouterProvider', '$stateProvider', '$httpProvider', '$translateProvider',
         'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
-        function($routeProvider, $httpProvider, $translateProvider, defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
+        function($urlRouterProvider, $stateProvider, $httpProvider, $translateProvider,
+            defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
 
             // We want nice URLs without hashes
             //$locationProvider.html5Mode(true);
 
-            // For any unmatched url, redirect to /
-            //$urlRouterProvider.otherwise('/404');
-
             // No enabled modules:
             if (ENABLED_FLOK_COMPONENTS.length === 0) {
                 // Configure Routes
-                $routeProvider
-                    .when('/', {
-                        templateUrl: 'app/flok/errorNoModules.tpl.html'
+                $stateProvider.state('errorNoModules', {
+                    url: '/',
+                    templateUrl: 'app/flok/errorNoModules.tpl.html'
+                });
+
+                // For any unmatched url, redirect to /
+                $urlRouterProvider.otherwise('/');
+            }
+            else {
+                // Configure core Routes
+                $stateProvider
+                    .state('login', {
+                    url: '/login',
+                    templateUrl: 'app/user/login.tpl.html'
                     })
-                    .otherwise({
-                        redirectTo: '/'
+                    .state('logout', {
+                        url: '/logout',
+                        templateUrl: 'app/user/logout.tpl.html'
                     })
                 ;
 
-                // Set up global states
-                $stateProvider
-                    .state('home', {
-                        url: '/',
-                        ncyBreadcrumb: {
-                            label: 'home.index'
-                        },
-                        templateUrl: 'angular/cockpit/startPage/startPage.tpl.html'
-                    })
-                    .state('404', {
-                        url: '/404',
-                        templateUrl: 'angular/cockpit/errors/404.tpl.html'
-                    })
-                ;
-            }
-            else {
-                // Configure Routes
-                $routeProvider
-                    .when('/login', {
-                        templateUrl: 'app/user/login.tpl.html'
-                    })
-                    .when('/logout', {
-                        templateUrl: 'app/user/logout.tpl.html'
-                    })
-                    .otherwise({
-                        redirectTo: '/' + defaultComponent
-                    })
-                ;
+                // For any unmatched url, redirect to default main component
+                $urlRouterProvider.otherwise('/' + defaultComponent);
             }
 
             // Logout menu item
             menuServiceProvider.addMenuItem(
                 {
-                    url: '/logout',
+                    state: 'logout',
                     name: 'flok.logout.title',
                     icon: 'signout'
                 }

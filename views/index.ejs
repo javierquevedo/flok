@@ -14,8 +14,6 @@
     <%# libraries & vendors %>
     <script type="text/javascript" src="vendor/bower/jquery/dist/jquery<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular/angular<% if (environment !== 'development') { %>.min<% } %>.js"></script>
-    <!--TODO remove route-->
-    <script type="text/javascript" src="vendor/bower/angular-route/angular-route<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular-ui-router/release/angular-ui-router<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular-translate/angular-translate<% if (environment !== 'development') { %>.min<% } %>.js"></script>
     <script type="text/javascript" src="vendor/bower/angular-messages/angular-messages<% if (environment !== 'development') { %>.min<% } %>.js"></script>
@@ -93,7 +91,7 @@
 
             <ul class="nav navbar-nav">
                 <li ng-repeat="nav in menuItems">
-                    <a href="{{ '#' + nav.url }}"><i class="{{ 'icon-' + nav.icon }}"></i>
+                    <a ui-sref="{{ nav.state }}"><i class="{{ 'icon-' + nav.icon }}"></i>
                         <span translate="{{nav.name}}"></span></a>
                 </li>
             </ul>
@@ -112,7 +110,7 @@
 <div class="text-center overlay" ng-hide="contentLoaded">
     <i class="icon-spinner icon-spin icon-4x overlay-spinner"></i>
 </div>
-<div ng-cloak ng-view></div>
+<div ng-cloak ui-view></div>
 
 <footer>
     <div class="grid-container text-muted">

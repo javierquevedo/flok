@@ -3,8 +3,8 @@
  * @module flokTimeModule/TimeCtrl
  */
 angular.module('flokTimeModule').controller('TimeCtrl', [
-    '$scope', '$timeout', '$routeParams', 'sessionService', 'taskService', 'Task',
-    function($scope, $timeout, $routeParams, sessionService, taskService, Task) {
+    '$scope', '$timeout', 'sessionService', 'taskService', 'Task',
+    function($scope, $timeout, sessionService, taskService, Task) {
         'use strict';
 
         /**

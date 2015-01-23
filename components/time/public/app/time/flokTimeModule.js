@@ -3,19 +3,24 @@
  * @type {module}
  */
 angular.module('flokTimeModule', [
-    'ngRoute',
-    'ui.bootstrap', 'ui.utils', 'pascalprecht.translate', 'onRootScope',
-    'flokModule', 'flokFilters', 'flokDirectives', 'flokMenuModule'
+    // Angular Core Components:
+    'ngSanitize', 'ngMessages',
+    // External Components:
+    'pascalprecht.translate', 'ui.bootstrap','ui.utils', 'ui.router',
+    // flok Components:
+    'onRootScope', 'flokFilters', 'flokDirectives', 'flokMenuModule'
 ]);
 
 /*
  * Configure the task module by registering the route and menu.
  */
-angular.module('flokTimeModule').config(['$routeProvider', 'menuServiceProvider', function($routeProvider, menuServiceProvider) {
+angular.module('flokTimeModule').config(['$stateProvider', 'menuServiceProvider', function($stateProvider, menuServiceProvider) {
     'use strict';
 
-    $routeProvider
-        .when('/time', {
+    // Register the route
+    $stateProvider
+        .state('time', {
+            url: '/time',
             templateUrl: 'app/time/time.tpl.html',
             controller: 'TimeCtrl',
             controllerAs: 'time'
@@ -24,7 +29,7 @@ angular.module('flokTimeModule').config(['$routeProvider', 'menuServiceProvider'
 
     menuServiceProvider.addMenuItem(
         {
-            url: '/time',
+            state: 'time',
             name: 'flok.time.title',
             icon: 'tasks'
         }

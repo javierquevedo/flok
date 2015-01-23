@@ -8,8 +8,12 @@
 
         <form novalidate name="sessionForm">
             <p>
-                <input type="email" class="form-control" required
-                 ng-model="form.email" placeholder="{{ 'flok.login.form.email.placeholder' | translate }}"
+                <input type="email"
+                 class="form-control"
+                 required
+                 ng-model="form.email"
+                 focus-on="true"
+                 placeholder="{{ 'flok.login.form.email.placeholder' | translate }}"
                  />
             </p>
 

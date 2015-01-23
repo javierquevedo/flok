@@ -13,9 +13,11 @@ module.exports = function (config) {
         files: [
             // Application vendors
             'public/vendor/bower/angular/angular.js',
-            'public/vendor/bower/angular-route/angular-route.js',
+            'public/vendor/bower/angular-messages/angular-messages.js',
+            'public/vendor/bower/angular-sanitize/angular-sanitize.js',
             'public/vendor/bower/angular-translate/angular-translate.js',
             'public/vendor/bower/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+            'public/vendor/bower/angular-ui-router/release/angular-ui-router.js',
             'public/vendor/js/*.js',
 
             // Testing resources

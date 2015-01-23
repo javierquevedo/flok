@@ -6,21 +6,25 @@
      * @type {module}
      */
     var flokPriorityModule = angular.module('flokPriorityModule', [
-        'ngRoute',
-        'ui.bootstrap', 'ui.utils', 'ui.sortable', 'pascalprecht.translate', 'onRootScope',
+        // Angular Core Components:
+        'ngSanitize', 'ngMessages',
+        // External Components:
+        'pascalprecht.translate', 'ui.bootstrap', 'ui.sortable', 'ui.utils', 'ui.router',
+        // flok Components:
+        'onRootScope',
         'flokFilters', 'flokDirectives', 'flokMenuModule'
     ]);
 
-    flokPriorityModule.config(['$routeProvider', 'menuServiceProvider', function($routeProvider, menuServiceProvider) {
-        $routeProvider
-            .when('/priority', {
-                templateUrl: 'app/priority/priority.tpl.html'
-            })
-        ;
+    flokPriorityModule.config(['$stateProvider', 'menuServiceProvider', function($stateProvider, menuServiceProvider) {
+
+        $stateProvider.state('priority', {
+            url: '/priority',
+            templateUrl: 'app/priority/priority.tpl.html'
+        });
 
         menuServiceProvider.addMenuItem(
             {
-                url: '/priority',
+                state: 'priority',
                 name: 'flok.priority.title',
                 icon: 'list'
             }

@@ -1,7 +1,7 @@
 /**
  * menuService provides methods to manage the main flok menu
  */
-angular.module('flokMenuModule').provider('menuService', function() {
+angular.module('flokMenuModule').provider('menuService', [function() {
     'use strict';
 
     var menuItems = [];
@@ -9,7 +9,7 @@ angular.module('flokMenuModule').provider('menuService', function() {
     /**
      * Add an item to the menu. The object has to have to be in the form:
      * {
-     *     url: '/url',
+     *     state: 'ui-state',
      *     name: 'Title',
      *     icon: 'icon-name'
      * }
@@ -30,4 +30,4 @@ angular.module('flokMenuModule').provider('menuService', function() {
             }
         };
     };
-});
+}]);
