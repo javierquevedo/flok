@@ -14,10 +14,10 @@ describe('TimeCtrl', function() {
     });
 
     // Inject the TimeCtrl
-    beforeEach(angular.mock.inject(function($rootScope, $controller, $injector) {
-        Task = $injector.get('Task');
-        $scope = $rootScope.$new();
-        $controller('TimeCtrl', {$scope: $scope});
+    beforeEach(angular.mock.inject(function(_$rootScope_, _$controller_, _Task_) {
+        Task = _Task_;
+        $scope = _$rootScope_.$new();
+        _$controller_('TimeCtrl', {$scope: $scope});
     }));
 
     it('initialises correctly', function() {

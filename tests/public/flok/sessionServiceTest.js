@@ -13,8 +13,8 @@ describe('sessionService', function() {
     beforeEach(function() {
         angular.mock.module('flokModule');
 
-        angular.mock.inject(function($injector) {
-            sessionService = $injector.get('sessionService');
+        angular.mock.inject(function(_sessionService_) {
+            sessionService = _sessionService_;
         });
     });
 
