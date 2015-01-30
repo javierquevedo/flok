@@ -1,5 +1,5 @@
-angular.module('flokActivityModule').factory('streamBackendStorageService', ['$http', '$rootScope', 'backendUrl',
-    function($http, $rootScope, backendUrl) {
+angular.module('flokActivityModule').factory('streamBackendStorageService', ['$http', 'backendUrl',
+    function($http, backendUrl) {
         'use strict';
 
         /**
@@ -12,15 +12,7 @@ angular.module('flokActivityModule').factory('streamBackendStorageService', ['$h
         };
 
         StreamBackendStorageService.prototype.getStream = function() {
-            $rootScope.$emit('flok.backend.status', 'requesting');
-            return $http.get(backendUrl + '/activity')
-                .success(function() {
-                    $rootScope.$emit('flok.backend.status', 'success');
-                })
-                .error(function() {
-                    $rootScope.$emit('flok.backend.status', 'error');
-                })
-                ;
+            return $http.get(backendUrl + '/activity');
         };
 
         return new StreamBackendStorageService();

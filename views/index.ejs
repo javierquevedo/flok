@@ -92,7 +92,6 @@
             </button>
         </div>
         <div class="navbar-collapse" ng-class="{collapse: !menuShown}">
-
             <ul class="nav navbar-nav">
                 <li ng-repeat="nav in menuItems">
                     <a ui-sref="{{ nav.state }}"><i class="{{ 'icon-' + nav.icon }}"></i>
@@ -102,11 +101,6 @@
             <div ng-controller="UserCtrl" class="pull-right user-icon-container">
                 <img class="user-icon" ng-src="{{ user.avatarUrl }}"/>
             </div>
-                <span class="pull-right backendStatus">
-                    <i class="icon-spinner icon-spin icon-2x" ng-show="backendStatus === 'requesting'"></i>
-                    <i class="icon-warning-sign icon-2x error" ng-show="backendStatus === 'error'"></i>
-                    <i class="icon-ok icon-2x success" ng-show="backendStatus === 'success'"></i>
-                </span>
         </div>
     </div>
 </div>

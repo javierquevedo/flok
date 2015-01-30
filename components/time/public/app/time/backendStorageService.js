@@ -1,5 +1,5 @@
-angular.module('flokTimeModule').factory('backendStorageService', ['$http', '$rootScope', 'backendUrl',
-    function($http, $rootScope, backendUrl) {
+angular.module('flokTimeModule').factory('backendStorageService', ['$http', 'backendUrl',
+    function($http, backendUrl) {
         'use strict';
 
         /**
@@ -22,15 +22,7 @@ angular.module('flokTimeModule').factory('backendStorageService', ['$http', '$ro
          * @returns {*}
          */
         BackendStorageService.prototype.getTime = function(user) {
-            $rootScope.$emit('flok.backend.status', 'requesting');
-            return $http.get(backendUrl + '/time/' + user)
-                .success(function() {
-                    $rootScope.$emit('flok.backend.status', 'success');
-                })
-                .error(function() {
-                    $rootScope.$emit('flok.backend.status', 'error');
-                })
-                ;
+            return $http.get(backendUrl + '/time/' + user);
         };
 
         /**
@@ -40,15 +32,7 @@ angular.module('flokTimeModule').factory('backendStorageService', ['$http', '$ro
          * @returns {*}
          */
         BackendStorageService.prototype.putTime = function(user, data) {
-            $rootScope.$emit('flok.backend.status', 'requesting');
-            return $http.put(backendUrl + '/time/' + user, data)
-                .success(function() {
-                    $rootScope.$emit('flok.backend.status', 'success');
-                })
-                .error(function() {
-                    $rootScope.$emit('flok.backend.status', 'error');
-                })
-                ;
+            return $http.put(backendUrl + '/time/' + user, data);
         };
 
         return new BackendStorageService();

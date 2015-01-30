@@ -13,12 +13,6 @@ angular.module('flokModule').controller('flokCtrl', ['$scope', 'menuService', 's
         //    $scope.contentLoaded = true;
         //});
 
-        // Bind to the status of the backend
-        $scope.backendStatus = '';
-        $scope.$onRootScope('flok.backend.status', function(event, newStatus) {
-            $scope.backendStatus = newStatus;
-        });
-
         // Expose whether we have a valid session
         $scope.hasValidSession = sessionService.hasValidSession.bind(sessionService);
 
