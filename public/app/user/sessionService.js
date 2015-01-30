@@ -20,7 +20,10 @@ angular.module('flokModule').factory('sessionService', [
             this._requestUser();
 
             // Treat unauthorized requests as logout
-            $rootScope.$on('flok.backend.unauthorized', this._handleLogout.bind(this));
+            var that = this;
+            $rootScope.$on('flok.backend.unauthorized', function() {
+                that._handleLogout();
+            });
         };
 
         /**
@@ -55,7 +58,9 @@ angular.module('flokModule').factory('sessionService', [
                     that._deferredUser.resolve(user);
                 })
                 // Treat any error as a logout
-                .catch(this._handleLogout.bind(this));
+                .catch(function() {
+                    that._handleLogout();
+                });
         };
 
         /**
@@ -96,8 +101,11 @@ angular.module('flokModule').factory('sessionService', [
          * @returns {HttpPromise}
          */
         SessionService.prototype.logout = function() {
+            var that = this;
             return $http.delete(backendUrl + '/flok/session')
-                .finally(this._handleLogout.bind(this));
+                .finally(function() {
+                    that._handleLogout();
+                });
         };
 
         /**
