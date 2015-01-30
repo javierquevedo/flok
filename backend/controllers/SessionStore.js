@@ -12,8 +12,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var util = require('util');
 
-// TODO does the ttl really need to be passed in this way?
-var SessionStoreModel = require('../models/SessionStoreModel')(60000);
+var SessionStoreModel = require('../models/SessionStoreModel');
 
 /**
  * Initialize `SessionStore`.
@@ -41,23 +40,18 @@ util.inherits(SessionStore, session.Store);
  * @returns {*|Query}
  */
 SessionStore.prototype.get = function(sid, callback) {
-    var query;
-    query = {
-        sid: sid
-    };
-    return SessionStoreModel.findOne(query, (function(_this) {
-        return function(err, data) {
-            var cookie;
-            if (err || !data) {
-                return callback(err);
-            }
-            cookie = data.session.cookie;
-            if ((cookie.expires !== null) && new Date() > cookie.expires) {
-                return _this.destroy(data.sid, callback);
-            }
-            return callback(null, data.session);
-        };
-    })(this));
+    var that = this;
+    SessionStoreModel.findOne({ sid: sid}, function(err, data) {
+        if (err || !data) {
+            return callback(err);
+        }
+
+        var cookie = data.session.cookie;
+        if (cookie.expires !== null && new Date() > cookie.expires) {
+            return that.destroy(data.sid, callback);
+        }
+        return callback(null, data.session);
+    });
 };
 
 /**
@@ -88,7 +82,8 @@ SessionStore.prototype.set = function(sid, session, callback) {
     if (this.options.ttl) {
         data.createdAt = new Date();
     }
-    return SessionStoreModel.update({
+
+    SessionStoreModel.update({
         sid: sid
     }, data, {
         upsert: true

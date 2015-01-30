@@ -3,7 +3,10 @@ var config = {
     default: {
         db: 'mongodb://localhost/flok',
         backendUrl: 'http://localhost:3000/api',
-        sessionSecret: 'add some random string here',
+        session: {
+            secret: 'add some random string here',
+            ttl: 7 * 24 * 3600 // Session lifetime in seconds
+        },
         localePath: 'locale/en.json',
         piwik: {
             enable: true,

@@ -60,7 +60,7 @@ var mongoSessionStore = new SessionStore({
 
 app.use(session({
     name: 'flok.sid',
-    secret: activeConfig.sessionSecret,
+    secret: activeConfig.session.secret,
     resave: false,
     saveUninitialized: true, // TODO: what setting to we want?
     store: mongoSessionStore

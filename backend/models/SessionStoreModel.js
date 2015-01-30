@@ -8,20 +8,20 @@
 'use strict';
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var config = require('../Config.js');
 
-module.exports = function(ttl) {
-    var sessionStoreSchema;
-    sessionStoreSchema = new Schema({
-        sid: String,
-        session: {},
-        expires: {
-            type: Date,
-            index: true
-        },
-        createdAt: {
-            type: Date,
-            expires: ttl
-        }
-    });
-    return mongoose.model('SessionStore', sessionStoreSchema);
-};
+var sessionStoreSchema;
+sessionStoreSchema = new Schema({
+    sid: String,
+    session: {},
+    expires: {
+        type: Date,
+        index: true
+    },
+    createdAt: {
+        type: Date,
+        expires: config.session.ttl
+    }
+});
+
+module.exports = mongoose.model('SessionStore', sessionStoreSchema);
