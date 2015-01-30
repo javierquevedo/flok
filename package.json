@@ -1,7 +1,7 @@
 {
     "name": "nothing-flok",
     "private": true,
-    "version": "0.5.0",
+    "version": "0.7.0",
     "scripts": {
         "start": "node app.js",
         "postinstall": "./node_modules/.bin/bower install --force"

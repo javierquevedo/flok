@@ -22,6 +22,7 @@ var coreRouter = require('./backend/router.js');
 
 var User = require('./backend/models/UserModel.js');
 var AccessController = require('./backend/controllers/AccessController.js');
+var SessionStore = require('./backend/controllers/SessionStore.js');
 
 // let's make sure we have a valid default module in the config
 if (_.isUndefined(activeConfig.defaultComponent)) {
@@ -52,10 +53,17 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Setup the session storeage:
+var mongoSessionStore = new SessionStore({
+    url: activeConfig.db
+});
+
 app.use(session({
+    name: 'flok.sid',
     secret: activeConfig.sessionSecret,
     resave: false,
-    saveUninitialized: true // TODO: what setting to we want?
+    saveUninitialized: true, // TODO: what setting to we want?
+    store: mongoSessionStore
 }));
 
 app.use(passport.initialize());
@@ -168,23 +176,38 @@ app.get('/*', function(req, res) {
 
 // Server
 var server = http.createServer(app);
-if (require.main === module) {
-    mongoose.connect(activeConfig.db, function(err) {
+
+/**
+ * Initialize server once connected to database.
+ * @param [err] error callback
+ */
+var initServer = function(err) {
+    if (err) {
+        console.log('Could not connect to Mongo: ', err);
+        process.exit();
+    }
+
+    server.listen(app.get('port'), function(err) {
         if (err) {
-            console.log('Could not connect to Mongo: ', err);
+            console.log('Could not listen: ', err);
             process.exit();
         }
 
-        server.listen(app.get('port'), function(err) {
-            if (err) {
-                console.log('Could not listen: ', err);
-                process.exit();
-            }
-
-            console.log('Running in ' + app.settings.env + ' environment');
-            console.log('Express server listening on port ' + app.get('port'));
-        });
+        console.log('Running in ' + app.settings.env + ' environment');
+        console.log('Express server listening on port ' + app.get('port'));
     });
+};
+
+// Start flok server
+if (require.main === module) {
+    // Connect to mongo and initialize database
+    if (mongoose.connection.readyState === 0) {
+        mongoose.connect(activeConfig.db, initServer);
+    }
+    // If we're already connected directly initialize
+    else {
+        initServer();
+    }
 }
 
 module.exports = server;
