@@ -1,4 +1,4 @@
-angular.module('flokActivityModule').filter('activityDuration', ['$filter', function($filter) {
+angular.module('flokActivityModule').filter('activityDuration', ['$translate', function($translate) {
     'use strict';
 
     /**
@@ -28,25 +28,25 @@ angular.module('flokActivityModule').filter('activityDuration', ['$filter', func
         var timeString;
         if (hours > 0) {
             if (minutes > 0) {
-                timeString = $filter('translate')('flok.activity.duration.hoursAndMinutes', {
+                timeString = $translate.instant('flok.activity.duration.hoursAndMinutes', {
                     hours: hours,
                     minutes: minutes
                 });
             }
             else {
-                timeString = $filter('translate')('flok.activity.duration.hours', {hours: hours});
+                timeString = $translate.instant('flok.activity.duration.hours', {hours: hours});
             }
         }
         else {
-            timeString = $filter('translate')('flok.activity.duration.minutes', {minutes: minutes});
+            timeString = $translate.instant('flok.activity.duration.minutes', {minutes: minutes});
         }
 
         // Then we turn it into a phrase for added/removed time
         if (negative) {
-            timeString = $filter('translate')('flok.activity.duration.removed', {duration: timeString});
+            timeString = $translate.instant('flok.activity.duration.removed', {duration: timeString});
         }
         else {
-            timeString = $filter('translate')('flok.activity.duration.added', {duration: timeString});
+            timeString = $translate.instant('flok.activity.duration.added', {duration: timeString});
         }
 
         return timeString;
