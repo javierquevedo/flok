@@ -8,7 +8,7 @@ angular.module('flokActivityModule', [
     // Angular Core Components:
     'ngSanitize', 'ngMessages',
     // External Components:
-    'pascalprecht.translate', 'ui.bootstrap','ui.utils', 'ui.router',
+    'pascalprecht.translate', 'ui.bootstrap','ui.utils', 'ui.router', 'FBAngular',
     // flok Components:
     'onRootScope', 'flokFilters', 'flokDirectives', 'flokMenuModule'
 ]);

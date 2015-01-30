@@ -6,7 +6,7 @@
         // Angular Core Components:
         'ngSanitize', 'ngMessages',
         // External Components:
-        'pascalprecht.translate', 'ui.bootstrap', 'ui.utils', 'ui.router',
+        'pascalprecht.translate', 'ui.bootstrap', 'ui.utils', 'ui.router', 'FBAngular',
         // Nothing components
         'nothing.alertModule',
         // flok Components:
@@ -39,7 +39,7 @@
         '$locationProvider',
         'alertServiceProvider',
         'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
-        function($urlRouterProvider, $stateProvider, $httpProvider, $translateProvider,$locationProvider,
+        function($urlRouterProvider, $stateProvider, $httpProvider, $translateProvider, $locationProvider,
             alertServiceProvider,
             defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
 
@@ -61,8 +61,8 @@
                 // Configure core Routes
                 $stateProvider
                     .state('login', {
-                    url: '/login',
-                    templateUrl: 'app/user/login.tpl.html'
+                        url: '/login',
+                        templateUrl: 'app/user/login.tpl.html'
                     })
                     .state('logout', {
                         url: '/logout',

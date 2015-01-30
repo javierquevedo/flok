@@ -1,4 +1,4 @@
-<div ng-show="contentLoaded">
+<div fullscreen="isFullscreen" ng-show="contentLoaded">
     <div class="events-list">
         <div class="events" ng-repeat="event in events | limitTo:20">
             <div class="event" ng-class="event.author.name === events[$index-1].author.name? 'event-same-author':''">
@@ -82,4 +82,9 @@
             </div>
         </div>
     </div>
+    <span class="pull-right">
+        <button type="button" class="btn btn-link" ng-click="toggleFullScreen()">
+            <i class="icon-fullscreen"></i>
+        </button>
+    </span>
 </div>
