@@ -19,6 +19,7 @@ module.exports = function (config) {
             'public/vendor/bower/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
             'public/vendor/bower/angular-ui-router/release/angular-ui-router.js',
             'public/vendor/bower/angular-fullscreen/src/angular-fullscreen.js',
+            'public/vendor/bower/angular-loading-bar/build/loading-bar.js',
             'public/vendor/js/*.js',
 
             // Testing resources

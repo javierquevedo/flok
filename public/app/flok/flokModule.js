@@ -6,7 +6,7 @@
         // Angular Core Components:
         'ngSanitize', 'ngMessages',
         // External Components:
-        'pascalprecht.translate', 'ui.bootstrap', 'ui.utils', 'ui.router', 'FBAngular',
+        'pascalprecht.translate', 'ui.bootstrap', 'ui.utils', 'ui.router', 'FBAngular', 'angular-loading-bar',
         // Nothing components
         'nothing.alertModule',
         // flok Components:
@@ -37,10 +37,10 @@
      */
     angular.module('flokModule').config(['$urlRouterProvider', '$stateProvider', '$httpProvider', '$translateProvider',
         '$locationProvider',
-        'alertServiceProvider',
+        'alertServiceProvider', 'cfpLoadingBarProvider',
         'defaultComponent', 'piwikProvider', 'piwikConfig', 'menuServiceProvider',
         function($urlRouterProvider, $stateProvider, $httpProvider, $translateProvider, $locationProvider,
-            alertServiceProvider,
+            alertServiceProvider, cfpLoadingBarProvider,
             defaultComponent, piwikProvider, piwikConfig, menuServiceProvider) {
 
             // We want nice URLs without hashes
@@ -82,6 +82,11 @@
                     icon: 'signout'
                 }
             );
+
+            // Turn off the loading bar spinner
+            cfpLoadingBarProvider.includeSpinner = false;
+            // Loading bar will only show if it takes at least this many ms (default is 100ms)
+            cfpLoadingBarProvider.latencyThreshold = 10;
 
             // Configure angular translate
             $translateProvider.useStaticFilesLoader({
