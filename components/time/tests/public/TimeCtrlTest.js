@@ -2,8 +2,7 @@
  * TimeCtrl tests
  */
 /*global describe, beforeEach, it, assert */
-// TODO skipping this because of Unknown provider: userServiceProvider <- userService since the refactoring.
-describe.skip('TimeCtrl', function() {
+describe('TimeCtrl', function() {
     'use strict';
 
     var $scope;
@@ -11,15 +10,12 @@ describe.skip('TimeCtrl', function() {
 
     // Before each, load the angular module
     beforeEach(function() {
-        angular.mock.module('flokTimeModule');
+        angular.mock.module('flokModule', 'flokTimeModule');
     });
 
-    beforeEach(angular.mock.inject(function($rootScope, $injector) {
-        Task = $injector.get('Task');
-    }));
-
     // Inject the TimeCtrl
-    beforeEach(angular.mock.inject(function($rootScope, $controller) {
+    beforeEach(angular.mock.inject(function($rootScope, $controller, $injector) {
+        Task = $injector.get('Task');
         $scope = $rootScope.$new();
         $controller('TimeCtrl', {$scope: $scope});
     }));
