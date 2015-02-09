@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var _ = require('lodash');
 
-var types = 'inside'.split(' ');
+var types = 'inside twitter'.split(' ');
 
 var formats = 'html'.split(' ');
 

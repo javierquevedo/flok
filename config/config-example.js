@@ -42,6 +42,23 @@ var config = {
             time: true,
             priority: true,
             activity: true
+        },
+
+        // List of existing API keys
+        apiKeys: {
+            // Every API key maps to a list of URLs that it allows access to
+            'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf': {
+                // Every URL maps to a list of HTTP methods that are allowed for that key
+                '/activity': ['POST']
+            }
+        },
+        // Get the creditentials by creating a new app on https://apps.twitter.com/
+        twitter: {
+            consumerKey:         '',
+            consumerSecret:      '',
+            accessToken:         '',
+            accessTokenSecret:   '',
+            flokApiKey:          'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf'
         }
     },
 
@@ -62,6 +79,14 @@ var config = {
                 // Every URL maps to a list of HTTP methods that are allowed for that key
                 '/activity': ['POST']
             }
+        },
+        // Creditentials for the @NothingAgency twitter account app
+        twitter: {
+            consumerKey:         '',
+            consumerSecret:      '',
+            accessToken:         '',
+            accessTokenSecret:   '',
+            flokApiKey:          'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf'
         }
     }
 };

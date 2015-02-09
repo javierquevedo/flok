@@ -106,6 +106,7 @@ app.use('/api/flok/', coreRouter);
 activeConfig.angularModules = [];
 activeConfig.jsFiles = [];
 activeConfig.cssFiles = [];
+var componentsInitMethods = [];
 _.forOwn(activeConfig.components, function(enabled, name) {
     if (enabled) {
         // Load the component config
@@ -139,6 +140,9 @@ _.forOwn(activeConfig.components, function(enabled, name) {
         // Add to angular modules if there is one
         if (config.registerAngularModule) {
             activeConfig.angularModules.push(name);
+        }
+        if (config.init) {
+            componentsInitMethods.push(config.init);
         }
     }
 });
@@ -193,6 +197,9 @@ var initServer = function(err) {
             console.log('Could not listen: ', err);
             process.exit();
         }
+        _.each(componentsInitMethods, function(method) {
+            method();
+        });
 
         console.log('Running in ' + app.settings.env + ' environment');
         console.log('Express server listening on port ' + app.get('port'));
