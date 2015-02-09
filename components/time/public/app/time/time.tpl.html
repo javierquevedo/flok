@@ -18,7 +18,7 @@
                             {{ 'flok.time.action.start'| translate }}
                         </button>
                         <div class="checkbox pull-right">
-                            <label>
+                            <label ng-show="completedCount > 0">
                                 <input type="checkbox" ng-model="showAll">{{ 'flok.time.filter.completed'| translate }}
                             </label>
                         </div>
@@ -126,7 +126,7 @@
                         {{totalTimeUncompleted + totalTimeCompleted | duration}} ({{totalTimeUncompleted + totalTimeCompleted | decimalDuration}})
                     </div>
                     <div class="grid-33 tablet-grid-33 mobile-grid-100">
-                        <button class="btn btn-warning" ng-show="showAll"
+                        <button class="btn btn-warning" ng-show="showAll && completedCount > 0"
                          ng-click="deleteCompleted() | track:'clear completed':$event">
                             <icon type="trash"></icon>
                             {{ 'flok.time.action.delete_completed'| translate }} ({{completedCount}})
