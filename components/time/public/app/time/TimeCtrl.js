@@ -89,6 +89,7 @@ angular.module('flokTimeModule').controller('TimeCtrl', [
          */
         $scope.deleteCompleted = function() {
             taskService.deleteCompleted();
+            $scope.showAll = false;
         };
 
         /**
