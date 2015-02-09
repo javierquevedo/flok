@@ -106,7 +106,10 @@ app.use('/api/flok/', coreRouter);
 activeConfig.angularModules = [];
 activeConfig.jsFiles = [];
 activeConfig.cssFiles = [];
+
+// Will contain the init method of each component, defined in their component.js file.
 var componentsInitMethods = [];
+
 _.forOwn(activeConfig.components, function(enabled, name) {
     if (enabled) {
         // Load the component config
@@ -197,6 +200,8 @@ var initServer = function(err) {
             console.log('Could not listen: ', err);
             process.exit();
         }
+
+        // Run the init method of every component
         _.each(componentsInitMethods, function(method) {
             method();
         });

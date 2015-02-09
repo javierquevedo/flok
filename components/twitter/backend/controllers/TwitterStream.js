@@ -9,6 +9,10 @@ var http = require('http');
 var Twit = require('twit');
 var activeConfig = require('../../../../backend/Config.js');
 
+/**
+ * Listen to new tweets of the Twitter account related to the keys and tokens specified in config.js
+ *
+ */
 exports.start = function() {
 
     var T = new Twit({
@@ -37,6 +41,7 @@ exports.start = function() {
         console.log('Error with the Twitter API: ' + error.message);
     });
 
+    // Actions performed every time a new tweet is posted by the account.
     stream.on('tweet', function(tweet) {
         var tweetDate = new Date(Date.parse(tweet.created_at.replace(/( \+)/, ' UTC$1')));
 
@@ -76,6 +81,7 @@ exports.start = function() {
             headers: headers
         };
 
+        // Defining the http request properties
         var req = http.request(options, function(res) {
             res.setEncoding('utf-8');
 
@@ -94,6 +100,7 @@ exports.start = function() {
             console.log('Twitter stream http request error', err);
         });
 
+        // Sending the tweets to the activity component
         req.write(dataString);
         req.end();
     });
