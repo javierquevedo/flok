@@ -56,6 +56,7 @@ As much as possible, we are going to stay on the latest versions of these framew
 * Install all Node.js bundles: `npm install`.
 * Create a config from the config example: `cp config/config-example.js config/config.js` (config.js is ignored by git)
 * Check the config to make sure it makes sense for your setup.
+* Build the less files to generate the css by running `./node_modules/.bin/lessc dev/less/flok.less > public/css/flok.css` from the project root.
 * Run the application in dev mode `./node_modules/.bin/supervisor app.js`. This will watch all the files and automatically restart the server when a file changes.
 * Done! Access the application on [http://localhost:3000/](http://localhost:3000/).
 
