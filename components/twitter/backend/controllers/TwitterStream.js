@@ -12,6 +12,7 @@ var activeConfig = require('../../../../backend/Config.js');
 /**
  * Listen to new tweets of the Twitter account related to the keys and tokens specified in config.js
  *
+ * TODO start is a good init function but it's too big and the code below should be split into helpers.
  */
 exports.start = function() {
 
@@ -22,23 +23,23 @@ exports.start = function() {
         access_token_secret: activeConfig.twitter.accessTokenSecret
     });
 
-    console.log("Listening for tweets from @NothingAgency.");
+    console.log('flok:twitter Listening for tweets from @NothingAgency.');
     var stream = T.stream('user', {});
 
     stream.on('connect', function(request) {
-        console.log('Connected to Twitter API');
+        console.log('flok:twitter Connected to Twitter API');
     });
 
     stream.on('disconnect', function(message) {
-        console.log('Disconnected from Twitter API. Message: ' + message);
+        console.log('flok:twitter Disconnected from Twitter API. Message: ' + message);
     });
 
     stream.on('reconnect', function(request, response, connectInterval) {
-        console.log('Trying to reconnect to Twitter API in ' + connectInterval + ' ms');
+        console.log('flok:twitter Trying to reconnect to Twitter API in ' + connectInterval + ' ms');
     });
 
     stream.on('error', function(error) {
-        console.log('Error with the Twitter API: ' + error.message);
+        console.log('flok:twitter Error with the Twitter API: ' + error.message);
     });
 
     // Actions performed every time a new tweet is posted by the account.
@@ -97,7 +98,7 @@ exports.start = function() {
         });
 
         req.on('error', function(err) {
-            console.log('Twitter stream http request error', err);
+            console.log('flok:twitter Twitter stream http request error', err);
         });
 
         // Sending the tweets to the activity component

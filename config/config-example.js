@@ -16,9 +16,30 @@ var config = {
         components: {
             time: true,
             activity: false,
-            priority: false
+            priority: false,
+            twitter: false
         },
         defaultComponent: 'time',
+
+        // List of existing API keys
+        apiKeys: {
+            // Every API key maps to a list of URLs that it allows access to
+            'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf': {
+                // Every URL maps to a list of HTTP methods that are allowed for that key
+                '/activity': ['POST']
+            }
+        },
+
+        //  --- twitter component ---
+        // Get the creditentials by creating a new app on https://apps.twitter.com/
+        twitter: {
+            consumerKey:         '',
+            consumerSecret:      '',
+            accessToken:         '',
+            accessTokenSecret:   '',
+            flokApiKey:          'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf'
+        },
+        //  /-- twitter component ---
 
         // List of URLs (relative to /api) and methods that are accessible to everyone
         publicApiUrls: {
@@ -41,24 +62,8 @@ var config = {
         components: {
             time: true,
             priority: true,
-            activity: true
-        },
-
-        // List of existing API keys
-        apiKeys: {
-            // Every API key maps to a list of URLs that it allows access to
-            'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf': {
-                // Every URL maps to a list of HTTP methods that are allowed for that key
-                '/activity': ['POST']
-            }
-        },
-        // Get the creditentials by creating a new app on https://apps.twitter.com/
-        twitter: {
-            consumerKey:         '',
-            consumerSecret:      '',
-            accessToken:         '',
-            accessTokenSecret:   '',
-            flokApiKey:          'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf'
+            activity: true,
+            twitter: true
         }
     },
 
@@ -70,24 +75,7 @@ var config = {
 
     // Overwriting config for production
     production: {
-        backendUrl: 'https://example.com/api',
-
-        // List of existing API keys
-        apiKeys: {
-            // Every API key maps to a list of URLs that it allows access to
-            'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf': {
-                // Every URL maps to a list of HTTP methods that are allowed for that key
-                '/activity': ['POST']
-            }
-        },
-        // Creditentials for the @NothingAgency twitter account app
-        twitter: {
-            consumerKey:         '',
-            consumerSecret:      '',
-            accessToken:         '',
-            accessTokenSecret:   '',
-            flokApiKey:          'exampleApiKeyhm6CHEMUbfrYkS25V3kbknFf'
-        }
+        backendUrl: 'https://example.com/api'
     }
 };
 

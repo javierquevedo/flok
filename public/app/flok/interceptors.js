@@ -1,6 +1,6 @@
 angular.module('flokModule').factory('httpErrorCodeInterceptor', [
-    '$q', '$location', '$rootScope', '$translate',
-    function($q, $location, $rootScope, $translate) {
+    '$q', '$location', '$rootScope',
+    function($q, $location, $rootScope) {
         'use strict';
 
         /**
@@ -27,10 +27,8 @@ angular.module('flokModule').factory('httpErrorCodeInterceptor', [
                 $location.path('/404');
             }
 
-            // Try to read out the error sent by the backend
-            var error = (rejection.data && rejection.data.error) ||
-                $translate.instant('flok.error.default');
-            return $q.reject(error);
+            // TODO can we add an error message here?
+            return $q.reject(rejection);
         };
 
         return new HttpRequestInterceptor();

@@ -48,6 +48,11 @@
             <option name="CONTINUATION_INDENT_SIZE" value="1" />
           </indentOptions>
         </codeStyleSettings>
+        <codeStyleSettings language="JSON">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="4" />
+          </indentOptions>
+        </codeStyleSettings>
         <codeStyleSettings language="JavaScript">
           <option name="BRACE_STYLE" value="5" />
           <option name="ELSE_ON_NEW_LINE" value="true" />
@@ -123,4 +128,3 @@
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
   </component>
 </project>
-
