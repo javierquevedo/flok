@@ -38,6 +38,7 @@ var createEventFromTweet = function(tweet) {
         author: {
             // We could use the author name here but with the current flok setup it will try to
             // get that name's avatar image.
+            // The added bonus is that it will then group tweets on the stream too!
             name: 'Twitter'
         }
     };
@@ -49,11 +50,10 @@ var createEventFromTweet = function(tweet) {
  * Takes a tweet and posts it to the activity stream.
  * @param tweet
  */
-var pushTweetToActivity = function(tweet) {
+var postTweetToActivity = function(tweet) {
     // Convert the tweet to an activity stream event
     var event = createEventFromTweet(tweet);
 
-    //TODO extract this code to a function postEventToActivity. (note if not using http the wrapper might not event be needed).
     var data = {
         version: '0.0.3',
         events: [event]
@@ -86,15 +86,11 @@ var pushTweetToActivity = function(tweet) {
         res.on('data', function(data) {
             responseString += data;
         });
-
-        // TODO remove event unless needed
-        res.on('end', function() {
-            var resultObject = JSON.parse(responseString);
-        });
     });
 
     req.on('error', function(err) {
-        console.log('flok:twitter Twitter stream http request error: ' + err.code, err);
+        console.log('flok:twitter Twitter stream http request error: ' + err.code, err.message);
+        console.error(err.stack);
     });
 
     // Sending the tweets to the activity component
@@ -127,8 +123,8 @@ var handleTweet = function(tweet) {
         (tweet.message.indexOf(activeConfig.twitter.screenName) !== -1)
     )
     {
-        console.log('flok:twitter pushing tweet (id:' + tweet['str_id'] + ') to activity. ');
-        pushTweetToActivity(tweet);
+        console.log('flok:twitter pushing tweet (id:' + tweet.id + ') to activity. ');
+        postTweetToActivity(tweet);
     }
     // Other wise we could log it.
 };
