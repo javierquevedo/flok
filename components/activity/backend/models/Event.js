@@ -9,7 +9,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var _ = require('lodash');
 
-var types = 'inside'.split(' ');
+// TODO event types shouldn't be hardcoded here. There should be defaults and config ones
+var types = 'inside twitter'.split(' ');
 
 var formats = 'html'.split(' ');
 

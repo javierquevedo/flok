@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 
 require('../models/Event');
+
 var Event = mongoose.model('Event');
 
 // Handle get request

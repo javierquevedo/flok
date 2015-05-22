@@ -5,7 +5,7 @@
 
 // TODO: clean this whole thing up and split it into different files
 var path = require('path');
-var _  = require('lodash');
+var _ = require('lodash');
 var express = require('express');
 var session = require('express-session');
 var morgan = require('morgan');
@@ -31,7 +31,7 @@ if (_.isUndefined(activeConfig.defaultComponent)) {
     // Try to find first active component if we don't have an default one.
     _.forEach(activeConfig.components, function(component, enabled) {
         if (component === '' && enabled) {
-            console.log(component,enabled);
+            console.log(component, enabled);
             activeConfig.defaultComponent = component;
         }
     });
@@ -48,7 +48,25 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.set('port', process.env.PORT || 3000);
-app.use(morgan('combined'));
+
+/*
+ * Setup logging level for http requests (less in dev):
+ * - Compact
+ * - Skip successful responses
+ * See https://www.npmjs.com/package/morgan for more.
+ * TODO add logging settings to the config file so we don't have to change the code here.
+ */
+if (activeConfig.environment === 'development') {
+    app.use(morgan('dev', {
+        skip: function(req, res) {
+            return res.statusCode < 400;
+        }
+    }));
+}
+// In production log full requests and all of them:
+else {
+    app.use(morgan('combined'));
+}
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -90,7 +108,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Dummy api method to check if API is up
 // TODO this should probably return the version of the API
 app.get('/api', function(req, res) {
-    return res.send({ status: 'OK' });
+    return res.send({status: 'OK'});
 });
 
 // Expose that locale
@@ -106,6 +124,17 @@ app.use('/api/flok/', coreRouter);
 activeConfig.angularModules = [];
 activeConfig.jsFiles = [];
 activeConfig.cssFiles = [];
+
+/*
+ * Will contain the init method of each enabled component, defined in their component.js file.
+ * This allows component to start listening to streams or run start up tasks when flok starts.
+ * TODO consider similar implementation for shutdown.
+ */
+var componentsInitMethods = [];
+
+/*
+ * Perform loading and initialization tasks for each of the enabled components of flok
+ */
 _.forOwn(activeConfig.components, function(enabled, name) {
     if (enabled) {
         // Load the component config
@@ -140,6 +169,11 @@ _.forOwn(activeConfig.components, function(enabled, name) {
         if (config.registerAngularModule) {
             activeConfig.angularModules.push(name);
         }
+
+        // Push the init methods to our store to run on startup.
+        if (config.init) {
+            componentsInitMethods.push(config.init);
+        }
     }
 });
 
@@ -169,7 +203,7 @@ app.use(function(err, req, res, next) { // jshint ignore:line
 
 // This route deals enables HTML5Mode by forwarding missing files to the index
 // This must be the last route defined right now or it will serve the html instead of js files.
-// The reg exp is used so that static resources like `doesNotExist.js` does not return a file.
+// The reg exp is used so that static resources like `doesNotExist.js` does not return the index file.
 app.get('/[a-z0-9\/]{0,100}', function(req, res) {
     res.render('index', activeConfig);
 });
@@ -184,18 +218,23 @@ var server = http.createServer(app);
  */
 var initServer = function(err) {
     if (err) {
-        console.log('Could not connect to Mongo: ', err);
+        console.log('flok:core Could not connect to Mongo: ', err);
         process.exit();
     }
 
     server.listen(app.get('port'), function(err) {
         if (err) {
-            console.log('Could not listen: ', err);
+            console.log('flok:core Could not listen: ', err);
             process.exit();
         }
 
-        console.log('Running in ' + app.settings.env + ' environment');
-        console.log('Express server listening on port ' + app.get('port'));
+        // Run the init method of every enabled component
+        _.each(componentsInitMethods, function(method) {
+            method();
+        });
+
+        console.log('flok:core Running in ' + app.settings.env + ' environment');
+        console.log('flok:core Express server listening on port ' + app.get('port'));
     });
 };
 
