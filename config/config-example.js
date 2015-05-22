@@ -33,6 +33,7 @@ var config = {
         //  --- twitter component ---
         // Get the creditentials by creating a new app on https://apps.twitter.com/
         twitter: {
+            screenName:          'NothingAgency',
             consumerKey:         '',
             consumerSecret:      '',
             accessToken:         '',

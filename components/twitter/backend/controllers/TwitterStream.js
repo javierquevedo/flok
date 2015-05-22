@@ -4,6 +4,7 @@
  * TODO list:
  * - Filter tweets based on config (ignore, ...)
  * - Shutdown function
+ * - ScreenName shouldn't come from the config but be loaded from account/verify_credentials
  *
  * @copyright  Nothing Interactive 2015
  */
@@ -28,32 +29,27 @@ var createEventFromTweet = function(tweet) {
         timestamp: tweetDate.toISOString(),
         provider: 'twitter',
         sourceId: tweet['id_str'],
-        link: 'https://twitter.com/' + tweet.user['screen_name'] + '/status/' + tweet['id_str'],
-        title: 'tweeted',
+        link: 'https://twitter.com/' + tweet.user['screen_name'] + '/status/' + tweet.id,
+        title: 'tweet by ' + tweet.user.name,
         message: {
             content: '<p>' + tweet.text + '</p>',
             format: 'html'
         },
         author: {
-            name: tweet.user.name
+            // We could use the author name here but with the current flok setup it will try to
+            // get that name's avatar image.
+            name: 'Twitter'
         }
     };
 
     return event;
 };
 
-
-
 /**
- * Handle a new tweet event from the stream, and post it to activities if needed.
+ * Takes a tweet and posts it to the activity stream.
  * @param tweet
  */
-var handleTweet = function(tweet) {
-
-    console.log('flok:twitter new tweet event: ', tweet);
-
-    // TODO filter if event is displayed on activity or not.
-
+var pushTweetToActivity = function(tweet) {
     // Convert the tweet to an activity stream event
     var event = createEventFromTweet(tweet);
 
@@ -78,6 +74,8 @@ var handleTweet = function(tweet) {
         method: 'POST',
         headers: headers
     };
+
+    // TODO refactor http call to use events or classes directly.
 
     // Defining the http request properties
     var req = http.request(options, function(res) {
@@ -104,12 +102,41 @@ var handleTweet = function(tweet) {
     req.end();
 };
 
+
+/**
+ * Handle a new tweet event from the stream, and post it to activities if needed.
+ * @param tweet
+ */
+var handleTweet = function(tweet) {
+    // Print some info in debug
+    if (activeConfig.environment === 'development') {
+        console.log('flok:twitter new tweet event: ', tweet.text, '@' + tweet.user['screen_name']);
+    }
+
+    /*
+     * Here we filter the tweets to avoid showing everyone followed by the user
+     * - For dev we should post all so we have enough test data.
+     * - It's something we tweeted
+     * - We're mentioned in the tweet
+     * TODO the filters should be defined in the config.
+     * TODO check if this could be better down at the stream initialization with api filters.
+     */
+    if (
+        (activeConfig.environment === 'development') ||
+        (tweet.user['screen_name'] === activeConfig.twitter.screenName) ||
+        (tweet.message.indexOf(activeConfig.twitter.screenName) !== -1)
+    )
+    {
+        console.log('flok:twitter pushing tweet (id:' + tweet['str_id'] + ') to activity. ');
+        pushTweetToActivity(tweet);
+    }
+    // Other wise we could log it.
+};
+
 /**
  * Initializes the twitter stream connection and setup event handlers.
  *
  * Listen to new tweets of the Twitter account related to the keys and tokens specified in config.js
- *
- * TODO some event should handle the disconnection and attempt to reconnect.
  */
 var start = function() {
     /*
@@ -123,10 +150,18 @@ var start = function() {
         'access_token_secret': activeConfig.twitter.accessTokenSecret
     });
 
-    console.log('flok:twitter Listening for tweets from @NothingAgency.');
+    console.log('flok:twitter Listening for tweets from @' + activeConfig.twitter.screenName + '.');
 
-    // TODO document what this does
-    var stream = T.stream('user', {});
+    /*
+     * Subscribes to the streaming API of twitter
+     * https://github.com/ttezel/twit#tstreampath-params
+     *
+     * 'user' = "User Streams provide a stream of data and events specific to the authenticated user. "
+     *
+     */
+    var stream = T.stream('user', {
+        //  TODO add filters from config here to only show nothing tweets.
+    });
 
     /*
      * Setup the event listeners on the stream:
