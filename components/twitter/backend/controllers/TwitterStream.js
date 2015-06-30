@@ -29,7 +29,7 @@ var createEventFromTweet = function(tweet) {
         timestamp: tweetDate.toISOString(),
         provider: 'twitter',
         sourceId: tweet['id_str'],
-        link: 'https://twitter.com/' + tweet.user['screen_name'] + '/status/' + tweet.id,
+        link: 'https://twitter.com/statuses/' + tweet['id_str'],
         title: 'tweet by ' + tweet.user.name,
         message: {
             content: '<p>' + tweet.text + '</p>',
@@ -120,7 +120,7 @@ var handleTweet = function(tweet) {
     if (
         (activeConfig.environment === 'development') ||
         (tweet.user['screen_name'] === activeConfig.twitter.screenName) ||
-        (tweet.message.indexOf(activeConfig.twitter.screenName) !== -1)
+        (tweet.text.indexOf(activeConfig.twitter.screenName) !== -1)
     )
     {
         console.log('flok:twitter pushing tweet (id:' + tweet.id + ') to activity. ');
