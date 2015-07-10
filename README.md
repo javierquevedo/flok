@@ -1,13 +1,11 @@
 # flok
-## Radically Open Business Operation Toolkit
+
 ### Brought to you by [Nothing Interactive](https://www.nothing.ch)
 
 ## Why 'flok'?
-The project's name 'flok' has its roots in the terms 'flock' or 'flocking', the collective motion of a large number of self-propelled entities. The project wants to respect the human's collective, emergent behaviour arising from simple rules that are followed by individuals and doesn't involve any central coordination. This is the reason why we chose flok.to as domain to underline the conceptional idea, even in the URL, e.g. 'flok.to/time'.
+The project's name 'flok' has its roots in the terms 'flock' or 'flocking', the collective motion of a large number of self-propelled entities. The project wants to respect the human's collective, emergent behaviour arising from simple rules that are followed by individuals and doesn't involve any central coordination. This is the reason why we chose flok.to as domain to underline the conceptional idea, even in the URL, e.g. 'flok.to/activity'.
 
-flok can be best understood as a toolkit for companies with agile project processes and [Open Business](http://en.wikipedia.org/wiki/Open_business) workflows and therefore will grow with the needs arising while always sticking to the idea of the [Minimum Viable Product (MVP)](https://en.wikipedia.org/wiki/Minimum_viable_product) when iterating its development.
-
-Currently, there's only one single working component in flok at a very early stage: a simple, minimalistic time tracker. It is used to record the amount of time being spent on a specific task. All time tracks are only temporarily stored within the browser's local storage since they're intended to be copied over to a another reporting software for now. There's no server-side database as of yet.
+Currently, there's only one single working component in flok at a very early stage: a simple, minimalistic activity feed. It's special because the data that it shows doesn't come from flok itself, it's aggregated from external services.
 
 ## Screenshots
 Because everyone likes screen shots:
@@ -24,8 +22,6 @@ After the very first release which is only a small teaser of what's coming, we t
     * Real-time sync across devices
 * Collaboration-specific features
     * Global team time-line
-    * Note-taking tool for meetings/ dailies
-    * To-do list
 
 ## Targeted Platforms and Browsers
 flok works on desktop as well as on modern, mobile (both smartphone and tablet) operating system browsers. Generally, only the newest version of the widely spread, standard-compliant browsers are supported:
@@ -41,13 +37,12 @@ flok works on desktop as well as on modern, mobile (both smartphone and tablet) 
 ### Dependencies
 To be able to install and run flok, you will need:
 
-* Node.js v0.10.29 (or newer, we recommend using the latest version)
+* Node.js v0.12.5 (or newer, we recommend using the latest version)
 * MongoDB v2.4.9 (or newer)
-* Git (or you can download the source directly from github)
 
 flok is built with [Express](http://expressjs.com/), [Mongoose](http://mongoosejs.com/), [AngularJS](http://angularjs.org/) and [Bootstrap 3](http://getbootstrap.com/).
 
-As much as possible, we are going to stay on the latest versions of these frameworks. You do not need to install Express, Mongoose, Angular or Bootstrap separately. All the Node.js bundles will be installed through npm and Angular as well as Bootstrap are already included in the repository.
+You do not need to install Express, Mongoose, Angular or Bootstrap separately. All the Node.js bundles will be installed through npm and Angular as well as Bootstrap are already included in the repository.
 
 ### Installation
 * Make sure you have the above listed dependencies installed.

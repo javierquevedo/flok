@@ -14,12 +14,12 @@ var config = {
             siteId: 1
         },
         components: {
-            time: true,
-            activity: false,
+            time: false,
+            activity: true,
             priority: false,
             twitter: false
         },
-        defaultComponent: 'time',
+        defaultComponent: 'activity',
 
         // List of existing API keys
         apiKeys: {
