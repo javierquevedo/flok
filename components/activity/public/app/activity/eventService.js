@@ -1,6 +1,6 @@
 angular.module('flokActivityModule').factory('eventService',
-    ['$timeout', '$rootScope', 'streamBackendStorageService', 'Event',
-        function($timeout, $rootScope, streamBackendStorageService, Event) {
+    ['$q', '$timeout', '$rootScope', 'streamBackendStorageService', 'Event',
+        function($q, $timeout, $rootScope, streamBackendStorageService, Event) {
             'use strict';
 
             /**
@@ -19,6 +19,7 @@ angular.module('flokActivityModule').factory('eventService',
                  * @private
                  */
                 this._events = [];
+                this._sticky = {};
             };
 
             /**
@@ -45,8 +46,43 @@ angular.module('flokActivityModule').factory('eventService',
                                 that._events.unshift(event);
                             }
                         }
+                        that.selectSticky();
                     });
             };
+
+            /*
+            * Provides the latest sticky event given a list of events
+            * @param {Event[]} events - The collection of events
+            * @return {Event} - The sticky event, undefined otherwise
+            */
+            EventService.prototype.selectSticky = function(){
+                
+                for (var i = 0; i < this._events.length; i++){
+                    var anEvent = this._events[i];
+                    if (anEvent.sticky === true){
+                        this._sticky = anEvent;
+                        break;
+                    }
+                }
+            }
+
+            /**
+             * The latests sticky event
+             * TODO avoid retrieving the events again
+             * @returns {Event}
+             */
+            EventService.prototype.getSticky = function(){
+                
+                var that = this;
+                var promise = this.retrieveEvents();
+                var deferred = $q.defer();
+                
+                promise.success(function(eventData){
+                    deferred.resolve(that._sticky);
+                });
+
+                return deferred.promise;
+            }
 
             /**
              * The events of the activity stream. The returned array will be updated
@@ -54,8 +90,11 @@ angular.module('flokActivityModule').factory('eventService',
              * @returns {Event[]}
              */
             EventService.prototype.getEvents = function() {
+
                 return this._events;
             };
+
+
 
             return new EventService();
         }

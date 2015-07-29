@@ -20,10 +20,20 @@ angular.module('flokActivityModule').controller('StreamCtrl', ['$scope', 'STREAM
          */
         $scope.events = eventService.getEvents();
 
+        $scope.stickyEvent = {};
+
+        eventService.getSticky().then(function(sticky){
+             $scope.stickyEvent = sticky; 
+        });
+
+
         // Update the stream every 15 seconds
         setInterval(function() {
             // Retrieve new events. It will updated the array we already have a reference to
             eventService.retrieveEvents();
+            eventService.getSticky().then(function(sticky){
+             $scope.stickyEvent = sticky; 
+            });
         }, 15000);
 
         // Initially, do not go into full screen
