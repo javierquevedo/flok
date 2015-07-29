@@ -14,6 +14,7 @@ angular.module('flokActivityModule').service('Event', ['$filter', 'STREAM_DATE_F
         this.title = '';
         this.message = '';
         this.duration = 0;
+        this.sticky = false;
 
         // Extend with the data from the backend
         angular.extend(this, jsonData);
@@ -32,6 +33,7 @@ angular.module('flokActivityModule').service('Event', ['$filter', 'STREAM_DATE_F
         return $filter('date')(this.timestamp, STREAM_DATE_FORMAT);
     };
 
+
     /**
      * Returns a string formatted duration
      * @returns {string} 'added|removed x hours y minutes'
@@ -44,7 +46,7 @@ angular.module('flokActivityModule').service('Event', ['$filter', 'STREAM_DATE_F
      * List of properties of Event that will be persisted
      * @type {Array}
      */
-    Event.INCLUDE_IN_JSON = ['timestamp', 'provider', 'link', 'title', 'message', 'author', 'duration'];
+    Event.INCLUDE_IN_JSON = ['timestamp', 'provider', 'link', 'title', 'message', 'author', 'duration', 'sticky'];
 
     return Event;
 }]);

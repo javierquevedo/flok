@@ -40,9 +40,14 @@ var createEventFromTweet = function(tweet) {
             // get that name's avatar image.
             // The added bonus is that it will then group tweets on the stream too!
             name: 'Twitter'
-        }
+         },
+         sticky: true//,  //,
+        //  stickiness:{
+        //     status: true,
+        //     expires: false,
+        //     expirationDate: null
+        // }
     };
-
     return event;
 };
 

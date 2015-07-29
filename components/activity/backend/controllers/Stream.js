@@ -84,7 +84,8 @@ exports.post = function(req, res, next) {
                     'title',
                     'message',
                     'author',
-                    'duration'
+                    'duration',
+                    'sticky'
                 ));
 
                 // Save it

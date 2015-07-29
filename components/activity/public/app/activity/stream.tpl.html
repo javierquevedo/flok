@@ -1,7 +1,8 @@
 <div fullscreen="isFullscreen" ng-show="contentLoaded">
     <div class="events-list">
         <div class="events" ng-repeat="event in events | limitTo:20">
-            <div class="event" ng-class="event.author.name === events[$index-1].author.name? 'event-same-author':''">
+           <!-- <div class="event" ng-class="event.author.name === events[$index-1].author.name? 'event-same-author':''"> -->
+            <div class="event" ng-class="{sticky : event.sticky, 'event-same-author' : event.author.name === events[$index-1].author.name }"> 
                 <div class="grid-container">
                     <div class="prefix-5 tablet-prefix-5 grid-90 tablet-grid-90 mobile-grid-100">
                         <!--AVATAR-->
