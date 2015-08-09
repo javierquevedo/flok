@@ -72,12 +72,12 @@ angular.module('flokActivityModule').factory('eventService',
             * Stores in the provider instance of sticky events those sticky
             * events which should be displayed
             */
-            EventService.prototype.selectSticky = function(){
+            EventService.prototype.selectSticky = function() {
                 // TODO: Decide on a policy to determine which sticky elements should be displayed.
                 // The current policy is to only select the latest sticky.
                 // Remove all stickies from the current array
                 this._stickies.length = 0;
-                for (var i = 0; i < this._events.length; i++){
+                for (var i = 0; i < this._events.length; i++) {
                     var anEvent = this._events[i];
                     if (anEvent.sticky === true){
                         this._stickies.push(anEvent);

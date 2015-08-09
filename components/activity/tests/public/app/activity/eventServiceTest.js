@@ -32,7 +32,7 @@
         assert.typeOf(eventService, 'object', 'eventService is an object');
     });
 
-    it('can retrieve events', function(){
+    it('can retrieve events', function() {
         assert.typeOf(eventService.retrieveEvents, 'function', 'eventService has retrieveEvents method');
         var calledSuccess = false;
 
@@ -40,13 +40,15 @@
         var expectedData = [
             {
                 events: [],
-                stickies: [{
-                link : false,
-                title : 'My Sticky Event Title',
-                message : 'Description of sticky event',
-                duration : 0,
-                sticky : true
-                }]
+                stickies: [
+                    {
+                        link : false,
+                        title : 'My Sticky Event Title',
+                        message : 'Description of sticky event',
+                        duration : 0,
+                        sticky : true
+                    }
+                ]
             }
         ];
 
@@ -68,11 +70,11 @@
         assert.isTrue(calledSuccess, 'success method was called succesfully');
     });
 
-    it('can select sticky', function(){
+    it('can select sticky', function() {
         assert.typeOf(eventService.selectSticky, 'function', "eventService has selectSticky method");
     });
 
-    it('can provide events', function(){
+    it('can provide events', function() {
         var eventCollection = eventService.getEvents();
         assert.typeOf(eventCollection, 'object', 'event collection obtained');
         assert.typeOf(eventCollection.stickies, 'array', 'event collection has sticky events');
