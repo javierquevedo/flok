@@ -29,7 +29,6 @@ var EventSchema = new Schema({
     },
     duration: Number,
     sticky: Boolean // Determines if an event is sticky
-    
 });
 
 
@@ -47,7 +46,6 @@ EventSchema.methods.toJSON = function () {
     // Explicitly add the nested objects, otherwise they are not correctly converted to json
     json.author = _.pick(this.author, 'name');
     json.message = _.pick(this.message, 'content', 'format');
-   
     return json;
 };
 

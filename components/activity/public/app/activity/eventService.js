@@ -19,7 +19,25 @@ angular.module('flokActivityModule').factory('eventService',
                  * @private
                  */
                 this._events = [];
-                this._sticky = {};
+
+                /**
+                 * Sticky Events storage.
+                 * The array reference should never be overwritten since the controllers
+                 * should be able to bind to it directly.
+                 * @type {Event[]}
+                 * @private
+                 */
+                this._stickies = [];
+
+                /**
+                 * Event collection storage.
+                 * @type {{events: Event[], stickies: Event[]}}
+                 * @private
+                 */
+                this._eventCollection = {
+                    events: this._events,
+                    stickies: this._stickies
+               }
             };
 
             /**
@@ -51,37 +69,21 @@ angular.module('flokActivityModule').factory('eventService',
             };
 
             /*
-            * Provides the latest sticky event given a list of events
-            * @param {Event[]} events - The collection of events
-            * @return {Event} - The sticky event, undefined otherwise
+            * Stores in the provider instance of sticky events those sticky
+            * events which should be displayed
             */
             EventService.prototype.selectSticky = function(){
-                
+                // TODO: Decide on a policy to determine which sticky elements should be displayed.
+                // The current policy is to only select the latest sticky.
+                // Remove all stickies from the current array
+                this._stickies.length = 0;
                 for (var i = 0; i < this._events.length; i++){
                     var anEvent = this._events[i];
                     if (anEvent.sticky === true){
-                        this._sticky = anEvent;
+                        this._stickies.push(anEvent);
                         break;
                     }
                 }
-            }
-
-            /**
-             * The latests sticky event
-             * TODO avoid retrieving the events again
-             * @returns {Event}
-             */
-            EventService.prototype.getSticky = function(){
-                
-                var that = this;
-                var promise = this.retrieveEvents();
-                var deferred = $q.defer();
-                
-                promise.success(function(eventData){
-                    deferred.resolve(that._sticky);
-                });
-
-                return deferred.promise;
             }
 
             /**
@@ -90,11 +92,8 @@ angular.module('flokActivityModule').factory('eventService',
              * @returns {Event[]}
              */
             EventService.prototype.getEvents = function() {
-
-                return this._events;
+                return this._eventCollection;
             };
-
-
 
             return new EventService();
         }

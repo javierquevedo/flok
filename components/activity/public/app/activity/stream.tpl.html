@@ -1,10 +1,11 @@
 <div fullscreen="isFullscreen" ng-show="contentLoaded">
     <div class="events-list">
     <div class="events">
-        <div class="sticky-event">
-
-            <p class="content-text" ng-bind-html="stickyEvent.message.content"></p>
-             <a ng-if="event.link" ng-href="stickyEvent.link"></a>
+        <div ng-repeat="stickyEvent in stickies">
+            <div class="sticky-event">
+                <p class="content-text" ng-bind-html="stickyEvent.message.content"></p>
+                 <a ng-if="stickyEvent.link" ng-href="stickyEvent.link"></a>
+            </div>
         </div>
         <div ng-repeat="event in events | limitTo:20">
             <div class="event" ng-class="{'event-same-author' : event.author.name === events[$index-1].author.name }"> 
