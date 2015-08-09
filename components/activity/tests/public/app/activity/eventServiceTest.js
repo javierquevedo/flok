@@ -1,13 +1,13 @@
 /**
  * eventServiceTest tests
- * @author     Javier Quevedo <jquevedo@gmail.com>
+ * @author  Javier Quevedo <jquevedo@gmail.com>
  */
 
  describe('eventService', function() {
     'use strict';
-    var eventService, $httpBackend;
+    var eventService, $httpBackend, Event;
 
-  beforeEach(function() {
+    beforeEach(function() {
         angular.mock.module('flokModule', 'flokActivityModule',
             /*
              * We have to setup the translateProvider to use static strings otherwise
@@ -20,12 +20,14 @@
 
         angular.mock.module(function($provide) {
             $provide.value('backendUrl', '');
+
         });
     });
 
-    beforeEach(angular.mock.inject(function(_$httpBackend_, _eventService_) {
+    beforeEach(angular.mock.inject(function(_$httpBackend_, _eventService_, _Event_) {
         eventService = _eventService_;
         $httpBackend = _$httpBackend_;
+        Event = _Event_;
     }));
 
     it('loads the service', function() {
@@ -36,33 +38,53 @@
         assert.typeOf(eventService.retrieveEvents, 'function', 'eventService has retrieveEvents method');
         var calledSuccess = false;
 
-        // Fixture of the expected data to be provided by the eventService
-        var expectedData = [
+        // Fixture of the data to be provided to the StreamBackendStorageService
+        var mockResponse = [
             {
-                events: [],
-                stickies: [
-                    {
-                        link : false,
-                        title : 'My Sticky Event Title',
-                        message : 'Description of sticky event',
-                        duration : 0,
-                        sticky : true
-                    }
-                ]
+               "timestamp":"2015-08-09T16:22:42.000Z",
+                "provider":"twitter",
+                "link":"https://gmail.com",
+                "title":"tweet by Nobody",
+                "sticky":true,
+                "author":{"name":"Twitter"},
+                "message":{"content":"<p>Mock message 1</p>","format":"html"}
+            },
+            {
+                "timestamp":"2015-08-09T16:22:10.000Z",
+                "provider":"twitter",
+                "link":"https://twitter.com",
+                "title":"tweet by Nobody",
+                "sticky":true,
+                "author":{"name":"Twitter"},
+                "message":{"content":"<p>Mock message 2</p>","format":"html"}
             }
         ];
 
-        var req = eventService.retrieveEvents();
         $httpBackend.expectGET('/activity')
-            .respond(expectedData);
+            .respond(mockResponse);
+
+        // Expected events based on the mock data
+        var event1 = new Event(mockResponse[0]);
+        var event2 = new Event(mockResponse[1]);
+
+        var eventCollection = eventService.getEvents();
+        var req = eventService.retrieveEvents();
 
         req.success(function(data){
             calledSuccess = true;
-            assert.deepEqual(data, expectedData, 'Obtained unexpected data');
+            assert.deepEqual(data, mockResponse, 'Obtained unexpected data');
+
+            assert.typeOf(eventCollection.events, 'array', 'Should return an array of events');
+            assert.lengthOf(eventCollection.events, 2, 'There should be two events');
+            assert.deepEqual(event1, eventCollection.events[0], 'Not the correct event');
+            assert.deepEqual(event2, eventCollection.events[1], 'Not the correct event');
+
+            assert.typeOf(eventCollection.stickies, 'array', 'Should return an array of sticky events');
+            assert.lengthOf(eventCollection.stickies, 1, 'There should be one stickie event');
+            assert.deepEqual(event1, eventCollection.stickies[0], 'Not the correct Sticky event');
         });
 
         $httpBackend.flush();
-
         // Check that we obtained an angular $http service object
         assert.typeOf(req.then, 'function');
         assert.typeOf(req.success, 'function');
