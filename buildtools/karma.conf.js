@@ -35,10 +35,13 @@ module.exports = function (config) {
             'public/app/**/*.js',
             'components/time/public/app/time/flokTimeModule.js',
             'components/time/public/app/time/*.js',
+            'components/activity/public/app/activity/flokActivityModule.js',
+            'components/activity/public/app/activity/*.js',
 
             // And finally the tests
             'tests/public/**/*.js',
-            'components/time/tests/public/**/*.js'
+            'components/time/tests/public/**/*.js',
+            'components/activity/tests/public/app/**/*.js',
         ],
 
         // List of files to exclude
