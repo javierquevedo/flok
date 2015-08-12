@@ -68,7 +68,7 @@ angular.module('flokActivityModule').factory('eventService',
                     });
             };
 
-            /*
+            /**
             * Stores in the provider instance of sticky events those sticky
             * events which should be displayed
             */
